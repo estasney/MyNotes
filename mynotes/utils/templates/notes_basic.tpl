@@ -15,7 +15,7 @@
 
 {% block output_group %}
 <div class="output_wrapper">
-<div class="output">
+<div class="output" style="margin-left: unset;">
 {{ super() }}
 </div>
 </div>
