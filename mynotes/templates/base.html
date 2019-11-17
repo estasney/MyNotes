@@ -4,7 +4,7 @@
     {% include "head.html" %}
 </head>
 <body>
-{% block content %}
+{{ content|safe }}
 {% include "tail.html" %}
 </body>
 </html>

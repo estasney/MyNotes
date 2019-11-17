@@ -8,6 +8,7 @@ class Config(object):
     def __init__(self):
         self.BASE_DIR = basedir
         self.NOTES_DIR = self.smart_path(self.BASE_DIR, "notes")
+        self.PAGES_DIR = self.smart_path(self.BASE_DIR, "pages")
 
     def smart_path(self, *args):
         start_path = self.BASE_DIR

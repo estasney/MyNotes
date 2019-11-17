@@ -4,6 +4,14 @@ import os.path
 from traitlets.config import Config
 from nbconvert.exporters.html import HTMLExporter
 
+from jinja2 import Environment, PackageLoader, select_autoescape
+from bs4 import BeautifulSoup
+
+env = Environment(
+        loader=PackageLoader('mynotes', 'templates'),
+        autoescape=select_autoescape(['html'])
+        )
+
 
 class NotesExporter(HTMLExporter):
     """
@@ -35,6 +43,21 @@ class NotesExporter(HTMLExporter):
         """
         return 'notes'  # full
 
+    def body_to_template_base(self, body: str, fp: str, title: str):
+        """
+        We want the rendered body to be included in a MyNotes template.
+
+        Pass the HTML text returned after calling self.from_notebook_node
+
+        """
+
+        soup = BeautifulSoup(body, features='lxml')
+        body = soup.find("body")
+        base = env.get_template("base.html")
+        base_str = base.render(title=title, content=str(body))
+        with open(fp, "w+", encoding="utf-8") as html_file:
+            html_file.write(base_str)
+
 
 if __name__ == '__main__':
     import nbformat
@@ -46,11 +69,12 @@ if __name__ == '__main__':
     my_config = MyNotesConfig()
 
     f = my_config.smart_path(my_config.NOTES_DIR, "pandas", "filtering.ipynb")
-    fout = my_config.smart_path(my_config.NOTES_DIR, "pandas", "filtering.html")
+    fout = my_config.smart_path(my_config.PAGES_DIR, "filtering.html")
     V = 4
 
     nb = nbformat.read(f, as_version=V)
     html_exporter = NotesExporter()
     (body, r) = html_exporter.from_notebook_node(nb)
-    with open(fout, "w+") as fp:
+    html_exporter.body_to_template_base(body, fout, "Filtering")
+    with open(my_config.smart_path(my_config.NOTES_DIR, "pandas", "filtering.html"), "w+") as fp:
         fp.write(body)
