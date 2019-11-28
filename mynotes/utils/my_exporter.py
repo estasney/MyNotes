@@ -43,7 +43,7 @@ class NotesExporter(HTMLExporter):
         """
         return 'notes'  # full
 
-    def body_to_template_base(self, body: str, fp: str, title: str):
+    def body_to_template_base(self, body: str, fp: str):
         """
         We want the rendered body to be included in a MyNotes template.
 
@@ -53,6 +53,10 @@ class NotesExporter(HTMLExporter):
 
         soup = BeautifulSoup(body, features='lxml')
         body = soup.find("body")
+        try:
+            title = soup.find("h1").text.encode('ascii', errors='ignore').decode()
+        except AttributeError:
+            title = ""
         base = env.get_template("base.html")
         base_str = base.render(title=title, content=str(body))
         with open(fp, "w+", encoding="utf-8") as html_file:
@@ -68,13 +72,29 @@ if __name__ == '__main__':
 
     my_config = MyNotesConfig()
 
-    f = my_config.smart_path(my_config.NOTES_DIR, "pandas", "filtering.ipynb")
-    fout = my_config.smart_path(my_config.PAGES_DIR, "filtering.html")
-    V = 4
+    for dir, folders, files in os.walk(my_config.NOTES_DIR):
+        if os.path.split(dir)[1] in ['notes', '.ipynb_checkpoints']:
+            continue
+        category = os.path.split(dir)[1]
+        notebooks = [f for f in files if f.endswith("ipynb")]
+        for nb_files in notebooks:
+            nb_name = os.path.splitext(nb_files)[0]
+            nb_output_name = nb_name + ".html"
+            abs_path = os.path.join(dir, nb_files)
 
-    nb = nbformat.read(f, as_version=V)
-    html_exporter = NotesExporter()
-    (body, r) = html_exporter.from_notebook_node(nb)
-    html_exporter.body_to_template_base(body, fout, "Filtering")
-    with open(my_config.smart_path(my_config.NOTES_DIR, "pandas", "filtering.html"), "w+") as fp:
-        fp.write(body)
+            output_folder = my_config.smart_path(my_config.PAGES_DIR, category)
+            if not os.path.isdir(output_folder):
+                os.mkdir(output_folder)
+            output_path = my_config.smart_path(my_config.PAGES_DIR, category, nb_output_name)
+            V = 4
+            nb = nbformat.read(abs_path, as_version=V)
+            html_exporter = NotesExporter()
+            (body, r) = html_exporter.from_notebook_node(nb)
+            html_exporter.body_to_template_base(body, output_path)
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" href="../static/style/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../static/style/notebook.css" type="text/css">
+
+</head>
+<body>
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">msvcrt</span>
+
+<span class="kn">import</span> <span class="nn">msvcrt</span>
+
+<span class="k">def</span> <span class="nf">win_getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">'Password: '</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">"*"</span><span class="p">):</span>
+    <span class="sd">"""Prompt for password with echo off, using Windows getch()."""</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">prompt</span><span class="p">:</span>
+        <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">pw</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">msvcrt</span><span class="o">.</span><span class="n">getwch</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">'</span><span class="se">\r</span><span class="s1">'</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">'</span><span class="se">\003</span><span class="s1">'</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">'</span><span class="se">\b</span><span class="s1">'</span><span class="p">:</span>
+            <span class="c1"># User enters the backspace key</span>
+            <span class="n">pw</span> <span class="o">=</span> <span class="n">pw</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># Move one character left</span>
+            <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1">'</span><span class="p">)</span>
+            <span class="c1"># Overwrite placeholder with whitespace</span>
+            <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span>
+            <span class="c1"># Move one character left, again</span>
+            <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1">'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pw</span> <span class="o">=</span> <span class="n">pw</span> <span class="o">+</span> <span class="n">c</span>
+            <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="n">placeholder</span><span class="p">)</span>
+    <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="s1">'</span><span class="se">\r</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pw</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="static/js/jquery-3.4.1.min.js"></script>
+<script src="static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
