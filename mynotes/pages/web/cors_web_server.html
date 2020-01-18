@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" href="../static/style/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../static/style/notebook.css" type="text/css">
+
+</head>
+<body>
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Simple-Web-Server-with-CORS">Simple Web Server with CORS<a class="anchor-link" href="#Simple-Web-Server-with-CORS">¶</a></h3><p>Sometimes we want our browser to be able to load a local file</p>
+<ol>
+<li>.json</li>
+<li>.js</li>
+<li>... etc</li>
+</ol>
+<p>But the resource is blocked. Running a local web server is a quick workaround.</p>
+<p>Chrome has recently increased its 'nitpickiness' for CORS. <code>CORSRequestHandler</code> extends <code>SimpleHTTPRequestHandler</code> to make Chrome happy.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<pre><code>import os
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, test
+
+
+class CORSRequestHandler(SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        SimpleHTTPRequestHandler.end_headers(self)
+
+
+if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--cgi', action='store_true',
+                        help='Run as CGI Server')
+    parser.add_argument('--bind', '-b', default='', metavar='ADDRESS',
+                        help='Specify alternate bind address '
+                             '[default: all interfaces]')
+    parser.add_argument('--directory', '-d', default=os.getcwd(),
+                        help='Specify alternative directory '
+                             '[default:current directory]')
+    parser.add_argument('port', action='store',
+                        default=8000, type=int,
+                        nargs='?',
+                        help='Specify alternate port [default: 8000]')
+    args = parser.parse_args()
+    handler_class = partial(CORSRequestHandler,
+                            directory=args.directory)
+
+    test(HandlerClass=handler_class, port=args.port, bind=args.bind)</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I keep a .bat file handy to quickly launch this for specific projects</p>
+<pre><code>CALL C:\path\to_your_venv\activate.bat
+ECHO "Starting CORS Server"
+cd C:\path\to_module
+python server.py -d "C:\path\to_server_root\directory"
+PAUSE</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="static/js/jquery-3.4.1.min.js"></script>
+<script src="static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
