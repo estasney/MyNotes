@@ -26,49 +26,51 @@
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<pre><code>import os
-from functools import partial
-from http.server import SimpleHTTPRequestHandler, test
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">http.server</span> <span class="kn">import</span> <span class="n">SimpleHTTPRequestHandler</span><span class="p">,</span> <span class="n">test</span>
 
 
-class CORSRequestHandler(SimpleHTTPRequestHandler):
-    def end_headers(self):
-        self.send_header('Access-Control-Allow-Origin', '*')
-        SimpleHTTPRequestHandler.end_headers(self)
+<span class="k">class</span> <span class="nc">CORSRequestHandler</span><span class="p">(</span><span class="n">SimpleHTTPRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">end_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s1">'Access-Control-Allow-Origin'</span><span class="p">,</span> <span class="s1">'*'</span><span class="p">)</span>
+        <span class="n">SimpleHTTPRequestHandler</span><span class="o">.</span><span class="n">end_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
-if __name__ == '__main__':
-    import argparse
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--cgi', action='store_true',
-                        help='Run as CGI Server')
-    parser.add_argument('--bind', '-b', default='', metavar='ADDRESS',
-                        help='Specify alternate bind address '
-                             '[default: all interfaces]')
-    parser.add_argument('--directory', '-d', default=os.getcwd(),
-                        help='Specify alternative directory '
-                             '[default:current directory]')
-    parser.add_argument('port', action='store',
-                        default=8000, type=int,
-                        nargs='?',
-                        help='Specify alternate port [default: 8000]')
-    args = parser.parse_args()
-    handler_class = partial(CORSRequestHandler,
-                            directory=args.directory)
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--cgi'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Run as CGI Server'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--bind'</span><span class="p">,</span> <span class="s1">'-b'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">'ADDRESS'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Specify alternate bind address '</span>
+                             <span class="s1">'[default: all interfaces]'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--directory'</span><span class="p">,</span> <span class="s1">'-d'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Specify alternative directory '</span>
+                             <span class="s1">'[default:current directory]'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'port'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'store'</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                        <span class="n">nargs</span><span class="o">=</span><span class="s1">'?'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Specify alternate port [default: 8000]'</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">handler_class</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">CORSRequestHandler</span><span class="p">,</span>
+                            <span class="n">directory</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span>
 
-    test(HandlerClass=handler_class, port=args.port, bind=args.bind)</code></pre>
+    <span class="n">test</span><span class="p">(</span><span class="n">HandlerClass</span><span class="o">=</span><span class="n">handler_class</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">bind</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I keep a .bat file handy to quickly launch this for specific projects</p>
-<pre><code>CALL C:\path\to_your_venv\activate.bat
-ECHO "Starting CORS Server"
-cd C:\path\to_module
-python server.py -d "C:\path\to_server_root\directory"
-PAUSE</code></pre>
+<div class="highlight"><pre><span></span><span class="k">CALL</span> C:\path\to_your_venv\activate.bat
+<span class="k">ECHO</span> <span class="s2">"Starting CORS Server"</span>
+<span class="k">cd</span> C:\path\to_module
+python server.py -d <span class="s2">"C:\path\to_server_root\directory"</span>
+<span class="k">PAUSE</span>
+</pre></div>
 </div>
 </div>
 </div>
