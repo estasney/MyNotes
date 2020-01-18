@@ -77,3 +77,4 @@ dmypy.json
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
+/mynotes/notes/terminal/.ipynb_checkpoints/
