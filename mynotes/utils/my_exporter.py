@@ -6,6 +6,7 @@ from nbconvert.exporters.html import HTMLExporter
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
+from pathlib import PurePath
 
 env = Environment(
         loader=PackageLoader('mynotes', 'templates'),
@@ -58,6 +59,7 @@ class NotesExporter(HTMLExporter):
         except AttributeError:
             title = ""
         base = env.get_template("base.html")
+        # //span[@class='nn'][not(preceding-sibling::span[contains(text(), 'as')])]
         base_str = base.render(title=title, content=str(body))
         with open(fp, "w+", encoding="utf-8") as html_file:
             html_file.write(base_str)
@@ -65,27 +67,42 @@ class NotesExporter(HTMLExporter):
 
 if __name__ == '__main__':
     import nbformat
-    import nbconvert
     from nbconvert import HTMLExporter
     from mynotes.config import Config as MyNotesConfig
-    from traitlets.config import Config
 
     my_config = MyNotesConfig()
+    my_config.clean()
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
-        if os.path.split(dir)[1] in ['notes', '.ipynb_checkpoints']:
+        p = PurePath(dir)
+        category = p.name
+        if category in ['notes', '.ipynb_checkpoints']:
             continue
-        category = os.path.split(dir)[1]
+
+        # Determine if this category has any parents
+        # Work up the tree until we reach 'notes'
+        parents = []
+        for parent in [x.name for x in p.parents]:
+            if parent in ['notes', '.ipynb_checkpoints']:
+                break
+            parents.append(parent)
+
+        # Reverse the order so list is parent -> child
+        parents = list(reversed(parents))
+
+        output_folder = my_config.smart_path(my_config.PAGES_DIR, *parents, category)
+        if not os.path.isdir(output_folder):
+            os.mkdir(output_folder)
+
         notebooks = [f for f in files if f.endswith("ipynb")]
         for nb_files in notebooks:
             nb_name = os.path.splitext(nb_files)[0]
             nb_output_name = nb_name + ".html"
             abs_path = os.path.join(dir, nb_files)
 
-            output_folder = my_config.smart_path(my_config.PAGES_DIR, category)
-            if not os.path.isdir(output_folder):
-                os.mkdir(output_folder)
-            output_path = my_config.smart_path(my_config.PAGES_DIR, category, nb_output_name)
+
+
+            output_path = my_config.smart_path(output_folder, nb_output_name)
             V = 4
             nb = nbformat.read(abs_path, as_version=V)
             html_exporter = NotesExporter()
