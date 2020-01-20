@@ -5,16 +5,6 @@ from pygments.lexers.python import PythonLexer
 lexer = PythonLexer()
 Token = namedtuple('Token', 'token_type text')
 
-imports = [
-    ("import pandas as pd", ["pandas"]),  # p1
-    ("import collections", ["collections"]),  # p1
-    ("from collections import Counter", ["collections"]),  # p1
-    ('from some.package import module', ['some.package']),  # p1
-    ("import operator, collections", ["operator", "collections"]),
-    ("from operator import (eq, getitem)", ["operator"]),
-    ("import pandas as pd, numpy as np", ["pandas", "numpy"])
-    ]
-
 kn = 'Token.Keyword.Namespace'
 nn = 'Token.Name.Namespace'
 t = 'Token.Text'
