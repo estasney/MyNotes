@@ -7,10 +7,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     def __init__(self):
         self.BASE_DIR = basedir
-        self.NOTES_DIR = self.smart_path(self.BASE_DIR, "notes")
-        self.PAGES_DIR = self.smart_path(self.BASE_DIR, "pages")
+        self.NOTES_DIR = self.smart_path("notes")
+        self.PAGES_DIR = self.smart_path("pages")
         self.IGNORED_PAGES_DIR = ['static']
         self.IGNORED_PAGES_FILES = []
+        self.DB_PATH = "sqlite:///" + self.smart_path("mynotes.db")
 
     def smart_path(self, *args):
         start_path = self.BASE_DIR
