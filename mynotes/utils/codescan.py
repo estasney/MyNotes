@@ -1,6 +1,10 @@
 from typing import List
 from collections import namedtuple
+import nbformat
 from pygments.lexers.python import PythonLexer
+from typing import Union
+
+NB = Union[nbformat.notebooknode.NotebookNode, str]
 
 lexer = PythonLexer()
 Token = namedtuple('Token', 'token_type text')
@@ -28,6 +32,22 @@ def scan_line(line: str) -> list:
     tokens = _parse_line(line)
     found = _read_parsed(tokens)
     return found
+
+
+def scan_nb(nb: NB) -> list:
+    """
+    Scan a notebooks code cells for modules imported
+    Parameters
+    ----------
+    nb
+        Either a NotebookNode or a path-like string
+    """
+    if isinstance(nb, str):
+        nb = nbformat.read(nb, as_version=4)
+    cells = [cell.get('source', '') for cell in nb['cells'] if cell.get('cell_type', '') == 'code']
+    cell_modules = [scan_line(cell) for cell in cells]
+    # flatten and remove duplicates
+    return list(set([module for cell_module in cell_modules for module in cell_module]))
 
 
 def _format_tokens(tokens: list):
