@@ -1,17 +1,89 @@
 import os
 import os.path
 
-from traitlets.config import Config
-from nbconvert.exporters.html import HTMLExporter
+import nbformat
+from nbconvert import HTMLExporter
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
 from pathlib import PurePath
 
+from mynotes.utils.codescan import scan_nb
+from mynotes.utils.storage.models.model import Notebook, Category, Module
+from mynotes.utils.storage.models.meta import get_session, Session
+from mynotes.config import Config as MyNotesConfig
+from sqlalchemy import and_
+
 env = Environment(
         loader=PackageLoader('mynotes', 'templates'),
         autoescape=select_autoescape(['html'])
         )
+
+
+def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, category: str, category_parents: list,
+                   session: Session):
+    nb_modules = scan_nb(nb)
+
+    def get_module(f):
+        m = session.query(Module).filter(Module.name == f).first()
+        if not m:
+            m = Module(name=f)
+            session.add(m)
+            session.commit()
+        return m
+
+    module_objs = [get_module(m) for m in nb_modules]
+    nb_obj = Notebook(name=nb_name)
+    session.add(nb_obj)
+    nb_obj.modules = module_objs
+
+    nb_category_query = session.query(Category).filter(Category.name == category)
+    if category_parents:
+        nb_category_query = nb_category_query.filter(Category.parent.has(Category.name == category_parents[-1]))
+    category_obj = nb_category_query.first()
+    if not category_obj:
+        raise Exception("Category not found")
+
+    category_obj.notebooks.append(nb_obj)
+    for module in module_objs:
+        if module not in category_obj.modules:
+            category_obj.modules.append(module)
+
+    session.commit()
+
+
+def store_categories(session: Session):
+    my_config = MyNotesConfig()
+
+    def filter_folders(x):
+        if x == 'notes' or x.startswith('.'):
+            return False
+        return True
+
+    def get_category(f):
+        c = session.query(Category).filter(Category.name == f).first()
+        if not c:
+            c = Category(name=f)
+            session.add(c)
+        return c
+
+    for dir, folders, _ in os.walk(my_config.NOTES_DIR):
+        p = PurePath(dir)
+        parent_name = p.name if filter_folders(p.name) else None
+        category_folders = [f for f in folders if filter_folders(f)]
+        if not category_folders:
+            continue
+        category_objs = [get_category(f) for f in category_folders]
+        for c in category_objs:
+            session.add(c)
+        if parent_name:
+            parent_obj = session.query(Category).filter(Category.name == parent_name).first()
+            if not parent_obj:
+                parent_obj = Category(name=parent_name)
+                session.add(parent_obj)
+            parent_obj.children_categories = category_objs
+        session.commit()
+    session.commit()
 
 
 class NotesExporter(HTMLExporter):
@@ -66,12 +138,12 @@ class NotesExporter(HTMLExporter):
 
 
 if __name__ == '__main__':
-    import nbformat
-    from nbconvert import HTMLExporter
-    from mynotes.config import Config as MyNotesConfig
 
     my_config = MyNotesConfig()
     my_config.clean()
+    my_config.clean_db()
+    session = get_session()
+    store_categories(session)
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
         p = PurePath(dir)
@@ -95,23 +167,16 @@ if __name__ == '__main__':
             os.mkdir(output_folder)
 
         notebooks = [f for f in files if f.endswith("ipynb")]
-        for nb_files in notebooks:
-            nb_name = os.path.splitext(nb_files)[0]
+        for nb_file in notebooks:
+            nb_name = os.path.splitext(nb_file)[0]
             nb_output_name = nb_name + ".html"
-            abs_path = os.path.join(dir, nb_files)
-
-
+            abs_path = os.path.join(dir, nb_file)
 
             output_path = my_config.smart_path(output_folder, nb_output_name)
             V = 4
             nb = nbformat.read(abs_path, as_version=V)
+            store_notebook(nb=nb, nb_name=nb_output_name, category=category, category_parents=parents, session=session)
+
             html_exporter = NotesExporter()
             (body, r) = html_exporter.from_notebook_node(nb)
             html_exporter.body_to_template_base(body, output_path)
-
-
-
-
-
-
-
