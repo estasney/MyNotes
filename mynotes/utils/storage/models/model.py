@@ -9,7 +9,7 @@ module_notebook = Table('module_notebook', Base.metadata,
 
 module_category = Table('module_category', Base.metadata,
                         Column('module_id', Integer, ForeignKey('modules.id')),
-                        Column('notebook_id', Integer, ForeignKey('categories.id'))
+                        Column('category_id', Integer, ForeignKey('categories.id'))
                         )
 
 
@@ -44,4 +44,6 @@ class Category(Base):
     children_categories = relationship("Category",
                                        backref=backref('parent', remote_side=[id]))
     notebooks = relationship("Notebook", back_populates='category')
-    modules = relationship("Module", back_populates='categories')
+    modules = relationship("Module",
+                           secondary=module_category,
+                           back_populates='categories')
