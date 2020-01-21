@@ -11,7 +11,8 @@ class Config(object):
         self.PAGES_DIR = self.smart_path("pages")
         self.IGNORED_PAGES_DIR = ['static']
         self.IGNORED_PAGES_FILES = []
-        self.DB_PATH = "sqlite:///" + self.smart_path("mynotes.db")
+        self.DB_PATH = self.smart_path('mynotes.db')
+        self.DB_URL = "sqlite:///" + self.DB_PATH
 
     def smart_path(self, *args):
         start_path = self.BASE_DIR
@@ -45,7 +46,15 @@ class Config(object):
         for file in pages_contents_files:
             os.remove(file)
 
-
+    def clean_db(self):
+        """
+        Wipe the db
+        """
+        from mynotes.utils import get_engine, Base
+        if os.path.exists(self.DB_PATH):
+            os.remove(self.DB_PATH)
+        engine = get_engine()
+        Base.metadata.create_all(engine)
 
 
 if __name__ == '__main__':
