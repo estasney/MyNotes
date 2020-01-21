@@ -29,6 +29,7 @@ class Notebook(Base):
     __tablename__ = "notebooks"
     id = Column(Integer, primary_key=True)
     name = Column(Text)
+    title = Column(Text)
     modules = relationship("Module",
                            secondary=module_notebook,
                            back_populates='notebooks')
