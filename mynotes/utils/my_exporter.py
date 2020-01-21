@@ -8,7 +8,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
 from pathlib import PurePath
 
-from mynotes.utils.codescan import scan_nb
+from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown
 from mynotes.utils.storage.models.model import Notebook, Category, Module
 from mynotes.utils.storage.models.meta import get_session, Session
 from mynotes.config import Config as MyNotesConfig
@@ -22,7 +22,10 @@ env = Environment(
 
 def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, category: str, category_parents: list,
                    session: Session):
-    nb_modules = scan_nb(nb)
+    nb_modules = scan_nb_code(nb)
+    nb_title = scan_nb_markdown(nb)
+    if not nb_title:
+        print("{} missing title".format(nb_name))
 
     def get_module(f):
         m = session.query(Module).filter(Module.name == f).first()
@@ -33,7 +36,7 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
         return m
 
     module_objs = [get_module(m) for m in nb_modules]
-    nb_obj = Notebook(name=nb_name)
+    nb_obj = Notebook(name=nb_name, title=nb_title)
     session.add(nb_obj)
     nb_obj.modules = module_objs
 

@@ -3,6 +3,7 @@ from collections import namedtuple
 import nbformat
 from pygments.lexers.python import PythonLexer
 from typing import Union
+import re
 
 NB = Union[nbformat.notebooknode.NotebookNode, str]
 
@@ -34,9 +35,35 @@ def scan_line(line: str) -> list:
     return found
 
 
-def scan_nb(nb: NB) -> list:
+def scan_nb_markdown(nb: NB) -> Union[str, None]:
     """
-    Scan a notebooks code cells for modules imported
+    Scan a notebook's markdown cells for a 'title'
+    # Title
+
+    Parameters
+    ----------
+    nb
+        Either a NotebookNode or a path-like string
+    """
+
+    if isinstance(nb, str):
+        nb = nbformat.read(nb, as_version=4)
+
+    cells = [cell.get('source', None) for cell in nb['cells'] if cell.get('cell_type', '') == 'markdown']
+    title_match = re.compile(r"\A\s?(#)")
+    title_cell = next((cell for cell in cells if title_match.search(cell)), None)
+    if not title_cell:
+        return None
+    title = next((line for line in title_cell if title_match.search(line) for line in title_cell.splitlines()), None)
+    if not title:
+        return None
+    title = title_match.sub("", title).strip()
+    return title
+
+
+def scan_nb_code(nb: NB) -> list:
+    """
+    Scan a notebook's code cells for modules imported
     Parameters
     ----------
     nb
