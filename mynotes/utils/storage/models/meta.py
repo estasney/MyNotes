@@ -9,7 +9,7 @@ Base = declarative_base()
 
 def get_engine():
     config = Config()
-    db_url = config.DB_PATH
+    db_url = config.DB_URL
     return create_engine(db_url)
 
 
