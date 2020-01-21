@@ -44,4 +44,4 @@ class Category(Base):
     children_categories = relationship("Category",
                                        backref=backref('parent', remote_side=[id]))
     notebooks = relationship("Notebook", back_populates='category')
-    categories = relationship("Module", back_populates='categories')
+    modules = relationship("Module", back_populates='categories')
