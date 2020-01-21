@@ -1,10 +1,9 @@
 import models.meta
-from models import *
-
+import models.model
 
 def main():
     engine = models.meta.get_engine()
-    models.meta.Base.metadata.create_all(engine)
+    models.model.Base.metadata.create_all(engine)
 
 
 if __name__ == '__main__':
