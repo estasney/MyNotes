@@ -8,7 +8,7 @@ class Config(object):
     def __init__(self):
         self.BASE_DIR = basedir
         self.NOTES_DIR = self.smart_path("notes")
-        self.PAGES_DIR = self.smart_path("pages")
+        self.PAGES_DIR = self.smart_path("docs")
         self.IGNORED_PAGES_DIR = ['static']
         self.IGNORED_PAGES_FILES = []
         self.DB_PATH = self.smart_path('mynotes.db')
@@ -22,7 +22,7 @@ class Config(object):
 
     def clean(self):
         """
-        Delete everything in /pages except for directories in self.IGNORED_PAGES_DIR
+        Delete everything in /docs except for directories in self.IGNORED_PAGES_DIR
         """
         # Get folder contents
         pages_contents = os.listdir(self.PAGES_DIR)
