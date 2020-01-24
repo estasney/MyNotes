@@ -89,7 +89,7 @@ def store_categories(session: Session):
 
 
 def create_index(session: Session):
-    categories = session.query(Category).all()
+    categories = session.query(Category).filter(Category.parent_id == None).all()
     categories = [c.to_dict() for c in categories]
     base = env.get_template("base.html")
     base_render = base.render({'data': categories})
