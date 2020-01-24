@@ -10,7 +10,7 @@ class Config(object):
         self.NOTES_DIR = self.smart_path("mynotes", "notes")
         self.PAGES_DIR = self.smart_path("docs")
         self.IGNORED_PAGES_DIR = ['static']
-        self.IGNORED_PAGES_FILES = []
+        self.IGNORED_PAGES_FILES = ['.nojekyll']
         self.DB_PATH = self.smart_path('mynotes.db')
         self.DB_URL = "sqlite:///" + self.DB_PATH
 
