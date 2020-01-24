@@ -133,7 +133,7 @@ class NotesExporter(HTMLExporter):
             title = soup.find("h1").text.encode('ascii', errors='ignore').decode()
         except AttributeError:
             title = ""
-        base = env.get_template("base.html")
+        base = env.get_template("note_base.html")
         # //span[@class='nn'][not(preceding-sibling::span[contains(text(), 'as')])]
         base_str = base.render(title=title, content=str(body))
         with open(fp, "w+", encoding="utf-8") as html_file:
