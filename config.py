@@ -13,6 +13,7 @@ class Config(object):
         self.IGNORED_PAGES_FILES = ['.nojekyll']
         self.DB_PATH = self.smart_path('mynotes.db')
         self.DB_URL = "sqlite:///" + self.DB_PATH
+        self.DEPLOYMENT_DOMAIN = "estasney.github.io/MyNotes"
 
     def smart_path(self, *args):
         start_path = self.BASE_DIR

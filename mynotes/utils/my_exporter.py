@@ -129,7 +129,7 @@ class NotesExporter(HTMLExporter):
         """
         return 'notes'  # full
 
-    def body_to_template_base(self, body: str, fp: str):
+    def body_to_template_base(self, body: str, fp: str, config: MyNotesConfig):
         """
         We want the rendered body to be included in a MyNotes template.
 
@@ -145,7 +145,7 @@ class NotesExporter(HTMLExporter):
             title = ""
         base = env.get_template("note_base.html")
         # //span[@class='nn'][not(preceding-sibling::span[contains(text(), 'as')])]
-        base_str = base.render(title=title, content=str(body))
+        base_str = base.render(title=title, content=str(body), domain=config.DEPLOYMENT_DOMAIN)
         with open(fp, "w+", encoding="utf-8") as html_file:
             html_file.write(base_str)
 
@@ -157,6 +157,8 @@ if __name__ == '__main__':
     my_config.clean_db()
     session = get_session()
     store_categories(session)
+    deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
+    env.globals.update({'domain': deploy_domain})
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
         p = PurePath(dir)
@@ -192,6 +194,6 @@ if __name__ == '__main__':
 
             html_exporter = NotesExporter()
             (body, r) = html_exporter.from_notebook_node(nb)
-            html_exporter.body_to_template_base(body, output_path)
+            html_exporter.body_to_template_base(body, output_path, my_config)
 
     create_index(session)
