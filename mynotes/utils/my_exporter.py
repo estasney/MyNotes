@@ -11,8 +11,7 @@ from pathlib import PurePath
 from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown
 from mynotes.utils.storage.models.model import Notebook, Category, Module
 from mynotes.utils.storage.models.meta import get_session, Session
-from mynotes.config import Config as MyNotesConfig
-from sqlalchemy import and_
+from config import Config as MyNotesConfig
 
 env = Environment(
         loader=PackageLoader('mynotes', 'templates'),

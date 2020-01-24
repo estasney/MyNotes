@@ -7,7 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     def __init__(self):
         self.BASE_DIR = basedir
-        self.NOTES_DIR = self.smart_path("notes")
+        self.NOTES_DIR = self.smart_path("mynotes", "notes")
         self.PAGES_DIR = self.smart_path("docs")
         self.IGNORED_PAGES_DIR = ['static']
         self.IGNORED_PAGES_FILES = []
