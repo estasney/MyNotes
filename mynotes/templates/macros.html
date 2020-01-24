@@ -68,7 +68,7 @@
 {% endmacro %}
 
 {% macro make_navbar(categories) %}
-    <nav id="category-navbar" class="navbar navbar-light bg-light">
+    <nav id="category-navbar" class="navbar navbar-inverse navbar-fixed-top">
         <a class="navbar-brand" href="#">My Notes</a>
         <ul class="nav nav-pills">
             {% for category in categories %}
@@ -76,4 +76,6 @@
                     <a class="nav-link" href="#{{ category.name }}">{{ category.display_name }}</a>
                 </li>
             {% endfor %}
+        </ul>
+    </nav>
 {% endmacro %}

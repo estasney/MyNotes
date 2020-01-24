@@ -5,7 +5,7 @@
 <head>
     {% include "head.html" %}
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar">
 {{ make_navbar(data) }}
 {{ make_decks(data) }}
 {% include "tail.html" %}
