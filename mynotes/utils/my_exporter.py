@@ -36,7 +36,7 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
         return m
 
     module_objs = [get_module(m) for m in nb_modules]
-    nb_obj = Notebook(name=nb_name, title=nb_title)
+    nb_obj = Notebook(name=nb_name, display_name=nb_name.replace("_", " ").replace(".html", "").title(), title=nb_title)
     session.add(nb_obj)
     nb_obj.modules = module_objs
 
@@ -66,7 +66,7 @@ def store_categories(session: Session):
     def get_category(f):
         c = session.query(Category).filter(Category.name == f).first()
         if not c:
-            c = Category(name=f)
+            c = Category(name=f, display_name=f.replace("_", " ").title())
             session.add(c)
         return c
 
@@ -82,11 +82,22 @@ def store_categories(session: Session):
         if parent_name:
             parent_obj = session.query(Category).filter(Category.name == parent_name).first()
             if not parent_obj:
-                parent_obj = Category(name=parent_name)
+                parent_obj = Category(name=parent_name, display_name=parent_name.replace("_", " ").title())
                 session.add(parent_obj)
             parent_obj.children_categories = category_objs
         session.commit()
     session.commit()
+
+
+def create_index(session: Session):
+    categories = session.query(Category).all()
+    categories = [c.to_dict() for c in categories]
+    base = env.get_template("base.html")
+    base_render = base.render({'data': categories})
+    config = MyNotesConfig()
+    fp = config.smart_path(config.PAGES_DIR, "index.html")
+    with open(fp, "w+", encoding="utf-8") as html_file:
+        html_file.write(base_render)
 
 
 class NotesExporter(HTMLExporter):
@@ -183,3 +194,5 @@ if __name__ == '__main__':
             html_exporter = NotesExporter()
             (body, r) = html_exporter.from_notebook_node(nb)
             html_exporter.body_to_template_base(body, output_path)
+
+    create_index(session)

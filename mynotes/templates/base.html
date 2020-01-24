@@ -1,0 +1,13 @@
+{% from "macros.html" import make_decks, make_navbar %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "head.html" %}
+</head>
+<body>
+{{ make_navbar(data) }}
+{{ make_decks(data) }}
+{% include "tail.html" %}
+</body>
+</html>

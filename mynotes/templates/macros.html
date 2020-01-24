@@ -1,0 +1,79 @@
+{% macro make_card(note) %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ note.title }}</h5>
+        </div>
+        <div class="card-footer">
+            {% for module in note.modules %}
+                <span class="badge badge-light">{{ module.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endmacro %}
+
+{% macro make_list_item(note) %}
+    <li class="list-group-item"><a href={{ note.url }}>{{ note.display_name }}</a>
+{% endmacro %}
+
+{% macro make_flat_category(category) %}
+
+    <div class="card" id="{{ category.id }}">
+        <div class="card-header">
+            {{ category.display_name }}
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for note in category.notebooks %}
+                {{ make_card(note) }}
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}
+
+{% macro make_nested_card(category) %}
+    <div class="card ml-4">
+        <div class="card-header">
+            {{ category.display_name }}
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for note in category.notebooks %}
+                {{ make_card(note) }}
+            {% endfor %}
+        </ul>
+    </div>
+{% endmacro %}
+
+{% macro make_nested_category(category) %}
+    <div class="card" id="{{ category.id }}">
+        <div class="card-header">
+            {{ category.display_name }}
+        </div>
+        {% for child in category.children %}
+            {{ make_nested_card(child) }}
+        {% endfor %}
+    </div>
+
+{% endmacro %}
+
+{% macro make_decks(categories) %}
+    <div class="container" data-spy="scroll" data-target="@category-navbar" data-offset="0">
+        {% for category in categories %}
+            {% if category.has_children %}
+                {{ make_nested_category(category) }}
+            {% else %}
+                {{ make_flat_category(category) }}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% macro make_navbar(categories) %}
+    <nav id="category-navbar" class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">My Notes</a>
+        <ul class="nav nav-pills">
+            {% for category in categories %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#{{ category.name }}">{{ category.display_name }}</a>
+                </li>
+            {% endfor %}
+{% endmacro %}

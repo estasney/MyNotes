@@ -15,6 +15,9 @@ module_category = Table('module_category', Base.metadata,
 
 class Module(Base):
     __tablename__ = 'modules'
+
+    JSON_KEYS = ['id', 'name']
+
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     notebooks = relationship("Notebook",
@@ -24,11 +27,20 @@ class Module(Base):
                               secondary=module_category,
                               back_populates='modules')
 
+    def to_dict(self) -> dict:
+        d = {k: getattr(self, k, None) for k in self.JSON_KEYS}
+        d['table'] = self.__tablename__
+        return d
+
 
 class Notebook(Base):
     __tablename__ = "notebooks"
+
+    JSON_KEYS = ['id', 'name', 'display_name', 'title', 'category_id']
+
     id = Column(Integer, primary_key=True)
     name = Column(Text)
+    display_name = Column(Text)
     title = Column(Text)
     modules = relationship("Module",
                            secondary=module_notebook,
@@ -36,11 +48,26 @@ class Notebook(Base):
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship("Category", back_populates='notebooks')
 
+    def to_dict(self, url_base) -> dict:
+        d = {k: getattr(self, k, None) for k in self.JSON_KEYS}
+        d['table'] = self.__tablename__
+        if url_base:
+            url = url_base + "/" + self.name
+        else:
+            url = "/" + self.name
+        d['url'] = url
+        d['modules'] = [m.to_dict() for m in self.modules]
+        return d
+
 
 class Category(Base):
     __tablename__ = "categories"
+
+    JSON_KEYS = ['id', 'name', 'display_name', 'parent_id', 'url']
+
     id = Column(Integer, primary_key=True)
     name = Column(Text)
+    display_name = Column(Text)
     parent_id = Column(Integer, ForeignKey('categories.id'), nullable=True)
     children_categories = relationship("Category",
                                        backref=backref('parent', remote_side=[id]))
@@ -48,3 +75,21 @@ class Category(Base):
     modules = relationship("Module",
                            secondary=module_category,
                            back_populates='categories')
+
+    @property
+    def url(self):
+        parent = self.parent
+        if not parent:
+            return self.name
+        return parent.url + "/" + self.name
+
+
+    def to_dict(self):
+        d = {k: getattr(self, k, None) for k in self.JSON_KEYS}
+        d['table'] = self.__tablename__
+        # noinspection PyTypeChecker
+        d['has_children'] = len(self.children_categories) > 0
+        d['children'] = [c.to_dict() for c in self.children_categories]
+        d['notebooks'] = [n.to_dict(self.url) for n in self.notebooks]
+        d['modules'] = [m.to_dict() for m in self.modules]
+        return d
