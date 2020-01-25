@@ -21,7 +21,7 @@
 {% macro make_flat_category(category) %}
 
     <div class="card" id="{{ category.name }}">
-        <div class="card-header">
+        <div class="card-header bg-primary text-white">
             {{ category.display_name }}
         </div>
         <ul class="list-group list-group-flush">
@@ -34,7 +34,7 @@
 
 {% macro make_nested_card(category) %}
     <div class="card ml-4">
-        <div class="card-header">
+        <div class="card-header bg-secondary">
             {{ category.display_name }}
         </div>
         <ul class="list-group list-group-flush">

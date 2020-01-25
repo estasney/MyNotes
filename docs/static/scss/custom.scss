@@ -1,6 +1,14 @@
 // Custom.scss
 // Option A: Include all of Bootstrap
 //
-@import "/home/eric/PycharmProjects/MyNotes/node_modules/bootstrap/scss/bootstrap";
+
 $enable-shadows:true;
 $enable-gradients:true;
+$blue:    #3b62ff;
+$red:     #d94d24;
+$orange:  #d94d24;
+$yellow:  #f7e230;
+$green:   #198191;
+$teal:    #20c997;
+
+@import "/home/eric/PycharmProjects/MyNotes/node_modules/bootstrap/scss/bootstrap";
