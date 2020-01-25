@@ -6,6 +6,10 @@
     {% include "head.html" %}
 </head>
 <body data-spy="scroll" data-target=".navbar">
+<div class="jumbotron text-center text-white bg-gradient-primary">
+  <h1>My Notes</h1>
+  <p>A swapfile</p>
+</div>
 {{ make_navbar(data) }}
 {{ make_decks(data) }}
 {% include "tail.html" %}

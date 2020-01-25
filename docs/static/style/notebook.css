@@ -377,7 +377,7 @@ div#notebook {
 
 a.anchor-link:link {
     text-decoration: none;
-    padding: 0px 20px;
+    padding: 0 20px;
     visibility: hidden;
 }
 
@@ -491,7 +491,6 @@ table.dataframe {
     background: rgba(66, 165, 245, 0.2);
 }
 
-}
 @media print {
     div.cell {
         display: block;
