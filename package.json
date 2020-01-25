@@ -1,0 +1,8 @@
+{
+  "name": "MyNotes",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap": "^4.4.1"
+  }
+}
