@@ -1,8 +1,10 @@
 import os
 import os.path
+import logging
 
 import nbformat
 from nbconvert import HTMLExporter
+from functools import partial
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
@@ -12,6 +14,7 @@ from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown
 from mynotes.utils.storage.models.model import Notebook, Category, Module
 from mynotes.utils.storage.models.meta import get_session, Session
 from config import Config as MyNotesConfig
+from mynotes.utils.hasher import hash_folder, hashed_filename
 
 env = Environment(
         loader=PackageLoader('mynotes', 'templates'),
@@ -152,13 +155,23 @@ class NotesExporter(HTMLExporter):
 
 if __name__ == '__main__':
 
+    logging.basicConfig(format='%(asctime)s - %(name)s : %(levelname)s : %(message)s', level=logging.DEBUG)
+    logger = logging.getLogger('mynotes')
+    logger.addHandler(logging.StreamHandler())
     my_config = MyNotesConfig()
     my_config.clean()
     my_config.clean_db()
+
+    hash_folder(my_config.STATIC_SRC, my_config.STATIC_DIST)
+
     session = get_session()
     store_categories(session)
+
     deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
+    deploy_style = "{}static/style/dist/".format(deploy_domain)
+
     env.globals.update({'domain': deploy_domain})
+    env.filters['resolve'] = partial(hashed_filename, url_prefix=deploy_style)
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
         p = PurePath(dir)
