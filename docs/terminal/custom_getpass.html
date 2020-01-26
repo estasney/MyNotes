@@ -13,7 +13,8 @@
 <div class="container" id="notebook-container">
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Masking-Input-on-Windows">Masking Input on Windows<a class="anchor-link" href="#Masking-Input-on-Windows"></a></h1><p>If an application asks a user for sensitive information from the command line, ideally one should be able do this:</p>
+<h1 id="Masking-Input-on-Windows">Masking Input on Windows<a class="anchor-link" href="#Masking-Input-on-Windows"></a></h1><p><em>Masking password input with feedback</em></p>
+<p>If an application asks a user for sensitive information from the command line, ideally one should be able do this:</p>
 <div class="highlight"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Username"</span><span class="p">)</span>
 <span class="n">password</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Password"</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># error</span>
 </pre></div>

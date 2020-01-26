@@ -36,11 +36,12 @@ class Module(Base):
 class Notebook(Base):
     __tablename__ = "notebooks"
 
-    JSON_KEYS = ['id', 'name', 'display_name', 'title', 'category_id']
+    JSON_KEYS = ['id', 'name', 'display_name', 'title', 'category_id', 'description']
 
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     display_name = Column(Text)
+    description = Column(Text, default='')
     title = Column(Text)
     modules = relationship("Module",
                            secondary=module_notebook,

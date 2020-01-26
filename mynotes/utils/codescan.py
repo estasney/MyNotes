@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple, Type
 from collections import namedtuple
 import nbformat
 from pygments.lexers.python import PythonLexer
@@ -35,9 +35,9 @@ def scan_line(line: str) -> list:
     return found
 
 
-def scan_nb_markdown(nb: NB) -> Union[str, None]:
+def scan_nb_markdown(nb: NB) -> Tuple:
     """
-    Scan a notebook's markdown cells for a 'title'
+    Scan a notebook's markdown cells for a 'title' and 'description'
     # Title
 
     Parameters
@@ -51,14 +51,19 @@ def scan_nb_markdown(nb: NB) -> Union[str, None]:
 
     cells = [cell.get('source', None) for cell in nb['cells'] if cell.get('cell_type', '') == 'markdown']
     title_match = re.compile(r"\A\s?(#)")
+    description_match = re.compile(r"(?<=\*)(.*)(?=\*)")
     title_cell = next((cell for cell in cells if title_match.search(cell)), None)
     if not title_cell:
-        return None
+        return None, None
     title = next((line for line in title_cell if title_match.search(line) for line in title_cell.splitlines()), None)
-    if not title:
-        return None
-    title = title_match.sub("", title).strip()
-    return title
+    description = description_match.findall(title_cell)
+    if description:
+        description = description[0]
+    else:
+        description = None
+    if title:
+        title = title_match.sub("", title).strip()
+    return title, description
 
 
 def scan_nb_code(nb: NB) -> list:

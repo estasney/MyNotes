@@ -12,10 +12,19 @@
 
 {% endmacro %}
 
-{% macro make_list_item(note) %}
-    <li class="list-group-item">
-    <a href={{ note.url }}>{{ note.display_name }}</a>
-    </li>
+{% macro make_notebook_item(note) %}
+    <div class="card">
+    <div class="card-body">
+        <h5><a href={{ note.url }}>{{ note.display_name }}</a></h5>
+        <p>{{ note.description }}</p>
+    </div>
+    <div class="card-footer">
+        {% for module in note.modules %}
+            <span class="badge badge-pill badge-light">{{ module.name }}</span>
+        {% endfor %}
+    </div>
+    </div>
+
 {% endmacro %}
 
 {% macro make_flat_category(category) %}
@@ -24,30 +33,35 @@
         <div class="card-header bg-gradient-primary text-white">
             {{ category.display_name }}
         </div>
-        <ul class="list-group list-group-flush">
+        <div class="card-deck">
             {% for note in category.notebooks %}
-                {{ make_list_item(note) }}
+                {{ make_notebook_item(note) }}
             {% endfor %}
-        </ul>
+        </div>
+
+
     </div>
 {% endmacro %}
 
 {% macro make_nested_card(category) %}
-    <div class="card ml-4">
+    <div class="card ml-4 mr-4">
         <div class="card-header bg-gradient-secondary text-white">
             {{ category.display_name }}
         </div>
-        <ul class="list-group list-group-flush">
+        <div class="card-deck">
             {% for note in category.notebooks %}
-                {{ make_list_item(note) }}
+                {{ make_notebook_item(note) }}
             {% endfor %}
-        </ul>
+        </div>
+
+
+
     </div>
 {% endmacro %}
 
 {% macro make_nested_category(category) %}
     <div class="card" id="{{ category.id }}">
-        <div class="card-header">
+        <div class="card-header bg-gradient-primary text-white">
             {{ category.display_name }}
         </div>
         {% for child in category.children %}

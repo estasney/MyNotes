@@ -22,12 +22,16 @@ env = Environment(
         )
 
 
+logger = logging.getLogger('mynotes')
+
 def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, category: str, category_parents: list,
                    session: Session):
     nb_modules = scan_nb_code(nb)
-    nb_title = scan_nb_markdown(nb)
+    nb_title, nb_description = scan_nb_markdown(nb)
     if not nb_title:
-        print("{} missing title".format(nb_name))
+        logger.warning("{} missing title".format(nb_name))
+    if not nb_description:
+        logger.info("{} missing descripton".format(nb_name))
 
     def get_module(f):
         m = session.query(Module).filter(Module.name == f).first()
@@ -38,7 +42,7 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
         return m
 
     module_objs = [get_module(m) for m in nb_modules]
-    nb_obj = Notebook(name=nb_name, display_name=nb_name.replace("_", " ").replace(".html", "").title(), title=nb_title)
+    nb_obj = Notebook(name=nb_name, description=nb_description, display_name=nb_name.replace("_", " ").replace(".html", "").title(), title=nb_title)
     session.add(nb_obj)
     nb_obj.modules = module_objs
 
@@ -156,7 +160,6 @@ class NotesExporter(HTMLExporter):
 if __name__ == '__main__':
 
     logging.basicConfig(format='%(asctime)s - %(name)s : %(levelname)s : %(message)s', level=logging.DEBUG)
-    logger = logging.getLogger('mynotes')
     logger.addHandler(logging.StreamHandler())
     my_config = MyNotesConfig()
     my_config.clean()
