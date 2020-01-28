@@ -1,19 +1,8 @@
 $enable-shadows: true;
 $enable-gradients: true;
-$blue: #2137ff;
-$red: #d94d24;
-$orange: #d94d24;
-$yellow: #f7e230;
-$green: #198191;
-$teal: #e1ecf4;
-$body-bg: #ffffff;
+$blue: #3c91e6;
+$primary: $blue;
+$secondary: #cfc08d;
+$body-bg: #fafffd;
 $link-hover-decoration: none;
-$gray-500: #adb5bd;
-
-$theme-colors: (
-        "medium": $gray-500,
-        "tag": $teal
-);
-
-
 @import "/home/eric/PycharmProjects/MyNotes/node_modules/bootstrap/scss/bootstrap";
