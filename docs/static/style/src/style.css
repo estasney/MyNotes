@@ -11,6 +11,11 @@
     font-family: 'FrederickaTheGreat', "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.header-radial {
+    background: rgb(60,145,230);
+    background: linear-gradient(306deg, rgba(60,145,230,1) 0%, rgba(78,166,255,1) 58%, rgba(244,244,244,1) 100%);
+}
+
 body {
     background: #e8eaed;
 }
