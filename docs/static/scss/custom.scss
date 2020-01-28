@@ -2,7 +2,12 @@ $enable-shadows: true;
 $enable-gradients: true;
 $blue: #3c91e6;
 $primary: $blue;
-$secondary: #cfc08d;
+$complementary: #e67d3c;
 $body-bg: #fafffd;
 $link-hover-decoration: none;
+
+$theme-colors: (
+  "complementary": $complementary
+);
+
 @import "/home/eric/PycharmProjects/MyNotes/node_modules/bootstrap/scss/bootstrap";
