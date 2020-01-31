@@ -1,1 +1,1 @@
-sassc ./custom.scss ../style/bootstrap.css
+sassc ./custom.scss ../style/src/bootstrap.css
