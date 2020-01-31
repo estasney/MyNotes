@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title>Indexing in NumPy</title>
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.93174f69eb38ce9692a0669efce07c87.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.9deece34b33c14c6b98eb35437df6602.css" type="text/css">
+
+</head>
+<body>
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Indexing-in-NumPy">Indexing in NumPy<a class="anchor-link" href="#Indexing-in-NumPy"></a></h1><p><em>Some use cases</em></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Compress-overlapping-indices">Compress overlapping indices<a class="anchor-link" href="#Compress-overlapping-indices"></a></h2><h3 id="Background">Background<a class="anchor-link" href="#Background"></a></h3><p><code>matches</code> below is the (truncated) result of calling <code>spacy.Matcher</code> on a Doc.</p>
+<p>Each tuple corresponds to a single match. So to return the result of the first match we run:</p>
+<div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">29</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span>
+</pre></div>
+<p>Remember, the end slice is exclusive - we expect only one token.</p>
+<p>Notice there is some duplication here in the spans. What we want to do is consolidate our matches:</p>
+<p><code>[(29, 30), (29, 31)]</code></p>
+<p>Should become:</p>
+<p><code>[(29, 31)]</code></p>
+<h3 id="Method">Method<a class="anchor-link" href="#Method"></a></h3><p>There several methods to solve this - here's one that's efficient and relatively clean. I take advantage of <code>numpy</code> indexing.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">doc_len</span> <span class="o">=</span> <span class="mi">700</span>
+
+<span class="c1"># Matches</span>
+<span class="n">matches</span> <span class="o">=</span> \
+<span class="p">[(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">86</span><span class="p">,</span> <span class="mi">87</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">97</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="mi">193</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">194</span><span class="p">,</span> <span class="mi">195</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">196</span><span class="p">,</span> <span class="mi">197</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">196</span><span class="p">,</span> <span class="mi">198</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">197</span><span class="p">,</span> <span class="mi">198</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">199</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">201</span><span class="p">,</span> <span class="mi">202</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">209</span><span class="p">,</span> <span class="mi">210</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">268</span><span class="p">,</span> <span class="mi">269</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">270</span><span class="p">,</span> <span class="mi">271</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">313</span><span class="p">,</span> <span class="mi">314</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">328</span><span class="p">,</span> <span class="mi">329</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">330</span><span class="p">,</span> <span class="mi">331</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">332</span><span class="p">,</span> <span class="mi">333</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">332</span><span class="p">,</span> <span class="mi">334</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">333</span><span class="p">,</span> <span class="mi">334</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">354</span><span class="p">,</span> <span class="mi">355</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">357</span><span class="p">,</span> <span class="mi">358</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">381</span><span class="p">,</span> <span class="mi">382</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">396</span><span class="p">,</span> <span class="mi">397</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">399</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">430</span><span class="p">,</span> <span class="mi">431</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">433</span><span class="p">,</span> <span class="mi">434</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">445</span><span class="p">,</span> <span class="mi">446</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">457</span><span class="p">,</span> <span class="mi">458</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">461</span><span class="p">,</span> <span class="mi">462</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">461</span><span class="p">,</span> <span class="mi">463</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">462</span><span class="p">,</span> <span class="mi">463</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">482</span><span class="p">,</span> <span class="mi">483</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">484</span><span class="p">,</span> <span class="mi">485</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">486</span><span class="p">,</span> <span class="mi">487</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">489</span><span class="p">,</span> <span class="mi">490</span><span class="p">),</span>
+ <span class="p">(</span><span class="mi">544</span><span class="p">,</span> <span class="mi">545</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">doc_len</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">]))</span>
+<span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What we have now is our <code>z</code> array where values of <code>1</code> indicate that a token was a member of a match.</p>
+<p>Since we expanded the ranges to get to this point, we need to get them back into a <code>(start, stop)</code> format.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">sliding_window</span>
+<span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">start_idx</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">sliding_window</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>  <span class="c1"># is it continuous?</span>
+        <span class="k">if</span> <span class="n">start_idx</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start_idx</span> <span class="o">=</span> <span class="n">a</span>
+            <span class="k">continue</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">start_idx</span><span class="p">:</span>
+            <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+            <span class="n">start_idx</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="c1"># We have left AND right side inclusive            </span>
+<span class="n">span_range_form</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">spans</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">span_range_form</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">span</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">span_range_form</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">span</span><span class="p">,</span> <span class="n">span</span><span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">span_range_form</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>[(29, 31),
+ (32, 33),
+ (86, 87),
+ (96, 97),
+ (192, 193),
+ (194, 195),
+ (196, 198),
+ (199, 200),
+ (201, 202),
+ (209, 210),
+ (268, 269),
+ (270, 271),
+ (313, 314),
+ (328, 329),
+ (330, 331),
+ (332, 334),
+ (354, 355),
+ (357, 358),
+ (381, 382),
+ (396, 397),
+ (399, 400),
+ (430, 431),
+ (433, 434),
+ (445, 446),
+ (457, 458),
+ (461, 463),
+ (482, 483),
+ (484, 485),
+ (486, 487),
+ (489, 490)]</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Speed-Test">Speed Test<a class="anchor-link" href="#Speed-Test"></a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="o">%%time</span>it -r50
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">doc_len</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">]))</span>
+<span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">start_idx</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">sliding_window</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>  <span class="c1"># is it continuous?</span>
+        <span class="k">if</span> <span class="n">start_idx</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start_idx</span> <span class="o">=</span> <span class="n">a</span>
+            <span class="k">continue</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">start_idx</span><span class="p">:</span>
+            <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+            <span class="n">start_idx</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="c1"># We have left AND right side inclusive            </span>
+<span class="n">span_range_form</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">spans</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">span</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">span_range_form</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">span</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">span</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">span_range_form</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">span</span><span class="p">,</span> <span class="n">span</span><span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>119 µs ± 4.42 µs per loop (mean ± std. dev. of 50 runs, 10000 loops each)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="//estasney.github.io/MyNotes/static/js/jquery-3.4.1.min.js"></script>
+<script src="//estasney.github.io/MyNotes/static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
