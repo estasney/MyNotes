@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<title>Windows whereis Equivalent</title>
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.93174f69eb38ce9692a0669efce07c87.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.9deece34b33c14c6b98eb35437df6602.css" type="text/css">
+
+</head>
+<body>
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Windows-whereis-Equivalent">Windows <code>whereis</code> Equivalent<a class="anchor-link" href="#Windows-whereis-Equivalent"></a></h1><p><em>Search for file patterns from the command line in Windows</em></p>
+<p><code>whereis</code> is useful on Unix. Windows offers <code>where</code>. An example of finding where Chrome is installed from command prompt:</p>
+<div class="highlight"><pre><span></span>where /R <span class="s2">"C:\Program Files (x86)"</span> chrome.exe
+</pre></div>
+<p>Below, <code>run_where</code> opens a shell and executes this command. One limitation I noticed with <code>where</code> is that a wildcard is not allowed for the starting directory.
+For instance, Chrome could be in "Program Files" or "Program Files (x86)".</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="k">def</span> <span class="nf">run_where</span><span class="p">(</span><span class="n">starting_dir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'where'</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"/R"</span><span class="p">)</span>
+    <span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">starting_dir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">])</span>
+    <span class="k">with</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Python's <code>glob</code> module is much simpler to use. Let's compare timings:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> -r 50 run_where(r"C:\Program Files (x86)", "chrome.exe")
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.4 s ± 300 ms per loop (mean ± std. dev. of 50 runs, 1 loop each)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="o">%</span><span class="k">timeit</span> -r 50 glob.glob(r"C:\Program Files (x86)\**\chrome.exe", recursive=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.38 s ± 303 ms per loop (mean ± std. dev. of 50 runs, 1 loop each)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="//estasney.github.io/MyNotes/static/js/jquery-3.4.1.min.js"></script>
+<script src="//estasney.github.io/MyNotes/static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
