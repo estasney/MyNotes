@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<title></title>
+<title>Regex Cheatsheet</title>
 <link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.93174f69eb38ce9692a0669efce07c87.css" type="text/css">
 <link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.9deece34b33c14c6b98eb35437df6602.css" type="text/css">
 
@@ -13,7 +13,13 @@
 <div class="container" id="notebook-container">
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<table>
+<h1 id="Regex-Cheatsheet">Regex Cheatsheet<a class="anchor-link" href="#Regex-Cheatsheet"></a></h1><p><em>Quick Reference</em></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Anchors">Anchors<a class="anchor-link" href="#Anchors"></a></h2><table>
 <thead><tr>
 <th>Anchors</th>
 <th>Description</th>
@@ -51,7 +57,7 @@
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<table>
+<h2 id="Character-Groups">Character Groups<a class="anchor-link" href="#Character-Groups"></a></h2><table>
 <thead><tr>
 <th>Groups</th>
 <th>Description</th>
@@ -102,9 +108,9 @@
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<table>
+<h2 id="Character-Class">Character Class<a class="anchor-link" href="#Character-Class"></a></h2><table>
 <thead><tr>
-<th>Character classes</th>
+<th>Class</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -154,12 +160,54 @@
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tips">Tips<a class="anchor-link" href="#Tips"></a></h2><h3 id="Unicode-Representation">Unicode Representation<a class="anchor-link" href="#Unicode-Representation"></a></h3><p>Imagine you've normalized text. It looks "normal" until you see this:</p>
+<blockquote><p>some_ῷstring</p>
+</blockquote>
+<p>Rather than try to catch these individually, a smarter approach is to leverage unicode representation.</p>
+<p>These are listed online but Python can do this natively.</p>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">"ῷ"</span>
-<span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"unicode_escape"</span><span class="p">)</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s2">"ῷ"</span>
+<span class="n">unicode_repr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"unicode_escape"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'ascii'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"{s} : {unicode_repr}"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="s2">"ῷ"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>ῷ : \u1ff7
+GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This can be represented in a regex pattern:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(\u1ff7)"</span><span class="p">,</span> <span class="s2">"some_ῷstring"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -168,7 +216,99 @@
 <div class="output" style="margin-left: unset;">
 <div class="output_area">
 <div class="output_text output_subarea output_execute_result">
-<pre>b'\\u1ff7'</pre>
+<pre>['ῷ']</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You could also use it as a range. We know the Unicode code point for "ῷ" is 8183
+after running</p>
+<div class="highlight"><pre><span></span><span class="nb">ord</span><span class="p">(</span><span class="s2">"ῷ"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mi">8183</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">chars</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="nb">chr</span><span class="p">((</span><span class="mi">8183</span> <span class="o">-</span> <span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"unicode_escape"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'ascii'</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">]])</span>
+<span class="n">ranged_unicode_string</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"[{chars[0]}-{chars[1]}]"</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ranged_unicode_string</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[\u1f93-\u205b]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">ranged_unicode_string</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"'ᾚ''ῷ῾"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>['ᾚ', 'ῷ', '῾']</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Import-regex-as-re">Import regex as re<a class="anchor-link" href="#Import-regex-as-re"></a></h3><p><a href="https://pypi.org/project/regex/">regex</a> is a 3rd party library that provides more advanced functionality.
+It's mostly a drop-in replacement so it's common to see</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="kn">as</span> <span class="nn">re</span>
+</pre></div>
+<p>Using <a href="https://pypi.org/project/regex/">regex</a> we can take advantage of <a href="https://en.wikipedia.org/wiki/Unicode_character_property#General_Category">Unicode Categories</a>,
+and <a href="https://www.regular-expressions.info/unicode.html">Unicode Blocks</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="kn">as</span> <span class="nn">re</span>
+
+
+<span class="c1"># test string</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">isprintable</span><span class="p">()])</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"\p{InBasicLatin}"</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[' ', '!', '"', '#', '$', '%', '&amp;', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '&lt;', '=', '&gt;', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~']
+</pre>
 </div>
 </div>
 </div>
