@@ -71,7 +71,7 @@ def scan_nb_code(nb: NB) -> List[Optional[str]]:
     Scan a notebook's code cells for modules imported
     Parameters
     ----------
-    nb
+    nb: NB
         Either a NotebookNode or a path-like string
     """
     if isinstance(nb, str):
@@ -80,6 +80,30 @@ def scan_nb_code(nb: NB) -> List[Optional[str]]:
     cell_modules = [scan_line(cell) for cell in cells]
     # flatten and remove duplicates
     return list(set([module for cell_module in cell_modules for module in cell_module]))
+
+def scan_nb_keywords(nb: NB) -> List[Optional[str]]:
+    """
+    Scan a notebook's markdown cells for <keyword></keyword> tags
+    Parameters
+    ----------
+    nb: NB
+        Either a NotebookNode or a path-like string
+
+
+    Returns
+    -------
+
+    """
+    if isinstance(nb, str):
+        nb = nbformat.read(nb, as_version=4)
+    keyword_search = re.compile(r"(?<=<keyword>).+(?=</keyword>)")
+    cells = [cell.get('source', '') for cell in nb['cells'] if cell.get('cell_type', '') == 'markdown']
+    keywords = [keyword_search.findall(cell) for cell in cells]
+    # flatten and remove duplicates
+    return list(set([module for cell_module in keywords for module in cell_module]))
+
+
+
 
 
 def _format_tokens(tokens: list):
