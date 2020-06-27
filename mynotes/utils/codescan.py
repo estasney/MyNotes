@@ -1,4 +1,4 @@
-from typing import List, Tuple, Type
+from typing import List, Tuple, Type, Optional
 from collections import namedtuple
 import nbformat
 from pygments.lexers.python import PythonLexer
@@ -66,7 +66,7 @@ def scan_nb_markdown(nb: NB) -> Tuple:
     return title, description
 
 
-def scan_nb_code(nb: NB) -> list:
+def scan_nb_code(nb: NB) -> List[Optional[str]]:
     """
     Scan a notebook's code cells for modules imported
     Parameters
