@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
 <title>Regex Cheatsheet</title>
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.93174f69eb38ce9692a0669efce07c87.css" type="text/css">
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.9deece34b33c14c6b98eb35437df6602.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.5c3e42baf26206ba4d02cee62536e963.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.8435be720633463208ba9465e4e91111.css" type="text/css">
 
 </head>
 <body>
@@ -178,8 +178,8 @@
 <span class="n">s</span> <span class="o">=</span> <span class="s2">"ῷ"</span>
 <span class="n">unicode_repr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"unicode_escape"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'ascii'</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"{s} : {unicode_repr}"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="s2">"ῷ"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">unicode_repr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="s2">"ῷ"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -239,8 +239,8 @@ after running</p>
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
 
 <span class="n">chars</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="nb">chr</span><span class="p">((</span><span class="mi">8183</span> <span class="o">-</span> <span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"unicode_escape"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'ascii'</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">]])</span>
-<span class="n">ranged_unicode_string</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"[{chars[0]}-{chars[1]}]"</span>
-<span class="k">print</span><span class="p">(</span><span class="n">ranged_unicode_string</span><span class="p">)</span>
+<span class="n">ranged_unicode_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">chars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">chars</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">]"</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ranged_unicode_string</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -279,7 +279,7 @@ after running</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Import-regex-as-re">Import regex as re<a class="anchor-link" href="#Import-regex-as-re"></a></h3><p><a href="https://pypi.org/project/regex/">regex</a> is a 3rd party library that provides more advanced functionality.
 It's mostly a drop-in replacement so it's common to see</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="kn">as</span> <span class="nn">re</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
 </pre></div>
 <p>Using <a href="https://pypi.org/project/regex/">regex</a> we can take advantage of <a href="https://en.wikipedia.org/wiki/Unicode_character_property#General_Category">Unicode Categories</a>,
 and <a href="https://www.regular-expressions.info/unicode.html">Unicode Blocks</a></p>
@@ -290,15 +290,15 @@ and <a href="https://www.regular-expressions.info/unicode.html">Unicode Blocks</
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="kn">as</span> <span class="nn">re</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
 
 
 <span class="c1"># test string</span>
 <span class="n">chars</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">isprintable</span><span class="p">()])</span>
 <span class="n">chars</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"\p{InBasicLatin}"</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"\p</span><span class="si">{InBasicLatin}</span><span class="s2">"</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

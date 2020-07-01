@@ -34,8 +34,8 @@ class Keyword(Base):
                              secondary=keyword_notebook,
                              back_populates='keywords')
     categories = relationship("Category",
-                              secondary=module_category,
-                              back_populates='modules')
+                              secondary=keyword_category,
+                              back_populates='keywords')
 
     def to_dict(self) -> dict:
         d = {k: getattr(self, k, None) for k in self.JSON_KEYS}

@@ -15,7 +15,7 @@ nn = 'Token.Name.Namespace'
 t = 'Token.Text'
 
 
-def scan_line(line: str) -> list:
+def scan_line_modules(line: str) -> list:
     """
     Scan a cell line for modules imported
     Parameters
@@ -77,7 +77,7 @@ def scan_nb_code(nb: NB) -> List[Optional[str]]:
     if isinstance(nb, str):
         nb = nbformat.read(nb, as_version=4)
     cells = [cell.get('source', '') for cell in nb['cells'] if cell.get('cell_type', '') == 'code']
-    cell_modules = [scan_line(cell) for cell in cells]
+    cell_modules = [scan_line_modules(cell) for cell in cells]
     # flatten and remove duplicates
     return list(set([module for cell_module in cell_modules for module in cell_module]))
 

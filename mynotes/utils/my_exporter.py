@@ -10,8 +10,8 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
 from pathlib import PurePath
 
-from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown
-from mynotes.utils.storage.models.model import Notebook, Category, Module
+from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywords
+from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
 from mynotes.utils.storage.models.meta import get_session, Session
 from config import Config as MyNotesConfig
 from mynotes.utils.hasher import hash_folder, hashed_filename
@@ -27,6 +27,7 @@ logger = logging.getLogger('mynotes')
 def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, category: str, category_parents: list,
                    session: Session):
     nb_modules = scan_nb_code(nb)
+    nb_keywords = scan_nb_keywords(nb)
     nb_title, nb_description = scan_nb_markdown(nb)
     if not nb_title:
         logger.warning("{} missing title".format(nb_name))
@@ -41,10 +42,20 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
             session.commit()
         return m
 
+    def get_keyword(f):
+        kw = session.query(Keyword).filter(Keyword.name == f).first()
+        if not kw:
+            kw = Keyword(name=f)
+            session.add(kw)
+            session.commit()
+        return kw
+
     module_objs = [get_module(m) for m in nb_modules]
+    kw_objs = [get_keyword(kw) for kw in nb_keywords]
     nb_obj = Notebook(name=nb_name, description=nb_description, display_name=nb_name.replace("_", " ").replace(".html", "").title(), title=nb_title)
     session.add(nb_obj)
     nb_obj.modules = module_objs
+    nb_obj.keywords = kw_objs
 
     nb_category_query = session.query(Category).filter(Category.name == category)
     if category_parents:
@@ -57,6 +68,9 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
     for module in module_objs:
         if module not in category_obj.modules:
             category_obj.modules.append(module)
+    for kw in kw_objs:
+        if kw not in category_obj.keywords:
+            category_obj.keywords.append(kw)
 
     session.commit()
 

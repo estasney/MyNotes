@@ -9,7 +9,6 @@
             {% endfor %}
         </div>
     </div>
-
 {% endmacro %}
 
 {% macro make_notebook_item(note) %}
@@ -24,11 +23,9 @@
         {% endfor %}
     </div>
     </div>
-
 {% endmacro %}
 
 {% macro make_flat_category(category) %}
-
     <div class="card mb-2" id="{{ category.name }}">
         <div class="card-header bg-gradient-primary text-white">
             {{ category.display_name }}
@@ -38,8 +35,6 @@
                 {{ make_notebook_item(note) }}
             {% endfor %}
         </div>
-
-
     </div>
 {% endmacro %}
 
@@ -65,7 +60,6 @@
             {{ make_nested_card(child) }}
         {% endfor %}
     </div>
-
 {% endmacro %}
 
 {% macro make_decks(categories) %}
