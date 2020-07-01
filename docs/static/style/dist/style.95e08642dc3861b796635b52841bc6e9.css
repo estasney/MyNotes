@@ -16,6 +16,14 @@
     background: linear-gradient(306deg, rgba(60,145,230,1) 0%, rgba(78,166,255,1) 58%, rgba(244,244,244,1) 100%);
 }
 
+.card .module {
+    background: linear-gradient(158deg, #FFFFFF, #C2C4C7)
+}
+
+.card .keyword {
+    background: linear-gradient(158deg, #dfe4ff, #7aa6ea);
+}
+
 body {
     background: #e8eaed;
 }
