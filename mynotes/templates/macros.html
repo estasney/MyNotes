@@ -6,7 +6,10 @@
     </div>
     <div class="card-footer">
         {% for module in note.modules %}
-            <span class="badge badge-pill badge-light">{{ module.name }}</span>
+            <span class="badge badge-pill badge-light module">{{ module.name }}</span>
+        {% endfor %}
+        {% for keyword in note.keywords %}
+            <span class="badge badge-pill badge-light keyword">{{ keyword.name }}</span>
         {% endfor %}
     </div>
     </div>
