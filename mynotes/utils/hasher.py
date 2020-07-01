@@ -86,6 +86,9 @@ def hash_folder(src_folder, dist_folder):
     src_folder = Path(src_folder)
     dist_folder = Path(dist_folder)
 
+    if not dist_folder.exists():
+        dist_folder.mkdir()
+
     # Erase contents of dist_folder
     for f in dist_folder.iterdir():
         logger.debug("Removing {}".format(str(f)))
