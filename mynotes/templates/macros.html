@@ -1,16 +1,3 @@
-{% macro make_card(note) %}
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">{{ note.title }}</h5>
-        </div>
-        <div class="card-footer">
-            {% for module in note.modules %}
-                <span class="badge badge-light">{{ module.name }}</span>
-            {% endfor %}
-        </div>
-    </div>
-{% endmacro %}
-
 {% macro make_notebook_item(note) %}
     <div class="card">
     <div class="card-body">
