@@ -9,11 +9,17 @@
 
 .jumbotron, .jumbotron-fluid h1 {
     font-family: 'FrederickaTheGreat', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 3.5rem;
 }
 
 .header-radial {
-    background: rgb(60,145,230);
-    background: linear-gradient(306deg, rgba(60,145,230,1) 0%, rgba(78,166,255,1) 58%, rgba(244,244,244,1) 100%);
+    background-color:#407ef1;
+    background-image: linear-gradient(white 0px, transparent 0px),
+    linear-gradient(90deg, white 0px, transparent 0px),
+    linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px);
+    background-size: 10px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;
 }
 
 .card .module {
