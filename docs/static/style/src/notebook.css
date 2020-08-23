@@ -18,6 +18,10 @@
     border-left: .25em solid #dfe2ed;
 }
 
+.rendered .inner_cell {
+    padding: 0 1em 0 1em;
+}
+
 .highlight .hll {
     background-color: #ffffcc
 }
