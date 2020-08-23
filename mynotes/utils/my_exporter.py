@@ -1,3 +1,4 @@
+import argparse
 import os
 import os.path
 import logging
@@ -173,6 +174,10 @@ class NotesExporter(HTMLExporter):
 
 if __name__ == '__main__':
 
+    parser = argparse.ArgumentParser(description="Generate My Notes")
+    parser.add_argument("--develop", action="store_true")
+    args = parser.parse_args()
+
     logging.basicConfig(format='%(asctime)s - %(name)s : %(levelname)s : %(message)s', level=logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
     my_config = MyNotesConfig()
@@ -184,8 +189,12 @@ if __name__ == '__main__':
     session = get_session()
     store_categories(session)
 
-    deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
-    deploy_style = "{}static/style/dist/".format(deploy_domain)
+    if args.develop:
+        deploy_domain = "http://localhost:56770"
+        deploy_style = "{}/MyNotes/docs/static/style/dist/".format(deploy_domain)
+    else:
+        deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
+        deploy_style = "{}static/style/dist/".format(deploy_domain)
 
     env.globals.update({'domain': deploy_domain})
     env.filters['resolve'] = partial(hashed_filename, url_prefix=deploy_style)
