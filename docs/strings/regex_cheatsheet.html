@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-132355416-7');
+</script>
+<meta charset="UTF-8">
+<title>Regex Cheatsheet</title>
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.8435be720633463208ba9465e4e91111.css" type="text/css">
+
+</head>
+<body>
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Regex-Cheatsheet">Regex Cheatsheet<a class="anchor-link" href="#Regex-Cheatsheet"></a></h1><p><em>Quick Reference</em></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Anchors">Anchors<a class="anchor-link" href="#Anchors"></a></h2><table>
+<thead><tr>
+<th>Anchors</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\A</td>
+<td>match start of string</td>
+</tr>
+<tr>
+<td>\Z</td>
+<td>match end of string</td>
+</tr>
+<tr>
+<td>^</td>
+<td>match start of line</td>
+</tr>
+<tr>
+<td>$</td>
+<td>end of line</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>start/end of words</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>inverse of \b</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Groups">Groups<a class="anchor-link" href="#Groups"></a></h2><p><em>Note: Ellipsis (...) is for visualization purposes</em></p>
+<table>
+<thead><tr>
+<th>Group</th>
+<th>Description</th>
+<th>Consumes Characters?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(?:...)</td>
+<td>non-capturing group</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>(?P<name>...)</name></td>
+<td>named capturing group</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>(?=...)</td>
+<td>positive lookahead</td>
+<td>✘</td>
+</tr>
+<tr>
+<td>(?!...)</td>
+<td>negative lookahead</td>
+<td>✘</td>
+</tr>
+<tr>
+<td>(?&lt;=...)</td>
+<td>positive lookbehind</td>
+<td>✘</td>
+</tr>
+<tr>
+<td>(?&lt;!...)</td>
+<td>negative lookbehind</td>
+<td>✘</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Character-Classes">Character Classes<a class="anchor-link" href="#Character-Classes"></a></h2><table>
+<thead><tr>
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[ABC]</td>
+<td>Match any character in the set</td>
+</tr>
+<tr>
+<td>[^ABC]</td>
+<td>Match any character not in the set</td>
+</tr>
+<tr>
+<td>[A-z]</td>
+<td>Matches a range</td>
+</tr>
+<tr>
+<td>.</td>
+<td>Match any except linebreaks. Shortcut for [^\n\r]</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>Match word chars. Shortcut for [A-Za-z0-9_]</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>Negated ^w. Shortcut for [^A-Za-z0-9_]</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>Shortcut for [0-9]</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>Shortcut for [^0-9]</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>Whitespace</td>
+</tr>
+<tr>
+<td>[\uxxx-\uxxy]</td>
+<td>Match a character in range (see below)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Import-regex-as-re">Import regex as re<a class="anchor-link" href="#Import-regex-as-re"></a></h3><p><a href="https://pypi.org/project/regex/">regex</a> is a 3rd party library that provides more advanced functionality.
+It's mostly a drop-in replacement so it's common to see</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
+</pre></div>
+<p>Using <a href="https://pypi.org/project/regex/">regex</a> we can take advantage of <a href="https://en.wikipedia.org/wiki/Unicode_character_property#General_Category">Unicode Categories</a>,
+and <a href="https://www.regular-expressions.info/unicode.html#bodytext:~:text=The%20Unicode%20standard%20divides%20the%20Unicode,future%20expansion%20of%20the%20Unicode%20standard.">Unicode Blocks</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
+
+
+<span class="c1"># test string</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mh">0x10ffff</span><span class="p">)</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">isprintable</span><span class="p">()])</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"\p</span><span class="si">{InBasicLatin}</span><span class="s2">"</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[::</span><span class="mi">8</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[' ', '(', '0', '8', '@', 'H', 'P', 'X', '`', 'h', 'p', 'x']
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="//estasney.github.io/MyNotes/static/js/jquery-3.4.1.min.js"></script>
+<script src="//estasney.github.io/MyNotes/static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
