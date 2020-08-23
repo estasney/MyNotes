@@ -19,7 +19,8 @@ from mynotes.utils.hasher import hash_folder, hashed_filename
 
 env = Environment(
         loader=PackageLoader('mynotes', 'templates'),
-        autoescape=select_autoescape(['html'])
+        autoescape=select_autoescape(['html']),
+        extensions=['jinja2.ext.debug']
         )
 
 
@@ -196,7 +197,8 @@ if __name__ == '__main__':
         deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
         deploy_style = "{}static/style/dist/".format(deploy_domain)
 
-    env.globals.update({'domain': deploy_domain})
+    env.globals.update({'domain': deploy_domain,
+                        'develop': args.develop})
     env.filters['resolve'] = partial(hashed_filename, url_prefix=deploy_style)
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
