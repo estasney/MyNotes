@@ -1,3 +1,7 @@
+div.container {
+    background-color: #f6f6f6;
+}
+
 .rendered_html .highlight {
     border:1px solid #cfcfcf;
     border-radius: 2px;
