@@ -7,6 +7,11 @@
     margin-top: 0.25em;
 }
 
+.rendered_html code {
+    color: #aa0f5a;
+    background-color: #ebeaea;
+}
+
 .highlight .hll {
     background-color: #ffffcc
 }
