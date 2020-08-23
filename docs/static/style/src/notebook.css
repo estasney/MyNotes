@@ -1,3 +1,12 @@
+.rendered_html .highlight {
+    border:1px solid #cfcfcf;
+    border-radius: 2px;
+    background-color: #f7f7f7;
+    line-height: 1.21429em;
+    margin-bottom: 0.25em;
+    margin-top: 0.25em;
+}
+
 .highlight .hll {
     background-color: #ffffcc
 }
