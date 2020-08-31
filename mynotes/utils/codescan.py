@@ -96,7 +96,7 @@ def scan_nb_keywords(nb: NB) -> List[Optional[str]]:
     """
     if isinstance(nb, str):
         nb = nbformat.read(nb, as_version=4)
-    keyword_search = re.compile(r"(?<=<keyword>).+(?=</keyword>)")
+    keyword_search = re.compile(r"(?<=<keyword>).+?(?=</keyword>)")
     cells = [cell.get('source', '') for cell in nb['cells'] if cell.get('cell_type', '') == 'markdown']
     keywords = [keyword_search.findall(cell) for cell in cells]
     # flatten and remove duplicates
