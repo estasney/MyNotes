@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-132355416-7');
+</script>
+<meta charset="UTF-8">
+<title>Regex Groups</title>
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.d02916f7a62be5ff25db5538e6b77354.css" type="text/css">
+
+</head>
+<body>
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Regex-Groups">Regex Groups<a class="anchor-link" href="#Regex-Groups"></a></h1><p><em>And Python's Groupdict</em></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://docs.python.org/3/library/re.html#re.Match.groupdict">Groupdict</a> is one of these features I'd seen before but never realized a use case for it until recently.</p>
+<p>Regex allows defining named capture groups:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(?P&lt;first_name&gt;\w+) (?P&lt;last_name&gt;\w+)"</span><span class="p">,</span> <span class="s2">"Malcolm Reynolds"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s1">'first_name'</span><span class="p">:</span> <span class="s1">'Malcolm'</span><span class="p">,</span> <span class="s1">'last_name'</span><span class="p">:</span> <span class="s1">'Reynolds'</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Use-Case-:-Pandas">Use Case : Pandas<a class="anchor-link" href="#Use-Case-:-Pandas"></a></h2><p>An example nginx entry:</p>
+<p><code>000.00.000.00 - [US] [04/Jan/2021:19:33:35 +0000] "GET /api/count HTTP/1.1" 200 19 "/some/path" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" "000.00.000.00</code></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">entry</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"""000.00.000.00 - [US] [04/Jan/2021:19:33:35 +0000] "GET /api/count HTTP/1.1" 200 19 "/some/path" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" "000.00.000.00"</span>
+<span class="s2">"""</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">entry</span><span class="p">);</span> <span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>000.00.000.00 - [US] [04/Jan/2021:19:33:35 +00...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">nginx_parse</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(?P&lt;realip&gt;[\d.]+)\s-\s\[(?P&lt;country_code&gt;\w+)]\s\[(?P&lt;day&gt;\d+)/(?P&lt;month&gt;[A-z][a-z]+)/(?P&lt;year&gt;\d</span><span class="si">{4}</span><span class="s1">):(?P&lt;time&gt;[\d:]+)\s(?P&lt;tzoffset&gt;\+\d+)]\s"(?P&lt;method&gt;[A-Z]+)\s(?P&lt;path&gt;[/\w\d_]+)\s.+?(?P&lt;status&gt;\d</span><span class="si">{3}</span><span class="s1">)'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Extracting into columns based on group name</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">nginx_parse</span><span class="o">.</span><span class="n">match</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">groupdict</span><span class="p">())</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output" style="margin-left: unset;">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>realip</th>
+<th>country_code</th>
+<th>day</th>
+<th>month</th>
+<th>year</th>
+<th>time</th>
+<th>tzoffset</th>
+<th>method</th>
+<th>path</th>
+<th>status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>000.00.000.00</td>
+<td>US</td>
+<td>04</td>
+<td>Jan</td>
+<td>2021</td>
+<td>19:33:35</td>
+<td>+0000</td>
+<td>GET</td>
+<td>/api/count</td>
+<td>200</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="//estasney.github.io/MyNotes/static/js/jquery-3.4.1.min.js"></script>
+<script src="//estasney.github.io/MyNotes/static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
