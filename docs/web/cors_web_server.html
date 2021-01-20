@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-132355416-7');
+</script>
+<meta charset="UTF-8">
+<title>Simple Web Server with CORS</title>
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.d02916f7a62be5ff25db5538e6b77354.css" type="text/css">
+
+</head>
+<body>
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Simple-Web-Server-with-CORS">Simple Web Server with CORS<a class="anchor-link" href="#Simple-Web-Server-with-CORS"></a></h1><p><em>When your browser refuses to load local files</em></p>
+<p>Sometimes we want our browser to be able to load a local file</p>
+<ol>
+<li>.json</li>
+<li>.js</li>
+<li>... etc</li>
+</ol>
+<p>But the resource is blocked. Running a local web server is a quick workaround.</p>
+<p>Chrome has recently increased its 'nitpickiness' for <keyword>CORS</keyword>. <code>CORSRequestHandler</code> extends <code>SimpleHTTPRequestHandler</code> to make Chrome happy.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">http.server</span> <span class="kn">import</span> <span class="n">SimpleHTTPRequestHandler</span><span class="p">,</span> <span class="n">test</span>
+
+<span class="k">class</span> <span class="nc">CORSRequestHandler</span><span class="p">(</span><span class="n">SimpleHTTPRequestHandler</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">end_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s1">'Access-Control-Allow-Origin'</span><span class="p">,</span> <span class="s1">'*'</span><span class="p">)</span>
+        <span class="n">SimpleHTTPRequestHandler</span><span class="o">.</span><span class="n">end_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--cgi'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Run as CGI Server'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--bind'</span><span class="p">,</span> <span class="s1">'-b'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">'ADDRESS'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Specify alternate bind address '</span>
+                             <span class="s1">'[default: all interfaces]'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'--directory'</span><span class="p">,</span> <span class="s1">'-d'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Specify alternative directory '</span>
+                             <span class="s1">'[default:current directory]'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'port'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'store'</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                        <span class="n">nargs</span><span class="o">=</span><span class="s1">'?'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Specify alternate port [default: 8000]'</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">handler_class</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">CORSRequestHandler</span><span class="p">,</span>
+                            <span class="n">directory</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span>
+
+    <span class="n">test</span><span class="p">(</span><span class="n">HandlerClass</span><span class="o">=</span><span class="n">handler_class</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">bind</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">bind</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I keep a .bat file handy to quickly launch this for specific projects</p>
+<div class="highlight"><pre><span></span><span class="k">CALL</span> C:\path\to_your_venv\activate.bat
+<span class="k">ECHO</span> <span class="s2">"Starting CORS Server"</span>
+<span class="k">cd</span> C:\path\to_module
+python server.py -d <span class="s2">"C:\path\to_server_root\directory"</span>
+<span class="k">PAUSE</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="//estasney.github.io/MyNotes/static/js/jquery-3.4.1.min.js"></script>
+<script src="//estasney.github.io/MyNotes/static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
