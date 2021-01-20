@@ -4,3 +4,4 @@
 **/*.db
 **/venv/
 **/node_modules/
+**/scratch/
