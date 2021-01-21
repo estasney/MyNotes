@@ -19,8 +19,7 @@
 <body>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Filter-by-offset">Filter by offset<a class="anchor-link" href="#Filter-by-offset"></a></h1><p><em>Filter by relative offset</em></p>
 <p>What this means is best demonstrated by an example problem:</p>
@@ -31,7 +30,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -50,7 +48,6 @@
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[1]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <style scoped="">
@@ -102,8 +99,7 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Shift-Operator">Shift Operator<a class="anchor-link" href="#Shift-Operator"></a></h3><p><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.shift.html?highlight=series%20shift#pandas.Series.shift">Shift Docs</a></p>
 <p>We know we can find where a row is active with:</p>
@@ -119,7 +115,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">matched_idx</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">'active'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'inactive'</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
@@ -132,7 +127,6 @@
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[2]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <style scoped="">
@@ -209,8 +203,7 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Shifted-Index">Shifted Index<a class="anchor-link" href="#Shifted-Index"></a></h3><p>While this correctly selects the rows that met our condition we'd also like to see the 'inactive' row as well.</p>
 <p>Here's how</p>
@@ -219,7 +212,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">matched_idx_pairs</span> <span class="o">=</span> <span class="n">matched_idx</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">matched_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -232,7 +224,6 @@
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[3]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <style scoped="">

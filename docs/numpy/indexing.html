@@ -19,15 +19,13 @@
 <body>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Indexing-in-NumPy">Indexing in NumPy<a class="anchor-link" href="#Indexing-in-NumPy"></a></h1><p><em>Some use cases</em></p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Compress-overlapping-indices">Compress overlapping indices<a class="anchor-link" href="#Compress-overlapping-indices"></a></h2><h3 id="Background">Background<a class="anchor-link" href="#Background"></a></h3><p><code>matches</code> below is the (truncated) result of calling <code>spacy.Matcher</code> on a Doc.</p>
 <p>Each tuple corresponds to a single match. So to return the result of the first match we run:</p>
@@ -44,7 +42,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -98,7 +95,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">doc_len</span><span class="p">)</span>
@@ -110,8 +106,7 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What we have now is our <code>z</code> array where values of <code>1</code> indicate that a token was a member of a match.</p>
 <p>Since we expanded the ranges to get to this point, we need to get them back into a <code>(start, stop)</code> format.</p>
@@ -120,7 +115,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">sliding_window</span>
@@ -156,7 +150,6 @@
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[3]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>[(29, 31),
  (32, 33),
@@ -193,8 +186,7 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Speed-Test">Speed Test<a class="anchor-link" href="#Speed-Test"></a></h3>
 </div>
@@ -202,7 +194,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="o">%%time</span>it -r50
@@ -241,7 +232,6 @@
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>119 µs ± 4.42 µs per loop (mean ± std. dev. of 50 runs, 10000 loops each)
 </pre>

@@ -19,15 +19,13 @@
 <body>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Regex-Groups">Regex Groups<a class="anchor-link" href="#Regex-Groups"></a></h1><p><em>And Python's Groupdict</em></p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a href="https://docs.python.org/3/library/re.html#re.Match.groupdict">Groupdict</a> is one of these features I'd seen before but never realized a use case for it until recently.</p>
 <p>Regex allows defining named capture groups:</p>
@@ -37,8 +35,7 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Use-Case-:-Pandas">Use Case : Pandas<a class="anchor-link" href="#Use-Case-:-Pandas"></a></h2><p>An example nginx entry:</p>
 <p><code>000.00.000.00 - [US] [04/Jan/2021:19:33:35 +0000] "GET /api/count HTTP/1.1" 200 19 "/some/path" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" "000.00.000.00</code></p>
@@ -47,7 +44,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">entry</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"""000.00.000.00 - [US] [04/Jan/2021:19:33:35 +0000] "GET /api/count HTTP/1.1" 200 19 "/some/path" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" "000.00.000.00"</span>
@@ -59,7 +55,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -72,7 +67,6 @@
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[7]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <style scoped="">
@@ -110,7 +104,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [11]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">nginx_parse</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(?P&lt;realip&gt;[\d.]+)\s-\s\[(?P&lt;country_code&gt;\w+)]\s\[(?P&lt;day&gt;\d+)/(?P&lt;month&gt;[A-z][a-z]+)/(?P&lt;year&gt;\d</span><span class="si">{4}</span><span class="s1">):(?P&lt;time&gt;[\d:]+)\s(?P&lt;tzoffset&gt;\+\d+)]\s"(?P&lt;method&gt;[A-Z]+)\s(?P&lt;path&gt;[/\w\d_]+)\s.+?(?P&lt;status&gt;\d</span><span class="si">{3}</span><span class="s1">)'</span><span class="p">)</span>
@@ -121,7 +114,6 @@
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [16]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Extracting into columns based on group name</span>
@@ -134,7 +126,6 @@
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[16]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <style scoped="">

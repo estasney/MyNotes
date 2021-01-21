@@ -19,23 +19,20 @@
 <body>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Stacking-RTSP-Streams-with-ffmpeg">Stacking <keyword>RTSP</keyword> Streams with <keyword>ffmpeg</keyword><a class="anchor-link" href="#Stacking-RTSP-Streams-with-ffmpeg"></a></h1><p><em>Because ffmpeg is awesome!</em></p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Background">Background<a class="anchor-link" href="#Background"></a></h3><p>I have 4 RTSP Streams available from my local NVR. I wanted to combine them into a single video.</p>
 <p>Since I'm also using these as part of a CV Project with a <keyword>Jetson Nano</keyword>, I wanted to be able to grab frames every <code>n</code> seconds</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>Recommended Flags as Streams start Synchronously</li>
@@ -64,8 +61,7 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Mosaic-to-Images">Mosaic to Images<a class="anchor-link" href="#Mosaic-to-Images"></a></h3><p>Since we're using a complex filtergraph we can't add <code>-vf fps=x</code> after <code>-map</code></p>
 <p>Make the following modification to the filtergraph:</p>
