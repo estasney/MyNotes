@@ -183,6 +183,8 @@ if __name__ == '__main__':
                            'develop': args.develop
                            })
     env.filters['resolve'] = partial(hashed_filename, url_prefix=deploy_style)
+    env.trim_blocks = True
+    env.lstrip_blocks = True
     custom_config = Config()
     custom_config.TemplateExporter.extra_template_basedirs = [os.path.join(os.path.dirname(__file__), "templates")]
 
@@ -218,6 +220,7 @@ if __name__ == '__main__':
             nb = nbformat.read(abs_path, as_version=V)
             store_notebook(nb=nb, nb_name=nb_output_name, category=category, category_parents=parents, session=session)
 
+            # noinspection PyTypeChecker
             html_exporter = NotesExporter(config=custom_config)
             (body, r) = html_exporter.from_notebook_node(nb)
             html_exporter.body_to_template_base(body, output_path)
