@@ -10,6 +10,8 @@ from functools import partial
 from jinja2 import Environment, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
 from pathlib import PurePath
+
+from nbconvert.preprocessors import Preprocessor
 from traitlets.config import Config
 from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywords
 from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
@@ -122,6 +124,18 @@ def create_index(session: Session):
     with open(fp, "w+", encoding="utf-8") as html_file:
         html_file.write(base_render)
 
+class RemoveExecutionCount(Preprocessor):
+    """Remove Execution Count"""
+
+    def preprocess_cell(self, cell, resources, cell_index):
+        """
+        All the code cells are returned with an empty metadata field.
+        """
+        if cell.cell_type == 'code':
+            # Remove metadata
+            if 'execution_count' in cell:
+                cell.execution_count = None
+        return cell, resources
 
 class NotesExporter(HTMLExporter):
     """
@@ -187,6 +201,11 @@ if __name__ == '__main__':
     env.lstrip_blocks = True
     custom_config = Config()
     custom_config.TemplateExporter.extra_template_basedirs = [os.path.join(os.path.dirname(__file__), "templates")]
+    custom_config.ClearMetadataPreprocessor.enabled = True
+    custom_config.NotesExporter.preprocessors = [RemoveExecutionCount]
+    custom_config.TemplateExporter.exclude_input_prompt = True
+    custom_config.TemplateExporter.exclude_output_prompt = True
+
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
         p = PurePath(dir)
