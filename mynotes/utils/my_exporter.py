@@ -10,7 +10,7 @@ from functools import partial
 from jinja2 import Environment, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
 from pathlib import PurePath
-
+from traitlets.config import Config
 from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywords
 from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
 from mynotes.utils.storage.models.meta import get_session, Session
@@ -54,7 +54,8 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
 
     module_objs = [get_module(m) for m in nb_modules]
     kw_objs = [get_keyword(kw) for kw in nb_keywords]
-    nb_obj = Notebook(name=nb_name, description=nb_description, display_name=nb_name.replace("_", " ").replace(".html", "").title(), title=nb_title)
+    nb_obj = Notebook(name=nb_name, description=nb_description,
+                      display_name=nb_name.replace("_", " ").replace(".html", "").title(), title=nb_title)
     session.add(nb_obj)
     nb_obj.modules = module_objs
     nb_obj.keywords = kw_objs
@@ -132,26 +133,6 @@ class NotesExporter(HTMLExporter):
     # `export_from_notebook` class member
     export_from_notebook = "Notes Format"
 
-    def _file_extension_default(self):
-        """
-        The new file extension is `.test_ext`
-        """
-        return '.html'
-
-    @property
-    def template_path(self):
-        """
-        We want to inherit from HTML template, and have template under
-        `./templates/` so append it to the search path. (see next section)
-        """
-        return super().template_path + [os.path.join(os.path.dirname(__file__), "templates")]
-
-    def _template_file_default(self):
-        """
-        We want to use the new template we ship with our library.
-        """
-        return 'notes'  # full
-
     def body_to_template_base(self, body: str, fp: str):
         """
         We want the rendered body to be included in a MyNotes template.
@@ -197,9 +178,13 @@ if __name__ == '__main__':
         deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
         deploy_style = "{}static/style/dist/".format(deploy_domain)
 
-    env.globals.update({'domain': deploy_domain,
-                        'develop': args.develop})
+    env.globals.update({
+                           'domain':  deploy_domain,
+                           'develop': args.develop
+                           })
     env.filters['resolve'] = partial(hashed_filename, url_prefix=deploy_style)
+    custom_config = Config()
+    custom_config.TemplateExporter.extra_template_basedirs = [os.path.join(os.path.dirname(__file__), "templates")]
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
         p = PurePath(dir)
@@ -233,7 +218,7 @@ if __name__ == '__main__':
             nb = nbformat.read(abs_path, as_version=V)
             store_notebook(nb=nb, nb_name=nb_output_name, category=category, category_parents=parents, session=session)
 
-            html_exporter = NotesExporter()
+            html_exporter = NotesExporter(config=custom_config)
             (body, r) = html_exporter.from_notebook_node(nb)
             html_exporter.body_to_template_base(body, output_path)
 
