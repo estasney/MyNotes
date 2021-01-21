@@ -73,7 +73,7 @@
 </thead>
 <tbody>
 <tr>
-<td>0</td>
+<th>0</th>
 <td>0</td>
 <td>3</td>
 <td>Mr. Owen Harris Braund</td>
@@ -84,7 +84,7 @@
 <td>7.2500</td>
 </tr>
 <tr>
-<td>1</td>
+<th>1</th>
 <td>1</td>
 <td>1</td>
 <td>Mrs. John Bradley (Florence Briggs Thayer) Cum...</td>
@@ -95,7 +95,7 @@
 <td>71.2833</td>
 </tr>
 <tr>
-<td>2</td>
+<th>2</th>
 <td>1</td>
 <td>3</td>
 <td>Miss. Laina Heikkinen</td>
@@ -162,7 +162,7 @@
 </thead>
 <tbody>
 <tr>
-<td>0</td>
+<th>0</th>
 <td>0</td>
 <td>3</td>
 <td>Mr. Owen Harris Braund</td>
@@ -173,7 +173,7 @@
 <td>7.250</td>
 </tr>
 <tr>
-<td>2</td>
+<th>2</th>
 <td>1</td>
 <td>3</td>
 <td>Miss. Laina Heikkinen</td>
@@ -184,7 +184,7 @@
 <td>7.925</td>
 </tr>
 <tr>
-<td>4</td>
+<th>4</th>
 <td>0</td>
 <td>3</td>
 <td>Mr. William Henry Allen</td>
@@ -251,7 +251,7 @@
 </thead>
 <tbody>
 <tr>
-<td>1</td>
+<th>1</th>
 <td>1</td>
 <td>1</td>
 <td>Mrs. John Bradley (Florence Briggs Thayer) Cum...</td>
@@ -262,7 +262,7 @@
 <td>71.2833</td>
 </tr>
 <tr>
-<td>2</td>
+<th>2</th>
 <td>1</td>
 <td>3</td>
 <td>Miss. Laina Heikkinen</td>
@@ -273,7 +273,7 @@
 <td>7.9250</td>
 </tr>
 <tr>
-<td>3</td>
+<th>3</th>
 <td>1</td>
 <td>1</td>
 <td>Mrs. Jacques Heath (Lily May Peel) Futrelle</td>
@@ -345,7 +345,7 @@
 </thead>
 <tbody>
 <tr>
-<td>2</td>
+<th>2</th>
 <td>1</td>
 <td>3</td>
 <td>Miss. Laina Heikkinen</td>
@@ -356,7 +356,7 @@
 <td>7.9250</td>
 </tr>
 <tr>
-<td>14</td>
+<th>14</th>
 <td>0</td>
 <td>3</td>
 <td>Miss. Hulda Amanda Adolfina Vestrom</td>
@@ -367,7 +367,7 @@
 <td>7.8542</td>
 </tr>
 <tr>
-<td>19</td>
+<th>19</th>
 <td>1</td>
 <td>3</td>
 <td>Mrs. Fatima Masselmani</td>
@@ -378,7 +378,7 @@
 <td>7.2250</td>
 </tr>
 <tr>
-<td>22</td>
+<th>22</th>
 <td>1</td>
 <td>3</td>
 <td>Miss. Anna McGowan</td>
@@ -389,7 +389,7 @@
 <td>8.0292</td>
 </tr>
 <tr>
-<td>28</td>
+<th>28</th>
 <td>1</td>
 <td>3</td>
 <td>Miss. Ellen O'Dwyer</td>
@@ -426,10 +426,10 @@
 
 <span class="k">def</span> <span class="nf">make_filter</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span><span class="n">Any</span><span class="p">,</span> <span class="n">op</span><span class="p">:</span> <span class="n">ops</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
     <span class="c1"># This returns a pd.Series of True/False</span>
-    
+
     <span class="k">if</span> <span class="n">op</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">op</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">val</span><span class="p">)</span>
-    
+
     <span class="c1"># Assume we want to use a string method</span>
     <span class="n">str_method</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'f'</span><span class="p">)</span>
     <span class="n">f</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">,</span> <span class="n">str_method</span><span class="p">)</span>
@@ -443,20 +443,18 @@
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Example contrivted problem where we want to find passengers that survived that have a name ending in a vowel</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Example contrived problem where we want to find passengers that survived that have a name ending in a vowel</span>
 <span class="c1"># Only use the helper function where it makes sense</span>
 
 <span class="n">vowels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">'aeiouAEIOU'</span><span class="p">)</span>
 <span class="n">vowel_filter</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_filter</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s1">'Name'</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="s1">'endswith'</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vowels</span><span class="p">]</span>
 <span class="n">survived</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Survived'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
 
-
 <span class="c1"># We want to join the vowel filters with an OR condition</span>
 <span class="n">vowel_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">vowel_filter</span><span class="p">)</span>
 
-
-<span class="c1"># AND survived </span>
-<span class="n">df_filters</span> <span class="o">=</span> <span class="p">[</span><span class="n">vowel_filter</span><span class="p">,</span> <span class="n">survived</span><span class="p">]</span> 
+<span class="c1"># AND survived</span>
+<span class="n">df_filters</span> <span class="o">=</span> <span class="p">[</span><span class="n">vowel_filter</span><span class="p">,</span> <span class="n">survived</span><span class="p">]</span>
 
 <span class="n">df_filters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">df_filters</span><span class="p">)</span>
 </pre></div>
@@ -507,7 +505,7 @@
 </thead>
 <tbody>
 <tr>
-<td>3</td>
+<th>3</th>
 <td>1</td>
 <td>1</td>
 <td>Mrs. Jacques Heath (Lily May Peel) Futrelle</td>
@@ -518,7 +516,7 @@
 <td>53.1000</td>
 </tr>
 <tr>
-<td>19</td>
+<th>19</th>
 <td>1</td>
 <td>3</td>
 <td>Mrs. Fatima Masselmani</td>
@@ -529,7 +527,7 @@
 <td>7.2250</td>
 </tr>
 <tr>
-<td>36</td>
+<th>36</th>
 <td>1</td>
 <td>3</td>
 <td>Mr. Hanna Mamee</td>
@@ -540,7 +538,7 @@
 <td>7.2292</td>
 </tr>
 <tr>
-<td>42</td>
+<th>42</th>
 <td>1</td>
 <td>2</td>
 <td>Miss. Simonne Marie Anne Andree Laroche</td>
@@ -551,7 +549,114 @@
 <td>41.5792</td>
 </tr>
 <tr>
-<td>52</td>
+<th>52</th>
+<td>1</td>
+<td>2</td>
+<td>Mrs. Lizzie (Elizabeth Anne Wilkinson) Faunthorpe</td>
+<td>female</td>
+<td>29.0</td>
+<td>1</td>
+<td>0</td>
+<td>26.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># We can also do this with a shorthand method</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">vowel_filter</span> <span class="o">&amp;</span> <span class="n">survived</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Survived</th>
+<th>Pclass</th>
+<th>Name</th>
+<th>Sex</th>
+<th>Age</th>
+<th>Siblings/Spouses Aboard</th>
+<th>Parents/Children Aboard</th>
+<th>Fare</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>3</th>
+<td>1</td>
+<td>1</td>
+<td>Mrs. Jacques Heath (Lily May Peel) Futrelle</td>
+<td>female</td>
+<td>35.0</td>
+<td>1</td>
+<td>0</td>
+<td>53.1000</td>
+</tr>
+<tr>
+<th>19</th>
+<td>1</td>
+<td>3</td>
+<td>Mrs. Fatima Masselmani</td>
+<td>female</td>
+<td>22.0</td>
+<td>0</td>
+<td>0</td>
+<td>7.2250</td>
+</tr>
+<tr>
+<th>36</th>
+<td>1</td>
+<td>3</td>
+<td>Mr. Hanna Mamee</td>
+<td>male</td>
+<td>18.0</td>
+<td>0</td>
+<td>0</td>
+<td>7.2292</td>
+</tr>
+<tr>
+<th>42</th>
+<td>1</td>
+<td>2</td>
+<td>Miss. Simonne Marie Anne Andree Laroche</td>
+<td>female</td>
+<td>3.0</td>
+<td>1</td>
+<td>2</td>
+<td>41.5792</td>
+</tr>
+<tr>
+<th>52</th>
 <td>1</td>
 <td>2</td>
 <td>Mrs. Lizzie (Elizabeth Anne Wilkinson) Faunthorpe</td>
