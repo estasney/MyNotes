@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -12,22 +12,18 @@
 </script>
 <meta charset="UTF-8">
 <title>Exploring Unicode</title>
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.d02916f7a62be5ff25db5538e6b77354.css" type="text/css">
-
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.7312e7e23dcd3873134fbed17c3917e8.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.c98a94763acb9b2fea1038c0dd740de2.css" type="text/css">
 </head>
 <body>
-<body>
-<div class="border-box-sizing" id="notebook" tabindex="-1">
-<div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Exploring-Unicode">Exploring Unicode<a class="anchor-link" href="#Exploring-Unicode"></a></h1><p><em>Possibly pointless</em></p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Occasionally, I find myself googling something like:</p>
 <blockquote><p>unicode arrow symbol</p>
 </blockquote>
@@ -39,9 +35,8 @@
 <p>Python includes a database of Unicode symbols so why Google it?</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Unicodedata">Unicodedata<a class="anchor-link" href="#Unicodedata"></a></h2><p>If you're lucky enough to know the <em>exact</em> name of your desired symbol, getting the character is straight forward.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
 
@@ -51,9 +46,8 @@
 <p>How can we find characters with 'ARROW' in their name?</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Building-a-Mapping">Building a Mapping<a class="anchor-link" href="#Building-a-Mapping"></a></h2><p>What we'd like to do is build a mapping of:</p>
 <p><code>CHARACTER NAME: CHARACTER</code></p>
 <p>So we can run a query along the lines of:</p>
@@ -79,17 +73,16 @@
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Building">Building<a class="anchor-link" href="#Building"></a></h3>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
 
 <span class="n">char_mapping</span> <span class="o">=</span> <span class="p">{}</span>
@@ -107,16 +100,17 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Querying">Querying<a class="anchor-link" href="#Querying"></a></h3>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">having_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ARROW"</span><span class="p">,</span> <span class="s2">"RIGHT"</span><span class="p">]</span>
 <span class="n">not_having_token</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"LEFT"</span><span class="p">]</span>
 
@@ -135,10 +129,12 @@
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output" style="margin-left: unset;">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>MODIFIER LETTER RIGHT ARROWHEAD : ˃
 MODIFIER LETTER LOW RIGHT ARROWHEAD : ˲
 COMBINING RIGHT ARROWHEAD ABOVE : ͐
@@ -328,11 +324,8 @@ RIGHTWARDS FRONT-TILTED SHADOWED WHITE ARROW : 🢫
 </div>
 </div>
 </div>
-</div>
-</div>
 </body>
 <script src="//estasney.github.io/MyNotes/static/js/jquery-3.4.1.min.js"></script>
 <script src="//estasney.github.io/MyNotes/static/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

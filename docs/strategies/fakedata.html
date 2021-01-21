@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -12,16 +12,13 @@
 </script>
 <meta charset="UTF-8">
 <title>Synthesizing Realistic Data</title>
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.d02916f7a62be5ff25db5538e6b77354.css" type="text/css">
-
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.7312e7e23dcd3873134fbed17c3917e8.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.c98a94763acb9b2fea1038c0dd740de2.css" type="text/css">
 </head>
 <body>
-<body>
-<div class="border-box-sizing" id="notebook" tabindex="-1">
-<div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Synthesizing-Realistic-Data">Synthesizing Realistic Data<a class="anchor-link" href="#Synthesizing-Realistic-Data"></a></h1><p><em>Useful for testing</em></p>
 <p>In the process of writing about a pandas function, I realized I needed a realistic dataset to effectively demonstrate its use.</p>
 <p>Here's how you can use <a href="https://faker.readthedocs.io/en/master/index.html">Faker</a> to do this</p>
@@ -30,17 +27,16 @@
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Using-Faker">Using Faker<a class="anchor-link" href="#Using-Faker"></a></h3>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
 <span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
 
@@ -50,10 +46,12 @@
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output" style="margin-left: unset;">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Hello, my name is Darlene Parker.
 I'm a Phytotherapist at Martin-Austin.
 </pre>
@@ -62,17 +60,17 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Extending-Faker">Extending Faker<a class="anchor-link" href="#Extending-Faker"></a></h3><p>The full list of "providers" is available in the <a href="https://faker.readthedocs.io/en/master/providers.html">docs</a>.</p>
 <p>I've found that wrapping including Faker in a class to mimic a particular data model efficient and easy to implement</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">class</span> <span class="nc">FakeShopper</span><span class="p">:</span>
 
     <span class="sd">"""</span>
@@ -145,16 +143,17 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Making-a-dataset">Making a dataset<a class="anchor-link" href="#Making-a-dataset"></a></h3><p>Now we can create data!</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Create 100 unique shoppers</span>
 
 <span class="n">shoppers</span> <span class="o">=</span> <span class="p">[</span><span class="n">FakeShopper</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
@@ -163,10 +162,12 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># We'd like some variation in the level of activity generated by each shopper.</span>
 <span class="c1"># We will use an exponential distribution to simulate the number of interactions</span>
 
@@ -178,10 +179,12 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">shoppers</span><span class="p">,</span> <span class="n">acivities</span><span class="p">):</span>
@@ -199,10 +202,12 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output" style="margin-left: unset;">
-<div class="output_area">
-<div class="output_html rendered_html output_subarea output_execute_result">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -397,15 +402,14 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Finally">Finally<a class="anchor-link" href="#Finally"></a></h3><p>We've seen how we can synthesize datasets and embed them in a pandas DataFrame.</p>
 <p>This idea can also be extended to <keyword>SQLAlchemy</keyword> Models using introspection</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FakeModel</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Base Class for Generating Fake Data from a Flask-SQLAlchemy Model.</span>
@@ -464,12 +468,8 @@ I'm a Phytotherapist at Martin-Austin.
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-</div>
 </body>
 <script src="//estasney.github.io/MyNotes/static/js/jquery-3.4.1.min.js"></script>
 <script src="//estasney.github.io/MyNotes/static/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
