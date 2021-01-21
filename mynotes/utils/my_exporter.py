@@ -149,7 +149,7 @@ class NotesExporter(HTMLExporter):
             title = ""
         base = env.get_template("note_base.html")
         # //span[@class='nn'][not(preceding-sibling::span[contains(text(), 'as')])]
-        base_str = base.render(title=title, content=str(body).replace("¶", ""))
+        base_str = base.render(title=title, content=str(body).replace("¶", "").replace("\r", ""))
         with open(fp, "w+", encoding="utf-8") as html_file:
             html_file.write(base_str)
 
