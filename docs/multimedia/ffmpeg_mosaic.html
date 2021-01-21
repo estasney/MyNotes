@@ -12,24 +12,31 @@
 </script>
 <meta charset="UTF-8">
 <title>Stacking RTSP Streams with ffmpeg</title>
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.7312e7e23dcd3873134fbed17c3917e8.css" type="text/css">
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.c98a94763acb9b2fea1038c0dd740de2.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.d02916f7a62be5ff25db5538e6b77354.css" type="text/css">
 </head>
 <body>
-<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Stacking-RTSP-Streams-with-ffmpeg">Stacking <keyword>RTSP</keyword> Streams with <keyword>ffmpeg</keyword><a class="anchor-link" href="#Stacking-RTSP-Streams-with-ffmpeg"></a></h1><p><em>Because ffmpeg is awesome!</em></p>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Background">Background<a class="anchor-link" href="#Background"></a></h3><p>I have 4 RTSP Streams available from my local NVR. I wanted to combine them into a single video.</p>
 <p>Since I'm also using these as part of a CV Project with a <keyword>Jetson Nano</keyword>, I wanted to be able to grab frames every <code>n</code> seconds</p>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>Recommended Flags as Streams start Synchronously</li>
 </ul>
@@ -56,8 +63,10 @@
 </pre></div>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Mosaic-to-Images">Mosaic to Images<a class="anchor-link" href="#Mosaic-to-Images"></a></h3><p>Since we're using a complex filtergraph we can't add <code>-vf fps=x</code> after <code>-map</code></p>
 <p>Make the following modification to the filtergraph:</p>
 <p><code>"[0:v][1:v][2:v][3:v]xstack=inputs=4:layout=0_0|w0_0|0_h0|w0_h0[v];[v]fps=1[img]"</code></p>
@@ -81,6 +90,9 @@
   <span class="s2">"[0:v][1:v][2:v][3:v]xstack=inputs=4:layout=0_0|w0_0|0_h0|w0_h0[v];[v]fps=1[img]"</span> -map <span class="s2">"[img]"</span> <span class="se">\</span>
   /somepath/Image_%08d.jpg
 </pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </body>
