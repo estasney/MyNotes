@@ -1,8 +1,8 @@
-div.container {
+body.jp-Notebook {
     background-color: #f6f6f6;
 }
 
-.rendered_html .highlight {
+.jp-RenderedHTMLCommon .highlight {
     border:1px solid #cfcfcf;
     border-radius: 2px;
     background-color: #f7f7f7;
@@ -11,12 +11,12 @@ div.container {
     margin-top: 0.25em;
 }
 
-.rendered_html code {
+.jp-RenderedHTMLCommon code {
     color: #aa0f5a;
     background-color: #ebeaea;
 }
 
-.rendered_html blockquote {
+.jp-RenderedHTMLCommon blockquote {
     padding: 0 1em;
     color: #6a737d;
     border-left: .25em solid #dfe2ed;
@@ -26,9 +26,9 @@ div.container {
     padding: 0 1em 0 1em;
 }
 
-.highlight .hll {
-    background-color: #ffffcc
-}
+/*.highlight .hll {*/
+/*    background-color: #ffffcc*/
+/*}*/
 
 .highlight {
     background: #f8f8f8;
