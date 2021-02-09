@@ -11,7 +11,7 @@
   gtag('config', 'UA-132355416-7');
 </script>
 <meta charset="UTF-8">
-<title>Regex Groups</title>
+<title>Regex Named Capture Groups</title>
 <link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.7312e7e23dcd3873134fbed17c3917e8.css" type="text/css">
 <link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7d1cf26c401e996b9a69948ea0b6cefb.css" type="text/css">
 </head>
@@ -21,7 +21,7 @@
 <div class="container" id="notebook-container">
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Regex-Groups">Regex Groups<a class="anchor-link" href="#Regex-Groups"></a></h1><p><em>And Python's Groupdict</em></p>
+<h1 id="Regex-Named-Capture-Groups">Regex Named Capture Groups<a class="anchor-link" href="#Regex-Named-Capture-Groups"></a></h1><p><em>And Using with Pandas</em></p>
 </div>
 </div>
 </div>
@@ -118,7 +118,7 @@
 <div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Extracting into columns based on group name</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">nginx_parse</span><span class="o">.</span><span class="n">match</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">groupdict</span><span class="p">())</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">nginx_parse</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
