@@ -12,17 +12,14 @@
 </script>
 <meta charset="UTF-8">
 <title>Masking Input on Windows</title>
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7fe666a0e8f1af926f45ed57dad3feed.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.8ab8cb3d650fb102503335726d12b223.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7d1cf26c401e996b9a69948ea0b6cefb.css" type="text/css">
 </head>
 <body>
-<body>
-<div class="border-box-sizing" id="notebook" tabindex="-1">
-<div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Masking-Input-on-Windows">Masking Input on Windows<a class="anchor-link" href="#Masking-Input-on-Windows"></a></h1><p><em>Masking password input with feedback</em></p>
-<p>If an application asks a user for sensitive information from the command line, ideally one should be able do this:</p>
+<p>If an application asks a user for sensitive information from the command line, ideally one should be able to do this:</p>
 <div class="highlight"><pre><span></span><span class="n">username</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Username"</span><span class="p">)</span>
 <span class="n">password</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Password"</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># error</span>
 </pre></div>
@@ -33,12 +30,11 @@
 </pre></div>
 <p>While this effectively hides the password, I prefer to give feedback on how many characters have been entered (indicated with '*')</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">msvcrt</span>
 
 <span class="k">def</span> <span class="nf">win_getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">'Password: '</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">"*"</span><span class="p">):</span>
@@ -68,7 +64,6 @@
     <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pw</span>
 </pre></div>
-</div>
 </div>
 </div>
 </div>

@@ -12,29 +12,24 @@
 </script>
 <meta charset="UTF-8">
 <title>Functional Programming</title>
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7fe666a0e8f1af926f45ed57dad3feed.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.8ab8cb3d650fb102503335726d12b223.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7d1cf26c401e996b9a69948ea0b6cefb.css" type="text/css">
 </head>
 <body>
-<body>
-<div class="border-box-sizing" id="notebook" tabindex="-1">
-<div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Functional-Programming">Functional Programming<a class="anchor-link" href="#Functional-Programming"></a></h1><p><em>With toolz</em></p>
 <p>I'm assuming you are well aware of the builtin <code>functools</code> module. You may have come across <a href="https://github.com/pytoolz/toolz">toolz</a>.</p>
 <p>Until recently, I used it almost exclusively for <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.dicttoolz.get_in">get-in</a>
 and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.groupby">groupby</a></p>
-<p>I really rediscovered it for functional programming. Here's some examples of how it can be useful.</p>
+<p>I really rediscovered it for functional programming. Here are some examples of how it can be useful.</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Toolz">Toolz<a class="anchor-link" href="#Toolz"></a></h2><h3 id="Installation">Installation<a class="anchor-link" href="#Installation"></a></h3><div class="highlight"><pre><span></span>pip install toolz
 </pre></div>
 <p>There is also <code>cytoolz</code> which is an optimized version of <code>toolz</code>. It's basically a drop-in replacement, except Pycharm seems to have trouble with the typing.</p>
-<h3 id="Data-Pipeline">Data Pipeline<a class="anchor-link" href="#Data-Pipeline"></a></h3><p>For this example, I'll use the task of extracting data from HTML, a.k.a <keyword>Web Scraping</keyword></p>
+<h3 id="Data-Pipeline">Data Pipeline<a class="anchor-link" href="#Data-Pipeline"></a></h3><p>For this example, I'll use the task of extracting data from HTML, a.k.a. <keyword>Web Scraping</keyword></p>
 <p>I'm using <a href="https://scrapethissite.com/pages/simple/">Scrape This Site</a> as an example</p>
 <p>As you can see, we have 250 countries that we'd like to extract. If we think about our general steps it should look something like:</p>
 <ul>
@@ -60,12 +55,11 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 </ul>
 <p>These are simple operations - selecting or getting. Here's how we could define them with <code>toolz</code> and <code>BeautifulSoup</code></p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">curry</span><span class="p">,</span> <span class="n">excepts</span><span class="p">,</span> <span class="n">compose_left</span>
 
 
@@ -108,17 +102,16 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>I find this very easy to read. We keep our functions short and it's just a matter of defining steps.</p>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>I find this very easy to read. We keep our functions short, and it's just a matter of defining steps.</p>
 <p>So how do we handle exceptions? What if an element does not exist?</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Apply excepts where ever it makes sense.</span>
 
 <span class="nd">@curry</span>
@@ -135,7 +128,6 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 <span class="n">get_country_area</span> <span class="o">=</span> <span class="n">in_case</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span>
                            <span class="n">compose_left</span><span class="p">(</span><span class="n">get_country_info</span><span class="p">,</span> <span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"span.country-area"</span><span class="p">),</span> <span class="n">get_text</span><span class="p">,</span> <span class="n">to_float</span><span class="p">))</span>
 </pre></div>
-</div>
 </div>
 </div>
 </div>

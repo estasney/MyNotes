@@ -12,24 +12,21 @@
 </script>
 <meta charset="UTF-8">
 <title>Bit Fields</title>
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.358b008c3f4bb3cf61fcf1f2f08af6ac.css" type="text/css">
-<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7fe666a0e8f1af926f45ed57dad3feed.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/bootstrap.8ab8cb3d650fb102503335726d12b223.css" type="text/css">
+<link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7d1cf26c401e996b9a69948ea0b6cefb.css" type="text/css">
 </head>
 <body>
-<body>
-<div class="border-box-sizing" id="notebook" tabindex="-1">
-<div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Bit-Fields">Bit Fields<a class="anchor-link" href="#Bit-Fields"></a></h1><p><em>ELI5 and Why They're Useful</em></p>
-<p>After several years of programming in Python, I'd occassionally come across code like this snippet for Arduino:</p>
+<p>After several years of programming in Python, I'd occasionally come across code like this snippet for Arduino:</p>
 <div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">DATA_WIDTH</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="n">bitVal</span> <span class="o">=</span> <span class="n">digitalRead</span><span class="p">(</span><span class="n">dataPin</span><span class="p">);</span>
 
         <span class="cm">/* Set the corresponding bit in bytesVal.</span>
 <span class="cm">        */</span>
-        <span class="n">bytesVal</span> <span class="o">|=</span> <span class="p">(</span><span class="n">bitVal</span> <span class="o">&lt;&lt;</span> <span class="p">((</span><span class="n">DATA_WIDTH</span><span class="mi">-1</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">));</span>
+        <span class="n">bytesVal</span> <span class="o">|=</span> <span class="p">(</span><span class="n">bitVal</span> <span class="o">&lt;&lt;</span> <span class="p">((</span><span class="n">DATA_WIDTH</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">));</span>
 
         <span class="cm">/* Pulse the Clock (rising edge shifts the next bit).</span>
 <span class="cm">        */</span>
@@ -38,20 +35,18 @@
         <span class="n">digitalWrite</span><span class="p">(</span><span class="n">clockPin</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
     <span class="p">}</span>
 </pre></div>
-<p>I knew this was <em>bit-shfting</em> but didn't grasp the how or why. I recently came across some OpenCV code that deals with managing window flags - and it finally clicked.</p>
+<p>I knew this was <em>bit-shifting</em> but didn't grasp the "how" or "why". I recently came across some OpenCV code that deals with managing window flags - and it finally clicked.</p>
 <p>Bit Fields are powerful structures for managing several inputs that can interact!</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="'Bit'-of-Structure-First">'Bit' of Structure First<a class="anchor-link" href="#'Bit'-of-Structure-First"></a></h2><p>We're working in binary - so a bit can be 1 or it can be 0. Think of these as:</p>
 <ul>
 <li>1 = True</li>
 <li>0 = False</li>
 </ul>
 <p>Where it gets interesting is when we want to encode several True/False statements in one structure. For instance, the input from a keyboard.</p>
-<p>Frequently, your computer is receiving multiple, simulatenous keystrokes (Shift, Alt, Space)</p>
+<p>Frequently, your computer is receiving multiple, simultaneous keystrokes (Shift, Alt, Space)</p>
 <p>I used to deal with situations like these with control flow that looked like:</p>
 <div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">'a'</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
     <span class="n">output</span> <span class="o">=</span> <span class="s1">'a'</span>
@@ -77,12 +72,11 @@
 </ul>
 <p>Which would look like</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Movement'</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">])</span>
@@ -93,10 +87,11 @@
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_html rendered_html output_subarea output_execute_result">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -332,11 +327,11 @@
 </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Note that Movement_0 is redundant. If Movement_1 - Movement_4 are all 0, then we aren't moving</span>
 <span class="k">def</span> <span class="nf">rename_movement</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Move"</span><span class="p">):</span>
@@ -350,10 +345,11 @@
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_html rendered_html output_subarea output_execute_result">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -569,8 +565,7 @@
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Way-of-the-Bitshifter">Way of the Bitshifter<a class="anchor-link" href="#Way-of-the-Bitshifter"></a></h2><p><code>{'A': 1, 'B': 1, 'Left': 0, 'Right': 0, 'Up': 0, 'Down': 0}</code> is easier to read</p>
 <p>We could also represent this as tuple:
 <code>(1, 1, 0, 0, 0, 0)</code></p>
@@ -579,12 +574,11 @@
 <p>Where <code>0b</code> is the binary prefix in Python.</p>
 <p>So the input is ... <code>48</code> ??</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Yes, as a base 10 integer</span>
 <span class="c1"># We can make an integer from binary by specifying base = 2. I.e. 2 possible values</span>
 <span class="nb">int</span><span class="p">(</span><span class="s1">'0b110000'</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -592,28 +586,27 @@
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_text output_subarea output_execute_result">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
 <pre>48</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>We can also lookup an individual field</p>
 <p>A B Left Right Up Down</p>
 <p>1 1  0     0   0   0</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">check_field</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">position</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">!=</span> <span class="mi">0</span>
 
@@ -627,10 +620,11 @@
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>A Pressed: True
 B Pressed: True
 Left Pressed: False
@@ -642,11 +636,11 @@ Down Pressed: False
 </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">check_bit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">button</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">button</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
 
@@ -669,10 +663,11 @@ Down Pressed: False
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>A Pressed: True
 B Pressed: True
 Left Pressed: False
@@ -684,11 +679,11 @@ Down Pressed: False
 </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Was there any input?</span>
 
 <span class="n">key_state</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c1"># Nothing Pressed</span>
@@ -700,21 +695,22 @@ Down Pressed: False
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Key Pressed!
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">key_state</span> <span class="o">=</span> <span class="mi">48</span>  <span class="c1"># From above</span>
 <span class="c1"># '0b110000'</span>
 
@@ -735,10 +731,11 @@ Down Pressed: False
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>A Released: False
 B Released: True
 Left Released: False
@@ -746,8 +743,6 @@ Right Released: False
 Up Released: False
 Down Released: False
 </pre>
-</div>
-</div>
 </div>
 </div>
 </div>
