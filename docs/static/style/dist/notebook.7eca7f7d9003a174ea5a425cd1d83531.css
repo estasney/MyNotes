@@ -519,6 +519,10 @@ table.dataframe {
     background: rgba(66, 165, 245, 0.2);
 }
 
+.text_cell_render.rendered_html a {
+    text-decoration: underline;
+}
+
 @media print {
     div.cell {
         display: block;
