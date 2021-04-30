@@ -14,16 +14,20 @@ from pathlib import PurePath
 from nbconvert.preprocessors import Preprocessor
 from traitlets.config import Config
 from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywords
+from mynotes.utils.preprocess import nb_display_name, category_name
 from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
 from mynotes.utils.storage.models.meta import get_session, Session
 from config import Config as MyNotesConfig
 from mynotes.utils.hasher import hash_folder, hashed_filename
+from toolz import curry, compose_left
 
 env = Environment(
         loader=PackageLoader('mynotes', 'templates'),
         autoescape=select_autoescape(['html']),
         extensions=['jinja2.ext.debug']
         )
+
+
 
 
 logger = logging.getLogger('mynotes')
@@ -57,7 +61,7 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
     module_objs = [get_module(m) for m in nb_modules]
     kw_objs = [get_keyword(kw) for kw in nb_keywords]
     nb_obj = Notebook(name=nb_name, description=nb_description,
-                      display_name=nb_name.replace("_", " ").replace(".html", "").title(), title=nb_title)
+                      display_name=nb_display_name(nb_name), title=nb_title)
     session.add(nb_obj)
     nb_obj.modules = module_objs
     nb_obj.keywords = kw_objs
@@ -91,7 +95,7 @@ def store_categories(session: Session):
     def get_category(f):
         c = session.query(Category).filter(Category.name == f).first()
         if not c:
-            c = Category(name=f, display_name=f.replace("_", " ").title())
+            c = Category(name=f, display_name=category_name(f))
             session.add(c)
         return c
 
@@ -107,7 +111,7 @@ def store_categories(session: Session):
         if parent_name:
             parent_obj = session.query(Category).filter(Category.name == parent_name).first()
             if not parent_obj:
-                parent_obj = Category(name=parent_name, display_name=parent_name.replace("_", " ").title())
+                parent_obj = Category(name=parent_name, display_name=category_name(parent_name))
                 session.add(parent_obj)
             parent_obj.children_categories = category_objs
         session.commit()
