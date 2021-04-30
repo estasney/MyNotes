@@ -16,12 +16,17 @@
 <link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7d1cf26c401e996b9a69948ea0b6cefb.css" type="text/css">
 </head>
 <body>
-<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Regex-Cheatsheet">Regex Cheatsheet<a class="anchor-link" href="#Regex-Cheatsheet"></a></h1><p><em>Quick Reference</em></p>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Anchors">Anchors<a class="anchor-link" href="#Anchors"></a></h2><table>
 <thead><tr>
 <th>Anchors</th>
@@ -57,7 +62,9 @@
 </table>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Groups">Groups<a class="anchor-link" href="#Groups"></a></h2><p><em>Note: Ellipsis (...) is for visualization purposes</em></p>
 <table>
 <thead><tr>
@@ -101,7 +108,9 @@
 </table>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Character-Classes">Character Classes<a class="anchor-link" href="#Character-Classes"></a></h2><table>
 <thead><tr>
 <th>Class</th>
@@ -153,7 +162,9 @@
 </table>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Import-regex-as-re">Import regex as re<a class="anchor-link" href="#Import-regex-as-re"></a></h3><p><a href="https://pypi.org/project/regex/">regex</a> is a 3rd party library that provides more advanced functionality.
 It's mostly a drop-in replacement, so it's common to see</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
@@ -161,11 +172,12 @@ It's mostly a drop-in replacement, so it's common to see</p>
 <p>Using <a href="https://pypi.org/project/regex/">regex</a> we can take advantage of <a href="https://en.wikipedia.org/wiki/Unicode_character_property#General_Category">Unicode Categories</a>,
 and <a href="https://www.regular-expressions.info/unicode.html#bodytext:~:text=The%20Unicode%20standard%20divides%20the%20Unicode,future%20expansion%20of%20the%20Unicode%20standard.">Unicode Blocks</a></p>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
 
 
@@ -179,13 +191,14 @@ and <a href="https://www.regular-expressions.info/unicode.html#bodytext:~:text=T
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
 <pre>[' ', '(', '0', '8', '@', 'H', 'P', 'X', '`', 'h', 'p', 'x']
 </pre>
+</div>
+</div>
 </div>
 </div>
 </div>

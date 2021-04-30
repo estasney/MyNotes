@@ -16,12 +16,17 @@
 <link rel="stylesheet" href="//estasney.github.io/MyNotes/static/style/dist/notebook.7d1cf26c401e996b9a69948ea0b6cefb.css" type="text/css">
 </head>
 <body>
-<body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<body>
+<div class="border-box-sizing" id="notebook" tabindex="-1">
+<div class="container" id="notebook-container">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Building-Parameters-Programmatically">Building Parameters Programmatically<a class="anchor-link" href="#Building-Parameters-Programmatically"></a></h1><p><em>With Arrays</em></p>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Some programs, like ffmpeg, can take <em>a lot</em> of command line parameters.</p>
 <p>I had written a <keyword>bash</keyword> <a href="https://estasney.github.io/MyNotes/multimedia/ffmpeg_mosaic.html">script</a> that I wanted to be able to call with different parameters.</p>
 <p>As I found out, when we use a variable in bash like this:</p>
@@ -34,7 +39,9 @@
 </pre></div>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Thanks to this <a href="https://unix.stackexchange.com/a/152554/390145">post</a> for explaining to use arrays.</p>
 <p>So to get the correct behavior</p>
 <div class="highlight"><pre><span></span><span class="nv">PARAMS</span><span class="o">=(</span>-qscale:v<span class="o">)</span>
@@ -52,6 +59,9 @@
 <div class="highlight"><pre><span></span><span class="n">PARAMS</span><span class="o">=</span><span class="p">[</span><span class="s1">'-qscale:v'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'-f'</span><span class="p">,</span> <span class="s1">'rtsp'</span><span class="p">]</span>
 <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="o">*</span><span class="n">PARAMS</span><span class="p">])</span>
 </pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </body>
