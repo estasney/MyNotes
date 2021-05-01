@@ -1,5 +1,5 @@
-body.jp-Notebook {
-    background-color: #f6f6f6;
+#notebook-container {
+    background: #f0f0f0;
 }
 
 .jp-RenderedHTMLCommon .highlight {
