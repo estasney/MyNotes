@@ -25,7 +25,7 @@
 <p>I'm assuming you are well aware of the builtin <code>functools</code> module. You may have come across <a href="https://github.com/pytoolz/toolz">toolz</a>.</p>
 <p>Until recently, I used it almost exclusively for <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.dicttoolz.get_in">get-in</a>
 and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.groupby">groupby</a></p>
-<p>I really rediscovered it for functional programming. Here are some examples of how it can be useful.</p>
+<p>I recently rediscovered it for functional programming. Here are some examples of how it can be useful.</p>
 </div>
 </div>
 </div>
@@ -33,7 +33,7 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Toolz">Toolz<a class="anchor-link" href="#Toolz"></a></h2><h3 id="Installation">Installation<a class="anchor-link" href="#Installation"></a></h3><div class="highlight"><pre><span></span>pip install toolz
 </pre></div>
-<p>There is also <code>cytoolz</code> which is an optimized version of <code>toolz</code>. It's basically a drop-in replacement, except Pycharm seems to have trouble with the typing.</p>
+<p>There is also <code>cytoolz</code> which is <code>toolz</code> written in Cython. When I first picked up <code>toolz</code> around Python 3.4 it provided significant performance improvements. Recently (Python 3.8) I've gotten nearly even performance.</p>
 <h3 id="Data-Pipeline">Data Pipeline<a class="anchor-link" href="#Data-Pipeline"></a></h3><p>For this example, I'll use the task of extracting data from HTML, a.k.a. <keyword>Web Scraping</keyword></p>
 <p>I'm using <a href="https://scrapethissite.com/pages/simple/">Scrape This Site</a> as an example</p>
 <p>As you can see, we have 250 countries that we'd like to extract. If we think about our general steps it should look something like:</p>
@@ -85,11 +85,6 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 <span class="k">def</span> <span class="nf">cast_to</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">to_type</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">to_type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-
-<span class="n">to_int</span> <span class="o">=</span> <span class="n">cast_to</span><span class="p">(</span><span class="n">to_type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">to_float</span> <span class="o">=</span> <span class="n">cast_to</span><span class="p">(</span><span class="n">to_type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-
-
 <span class="nd">@curry</span>
 <span class="k">def</span> <span class="nf">for_each</span><span class="p">(</span><span class="n">coll</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coll</span><span class="p">]</span>
@@ -98,6 +93,10 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 <span class="n">select_all</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'all'</span><span class="p">)</span>
 <span class="n">select_one</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'one'</span><span class="p">)</span>
 <span class="n">select_countries</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"div.country"</span><span class="p">)</span>
+<span class="n">to_int</span> <span class="o">=</span> <span class="n">cast_to</span><span class="p">(</span><span class="n">to_type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">to_float</span> <span class="o">=</span> <span class="n">cast_to</span><span class="p">(</span><span class="n">to_type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+
 <span class="n">get_country_name</span> <span class="o">=</span> <span class="n">compose_left</span><span class="p">(</span><span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"h3.country-name"</span><span class="p">),</span> <span class="n">get_text</span><span class="p">)</span>
 <span class="n">get_country_info</span> <span class="o">=</span> <span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"div.country-info"</span><span class="p">)</span>
 <span class="n">get_country_capital</span> <span class="o">=</span> <span class="n">compose_left</span><span class="p">(</span><span class="n">get_country_info</span><span class="p">,</span> <span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"span.country-capital"</span><span class="p">),</span> <span class="n">get_text</span><span class="p">)</span>
@@ -110,7 +109,7 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>I find this very easy to read. We keep our functions short, and it's just a matter of defining steps.</p>
+<p>I love how succinct it is. We can pipe an input through several functions in 1-2 lines.</p>
 <p>So how do we handle exceptions? What if an element does not exist?</p>
 </div>
 </div>
@@ -130,170 +129,11 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 <span class="n">get_country_info</span> <span class="o">=</span> <span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"div.country-info"</span><span class="p">)</span>
 <span class="n">get_country_capital</span> <span class="o">=</span> <span class="n">in_case</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span>
                               <span class="n">compose_left</span><span class="p">(</span><span class="n">get_country_info</span><span class="p">,</span> <span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"span.country-capital"</span><span class="p">),</span> <span class="n">get_text</span><span class="p">))</span>
-<span class="n">get_country_pop</span> <span class="o">=</span> <span class="n">in_case</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span>
+<span class="n">get_country_pop</span> <span class="o">=</span> <span class="n">in_case</span><span class="p">((</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">),</span>
                           <span class="n">compose_left</span><span class="p">(</span><span class="n">get_country_info</span><span class="p">,</span> <span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"span.country-population"</span><span class="p">),</span> <span class="n">get_text</span><span class="p">,</span> <span class="n">to_int</span><span class="p">))</span>
-<span class="n">get_country_area</span> <span class="o">=</span> <span class="n">in_case</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span>
+<span class="n">get_country_area</span> <span class="o">=</span> <span class="n">in_case</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span>
                            <span class="n">compose_left</span><span class="p">(</span><span class="n">get_country_info</span><span class="p">,</span> <span class="n">select_one</span><span class="p">(</span><span class="n">sel</span><span class="o">=</span><span class="s2">"span.country-area"</span><span class="p">),</span> <span class="n">get_text</span><span class="p">,</span> <span class="n">to_float</span><span class="p">))</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Toolz-vs-Cytoolz">Toolz vs Cytoolz<a class="anchor-link" href="#Toolz-vs-Cytoolz"></a></h3><p>As mentioned earlier, <a href="https://github.com/pytoolz/cytoolz">Cytoolz</a> claims to be "2x-5x faster than toolz"</p>
-<p>Let's profile it with a basic operation: snake_case to Title Case</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># String Processing - Toolz</span>
-<span class="nd">@curry</span>
-<span class="k">def</span> <span class="nf">str_split</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">split_on</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">split_on</span><span class="p">)</span>
-
-<span class="nd">@curry</span>
-<span class="k">def</span> <span class="nf">str_join</span><span class="p">(</span><span class="n">coll</span><span class="p">,</span> <span class="n">join_on</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">join_on</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coll</span><span class="p">)</span>
-
-<span class="nd">@curry</span>
-<span class="k">def</span> <span class="nf">for_each</span><span class="p">(</span><span class="n">coll</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coll</span><span class="p">]</span>
-
-<span class="n">split_words</span> <span class="o">=</span> <span class="n">str_split</span><span class="p">(</span><span class="n">split_on</span><span class="o">=</span><span class="s2">"_"</span><span class="p">)</span>
-<span class="n">join_words</span> <span class="o">=</span> <span class="n">str_join</span><span class="p">(</span><span class="n">join_on</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span>
-<span class="n">title_case</span> <span class="o">=</span> <span class="n">for_each</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
-<span class="n">toolz_op</span> <span class="o">=</span> <span class="n">compose_left</span><span class="p">(</span><span class="n">split_words</span><span class="p">,</span> <span class="n">title_case</span><span class="p">,</span> <span class="n">join_words</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">timeit</span> toolz_op("profiling_string_operations")
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>2.78 µs ± 230 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">cytoolz</span> <span class="kn">import</span> <span class="n">curry</span> <span class="k">as</span> <span class="n">c_curry</span><span class="p">,</span> <span class="n">compose_left</span> <span class="k">as</span> <span class="n">c_compose_left</span>
-<span class="c1"># String Processing - Cytoolz</span>
-
-<span class="nd">@c_curry</span>
-<span class="k">def</span> <span class="nf">c_str_split</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">split_on</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">split_on</span><span class="p">)</span>
-
-<span class="nd">@c_curry</span>
-<span class="k">def</span> <span class="nf">c_str_join</span><span class="p">(</span><span class="n">coll</span><span class="p">,</span> <span class="n">join_on</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">join_on</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coll</span><span class="p">)</span>
-
-<span class="nd">@c_curry</span>
-<span class="k">def</span> <span class="nf">c_for_each</span><span class="p">(</span><span class="n">coll</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coll</span><span class="p">]</span>
-
-<span class="n">c_split_words</span> <span class="o">=</span> <span class="n">c_str_split</span><span class="p">(</span><span class="n">split_on</span><span class="o">=</span><span class="s2">"_"</span><span class="p">)</span>
-<span class="n">c_join_words</span> <span class="o">=</span> <span class="n">c_str_join</span><span class="p">(</span><span class="n">join_on</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span>
-<span class="n">c_title_case</span> <span class="o">=</span> <span class="n">c_for_each</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
-<span class="n">cytoolz_op</span> <span class="o">=</span> <span class="n">c_compose_left</span><span class="p">(</span><span class="n">split_words</span><span class="p">,</span> <span class="n">title_case</span><span class="p">,</span> <span class="n">join_words</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">timeit</span> cytoolz_op("profiling_string_operations")
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>2.46 µs ± 29.2 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Nearly equal...</p>
-<p>Let's try using a larger string</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">secrets</span>
-<span class="n">very_long_token</span> <span class="o">=</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">secrets</span><span class="o">.</span><span class="n">token_urlsafe</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100_000</span><span class="p">)])</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">timeit</span> toolz_op(very_long_token)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>39.3 ms ± 1.48 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">timeit</span> cytoolz_op(very_long_token)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>41.1 ms ± 1.39 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-</pre>
-</div>
 </div>
 </div>
 </div>
