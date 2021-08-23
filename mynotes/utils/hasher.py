@@ -58,15 +58,7 @@ def hashed_filename(file_name, url_prefix):
         return None
 
     # find the corresponding hashed file
-    hashed_files = [Path(x) for x in os.listdir(config.STATIC_DIST)]
-    matched_hash_file = next(
-        (f for f in hashed_files if _is_hashed_variant(matched_src, f)), None
-    )
-    if not matched_hash_file:
-        logger.error("Found no hashed dist file matching {}".format(matched_src))
-        return None
-
-    return url_prefix + matched_hash_file.name
+    return url_prefix + matched_src.name
 
 
 def hash_folder(src_folder, dist_folder):
