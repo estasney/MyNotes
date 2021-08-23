@@ -1,6 +1,7 @@
 import os
 import shutil
 from itertools import product
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -9,9 +10,9 @@ class Config(object):
         self.BASE_DIR = basedir
         self.NOTES_DIR = self.smart_path("mynotes", "notes")
         self.PAGES_DIR = self.smart_path("docs")
-        self.IGNORED_PAGES_DIR = ['static']
-        self.IGNORED_PAGES_FILES = ['.nojekyll']
-        self.DB_PATH = self.smart_path('mynotes.db')
+        self.IGNORED_PAGES_DIR = ["static"]
+        self.IGNORED_PAGES_FILES = [".nojekyll"]
+        self.DB_PATH = self.smart_path("mynotes.db")
         self.DB_URL = "sqlite:///" + self.DB_PATH
         self.DEPLOYMENT_DOMAIN = "estasney.github.io/MyNotes"
         self.STATIC_SRC = self.smart_path(self.PAGES_DIR, "static", "style", "src")
@@ -32,8 +33,11 @@ class Config(object):
         pages_contents = os.listdir(self.PAGES_DIR)
 
         # Remove ignored
-        pages_contents = [f for f in pages_contents if
-                          f not in self.IGNORED_PAGES_DIR and f not in self.IGNORED_PAGES_FILES]
+        pages_contents = [
+            f
+            for f in pages_contents
+            if f not in self.IGNORED_PAGES_DIR and f not in self.IGNORED_PAGES_FILES
+        ]
 
         # Resolve to absolute path
         pages_contents = [os.path.join(self.PAGES_DIR, f) for f in pages_contents]
@@ -55,13 +59,14 @@ class Config(object):
         Wipe the db
         """
         from mynotes.utils import get_engine, Base
+
         if os.path.exists(self.DB_PATH):
             os.remove(self.DB_PATH)
         engine = get_engine()
         Base.metadata.create_all(engine)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     config = Config()
     for k, v in config.__dict__.items():
         if not k.startswith("_") and not k.endswith("_"):

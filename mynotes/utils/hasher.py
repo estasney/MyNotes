@@ -24,7 +24,7 @@ def _is_hashed_variant(x, y):
         yname = re.search("^([^.]+)", y.name).group()
         return xname == yname
     except AttributeError:
-        logger.exception('')
+        logger.exception("")
         return False
 
 
@@ -59,7 +59,9 @@ def hashed_filename(file_name, url_prefix):
 
     # find the corresponding hashed file
     hashed_files = [Path(x) for x in os.listdir(config.STATIC_DIST)]
-    matched_hash_file = next((f for f in hashed_files if _is_hashed_variant(matched_src, f)), None)
+    matched_hash_file = next(
+        (f for f in hashed_files if _is_hashed_variant(matched_src, f)), None
+    )
     if not matched_hash_file:
         logger.error("Found no hashed dist file matching {}".format(matched_src))
         return None

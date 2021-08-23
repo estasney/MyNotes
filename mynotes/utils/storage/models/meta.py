@@ -6,6 +6,7 @@ from config import Config
 
 Base = declarative_base()
 
+
 def get_engine():
     config = Config()
     db_url = config.DB_URL

@@ -17,23 +17,25 @@ from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywo
 from mynotes.utils.preprocess import nb_display_name, category_name
 from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
 from mynotes.utils.storage.models.meta import get_session, Session
-from config import Config as MyNotesConfig
 from mynotes.utils.hasher import hash_folder, hashed_filename
-from toolz import curry, compose_left
+from config import Config as MyNotesConfig
 
 env = Environment(
-        loader=PackageLoader('mynotes', 'templates'),
-        autoescape=select_autoescape(['html']),
-        extensions=['jinja2.ext.debug']
-        )
+    loader=PackageLoader("mynotes", "templates"),
+    autoescape=select_autoescape(["html"]),
+    extensions=["jinja2.ext.debug"],
+)
+
+logger = logging.getLogger(__name__)
 
 
-
-
-logger = logging.getLogger('mynotes')
-
-def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, category: str, category_parents: list,
-                   session: Session):
+def store_notebook(
+    nb: nbformat.notebooknode.NotebookNode,
+    nb_name: str,
+    category: str,
+    category_parents: list,
+    session: Session,
+):
     nb_modules = scan_nb_code(nb)
     nb_keywords = scan_nb_keywords(nb)
     nb_title, nb_description = scan_nb_markdown(nb)
@@ -60,15 +62,21 @@ def store_notebook(nb: nbformat.notebooknode.NotebookNode, nb_name: str, categor
 
     module_objs = [get_module(m) for m in nb_modules]
     kw_objs = [get_keyword(kw) for kw in nb_keywords]
-    nb_obj = Notebook(name=nb_name, description=nb_description,
-                      display_name=nb_display_name(nb_name), title=nb_title)
+    nb_obj = Notebook(
+        name=nb_name,
+        description=nb_description,
+        display_name=nb_display_name(nb_name),
+        title=nb_title,
+    )
     session.add(nb_obj)
     nb_obj.modules = module_objs
     nb_obj.keywords = kw_objs
 
     nb_category_query = session.query(Category).filter(Category.name == category)
     if category_parents:
-        nb_category_query = nb_category_query.filter(Category.parent.has(Category.name == category_parents[-1]))
+        nb_category_query = nb_category_query.filter(
+            Category.parent.has(Category.name == category_parents[-1])
+        )
     category_obj = nb_category_query.first()
     if not category_obj:
         raise Exception("Category not found")
@@ -88,7 +96,7 @@ def store_categories(session: Session):
     my_config = MyNotesConfig()
 
     def filter_folders(x):
-        if x == 'notes' or x.startswith('.'):
+        if x == "notes" or x.startswith("."):
             return False
         return True
 
@@ -109,9 +117,13 @@ def store_categories(session: Session):
         for c in category_objs:
             session.add(c)
         if parent_name:
-            parent_obj = session.query(Category).filter(Category.name == parent_name).first()
+            parent_obj = (
+                session.query(Category).filter(Category.name == parent_name).first()
+            )
             if not parent_obj:
-                parent_obj = Category(name=parent_name, display_name=category_name(parent_name))
+                parent_obj = Category(
+                    name=parent_name, display_name=category_name(parent_name)
+                )
                 session.add(parent_obj)
             parent_obj.children_categories = category_objs
         session.commit()
@@ -122,11 +134,12 @@ def create_index(session: Session):
     categories = session.query(Category).filter(Category.parent_id == None).all()
     categories = [c.to_dict() for c in categories]
     base = env.get_template("base.html")
-    base_render = base.render({'data': categories})
+    base_render = base.render({"data": categories})
     config = MyNotesConfig()
     fp = config.smart_path(config.PAGES_DIR, "index.html")
     with open(fp, "w+", encoding="utf-8") as html_file:
         html_file.write(base_render)
+
 
 class RemoveExecutionCount(Preprocessor):
     """Remove Execution Count"""
@@ -135,11 +148,12 @@ class RemoveExecutionCount(Preprocessor):
         """
         All the code cells are returned with an empty metadata field.
         """
-        if cell.cell_type == 'code':
+        if cell.cell_type == "code":
             # Remove metadata
-            if 'execution_count' in cell:
+            if "execution_count" in cell:
                 cell.execution_count = None
         return cell, resources
+
 
 class NotesExporter(HTMLExporter):
     """
@@ -159,26 +173,31 @@ class NotesExporter(HTMLExporter):
 
         """
 
-        soup = BeautifulSoup(body, features='lxml')
+        soup = BeautifulSoup(body, features="lxml")
         body = soup.find("body")
         try:
-            title = soup.find("h1").text.encode('ascii', errors='ignore').decode()
+            title = soup.find("h1").text.encode("ascii", errors="ignore").decode()
         except AttributeError:
             title = ""
         base = env.get_template("note_base.html")
         # //span[@class='nn'][not(preceding-sibling::span[contains(text(), 'as')])]
-        base_str = base.render(title=title, content=str(body).replace("¶", "").replace("\r", ""))
+        base_str = base.render(
+            title=title, content=str(body).replace("¶", "").replace("\r", "")
+        )
         with open(fp, "w+", encoding="utf-8") as html_file:
             html_file.write(base_str)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Generate My Notes")
     parser.add_argument("--develop", action="store_true")
     args = parser.parse_args()
 
-    logging.basicConfig(format='%(asctime)s - %(name)s : %(levelname)s : %(message)s', level=logging.DEBUG)
+    logging.basicConfig(
+        format="%(asctime)s - %(name)s : %(levelname)s : %(message)s",
+        level=logging.DEBUG,
+    )
     logger.addHandler(logging.StreamHandler())
     my_config = MyNotesConfig()
     my_config.clean()
@@ -196,32 +215,30 @@ if __name__ == '__main__':
         deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
         deploy_style = "{}static/style/dist/".format(deploy_domain)
 
-    env.globals.update({
-                           'domain':  deploy_domain,
-                           'develop': args.develop
-                           })
-    env.filters['resolve'] = partial(hashed_filename, url_prefix=deploy_style)
+    env.globals.update({"domain": deploy_domain, "develop": args.develop})
+    env.filters["resolve"] = partial(hashed_filename, url_prefix=deploy_style)
     env.trim_blocks = True
     env.lstrip_blocks = True
     custom_config = Config()
-    custom_config.TemplateExporter.extra_template_basedirs = [os.path.join(os.path.dirname(__file__), "templates")]
+    custom_config.TemplateExporter.extra_template_basedirs = [
+        os.path.join(os.path.dirname(__file__), "templates")
+    ]
     custom_config.ClearMetadataPreprocessor.enabled = True
     custom_config.NotesExporter.preprocessors = [RemoveExecutionCount]
     custom_config.TemplateExporter.exclude_input_prompt = True
     custom_config.TemplateExporter.exclude_output_prompt = True
 
-
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
         p = PurePath(dir)
         category = p.name
-        if category in ['notes', '.ipynb_checkpoints']:
+        if category in ["notes", ".ipynb_checkpoints"]:
             continue
 
         # Determine if this category has any parents
         # Work up the tree until we reach 'notes'
         parents = []
         for parent in [x.name for x in p.parents]:
-            if parent in ['notes', '.ipynb_checkpoints']:
+            if parent in ["notes", ".ipynb_checkpoints"]:
                 break
             parents.append(parent)
 
@@ -241,7 +258,13 @@ if __name__ == '__main__':
             output_path = my_config.smart_path(output_folder, nb_output_name)
             V = 4
             nb = nbformat.read(abs_path, as_version=V)
-            store_notebook(nb=nb, nb_name=nb_output_name, category=category, category_parents=parents, session=session)
+            store_notebook(
+                nb=nb,
+                nb_name=nb_output_name,
+                category=category,
+                category_parents=parents,
+                session=session,
+            )
 
             # noinspection PyTypeChecker
             html_exporter = NotesExporter(config=custom_config)
