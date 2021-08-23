@@ -15,8 +15,8 @@ class Config(object):
         self.DB_PATH = self.smart_path("mynotes.db")
         self.DB_URL = "sqlite:///" + self.DB_PATH
         self.DEPLOYMENT_DOMAIN = "estasney.github.io/MyNotes"
-        self.STATIC_SRC = self.smart_path(self.PAGES_DIR, "static", "style", "src")
-        self.STATIC_DIST = self.smart_path(self.PAGES_DIR, "static", "style", "dist")
+        self.STATIC_SRC = self.smart_path("mynotes", "src", "dist")
+        self.STATIC_DIST = self.smart_path(self.PAGES_DIR, "static", "dist")
         self.HASHED_DIRS = [self.STATIC_DIST]
 
     def smart_path(self, *args):

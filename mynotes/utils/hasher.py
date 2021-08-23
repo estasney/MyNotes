@@ -51,8 +51,8 @@ def hashed_filename(file_name, url_prefix):
 
     """
     config = Config()
-    src_files = [Path(x) for x in os.listdir(config.STATIC_SRC)]
-    matched_src = next((f for f in src_files if f.name == file_name), None)
+    src_search = Path(config.STATIC_DIST).glob(file_name)
+    matched_src = next(src_search, None)
     if not matched_src:
         logger.error("Found no src file matching {}".format(file_name))
         return None

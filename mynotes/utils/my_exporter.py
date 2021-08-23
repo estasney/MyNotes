@@ -15,6 +15,7 @@ from nbconvert.preprocessors import Preprocessor
 from traitlets.config import Config
 from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywords
 from mynotes.utils.preprocess import nb_display_name, category_name
+from mynotes.utils.static_handler import copy_static_folder
 from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
 from mynotes.utils.storage.models.meta import get_session, Session
 from mynotes.utils.hasher import hash_folder, hashed_filename
@@ -203,17 +204,17 @@ if __name__ == "__main__":
     my_config.clean()
     my_config.clean_db()
 
-    hash_folder(my_config.STATIC_SRC, my_config.STATIC_DIST)
+    copy_static_folder(my_config.STATIC_SRC, my_config.STATIC_DIST)
 
     session = get_session()
     store_categories(session)
 
     if args.develop:
         deploy_domain = "http://localhost:63442/"
-        deploy_style = "{}MyNotes/docs/static/style/dist/".format(deploy_domain)
+        deploy_style = "{}MyNotes/docs/static/dist/".format(deploy_domain)
     else:
         deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
-        deploy_style = "{}static/style/dist/".format(deploy_domain)
+        deploy_style = "{}static/dist/".format(deploy_domain)
 
     env.globals.update({"domain": deploy_domain, "develop": args.develop})
     env.filters["resolve"] = partial(hashed_filename, url_prefix=deploy_style)
