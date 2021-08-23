@@ -42,7 +42,7 @@ def store_notebook(
     if not nb_title:
         logger.warning("{} missing title".format(nb_name))
     if not nb_description:
-        logger.info("{} missing descripton".format(nb_name))
+        logger.info("{} missing description".format(nb_name))
 
     def get_module(f):
         m = session.query(Module).filter(Module.name == f).first()
@@ -220,9 +220,7 @@ if __name__ == "__main__":
     env.trim_blocks = True
     env.lstrip_blocks = True
     custom_config = Config()
-    custom_config.TemplateExporter.extra_template_basedirs = [
-        os.path.join(os.path.dirname(__file__), "templates")
-    ]
+    custom_config.extra_loaders = env.loader
     custom_config.ClearMetadataPreprocessor.enabled = True
     custom_config.NotesExporter.preprocessors = [RemoveExecutionCount]
     custom_config.TemplateExporter.exclude_input_prompt = True
