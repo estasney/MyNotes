@@ -28,6 +28,11 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
   integrity sha512-Fxt+AfXgjMoin2maPIYzFZnQjAXjAL0PHscM5pRTtatFqB+vZxAM9tLp2Optnuw3QOQC40jTNeGYFOMvyf7v9g==
 
+"@fontsource/fredericka-the-great@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/fredericka-the-great/-/fredericka-the-great-4.5.0.tgz#b5466d70ac1ec46fa12b1c8ab8820517222efd48"
+  integrity sha512-TN7IaF+QzvMJa6Q+imNsnaYh8CHX09qBLA8PVA26ulfZONV2Td5Vd6motCvoOsRpAH6oT7peyfp9Jqfj6dMDVA==
+
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/@types/eslint-scope/-/eslint-scope-3.7.1.tgz#8dc390a7b4f9dd9f1284629efce982e41612116e"

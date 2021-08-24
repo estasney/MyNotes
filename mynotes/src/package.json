@@ -9,11 +9,12 @@
   "author": "estasney <estasney@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "popper.js": "^1.16.1",
+    "@fontsource/fredericka-the-great": "^4.5.0",
     "autoprefixer": "^10.3.2",
     "bootstrap": "^4.6.0",
     "css-loader": "^6.2.0",
     "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
     "postcss": "^8.3.6",
     "postcss-loader": "^6.1.1",
     "sass": "^1.38.0",
