@@ -4,35 +4,43 @@
 @import "~@fontsource/fredericka-the-great/400.css";
 
 .jumbotron, .jumbotron-fluid h1 {
-    font-family: 'Fredericka The Great', "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 3.5rem;
+  font-family: 'Fredericka The Great', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 3.5rem;
 }
 
 .header-radial {
-    background-color:#407ef1;
-    background-image: linear-gradient(white 0px, transparent 0px),
-    linear-gradient(90deg, white 0px, transparent 0px),
-    linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px);
-    background-size: 10px 100px, 100px 100px, 20px 20px, 20px 20px;
-    background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;
+  background-color: #407ef1;
+  background-image: linear-gradient(white 0px, transparent 0px),
+  linear-gradient(90deg, white 0px, transparent 0px),
+  linear-gradient(rgba(255, 255, 255, .3) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255, 255, 255, .3) 1px, transparent 1px);
+  background-size: 10px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
 }
 
 .card .module {
-    background: linear-gradient(158deg, #FFFFFF, #C2C4C7)
+  background: linear-gradient(158deg, #FFFFFF, #C2C4C7)
 }
 
 .card .keyword {
-    background: linear-gradient(158deg, #dfe4ff, #7aa6ea);
+  background: linear-gradient(158deg, #dfe4ff, #7aa6ea);
 }
 
 .card-body > {
-    font-style: italic;
+  font-style: italic;
+}
+
+.card-title {
+  text-align: center;
+  border-width: 2px 0 0 0;
+  border-image-slice: 1;
+  border-image-source: radial-gradient(circle farthest-side at center center, #a8a8a8 0%, #ffffff00 95%);
+  border-style: solid;
 }
 
 
 body {
-    background: #e8eaed;
+  background: #e8eaed;
 }
 
 

@@ -1,6 +1,5 @@
 import os
 import shutil
-from itertools import product
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -20,10 +19,7 @@ class Config(object):
         self.HASHED_DIRS = [self.STATIC_DIST]
 
     def smart_path(self, *args):
-        start_path = self.BASE_DIR
-        for a in args:
-            start_path = os.path.join(start_path, a)
-        return start_path
+        return os.path.join(*[self.BASE_DIR, *args])
 
     def clean(self):
         """
@@ -64,10 +60,3 @@ class Config(object):
             os.remove(self.DB_PATH)
         engine = get_engine()
         Base.metadata.create_all(engine)
-
-
-if __name__ == "__main__":
-    config = Config()
-    for k, v in config.__dict__.items():
-        if not k.startswith("_") and not k.endswith("_"):
-            print("{} : {}".format(k, v))

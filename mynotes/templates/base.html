@@ -1,17 +1,16 @@
-{% from "macros.html" import make_decks, make_navbar %}
+{% from "macros.html" import make_decks, make_masonry with context %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   {% include "head.html" %}
 </head>
-{#<body data-spy="scroll" data-target=".navbar">#}
 <body>
 <div class="jumbotron-fluid text-center text-white header-radial">
   <h1>My Notes</h1>
   <p>Programming strategies, examples, tips and tricks</p>
 </div>
-{#{{ make_navbar(data) }}#}
-{{ make_decks(data) }}
+{#{{ make_decks(data) }}#}
+{{ make_masonry(data) }}
 {% include "tail.html" %}
 </body>
 </html>

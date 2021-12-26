@@ -210,8 +210,8 @@ if __name__ == "__main__":
     store_categories(session)
 
     if args.develop:
-        deploy_domain = "http://localhost:63442/"
-        deploy_style = "{}MyNotes/docs/static/dist/".format(deploy_domain)
+        deploy_domain = "http://localhost:8000/"
+        deploy_style = "{}static/dist/".format(deploy_domain)
     else:
         deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
         deploy_style = "{}static/dist/".format(deploy_domain)
