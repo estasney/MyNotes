@@ -1,15 +1,11 @@
-{% from "macros.html" import make_decks, make_masonry with context %}
+{% from "macros.html" import make_header, make_masonry with context %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   {% include "head.html" %}
 </head>
 <body>
-<div class="jumbotron-fluid text-center text-white header-radial">
-  <h1>My Notes</h1>
-  <p>Programming strategies, examples, tips and tricks</p>
-</div>
-{#{{ make_decks(data) }}#}
+{{ make_header() }}
 {{ make_masonry(data) }}
 {% include "tail.html" %}
 </body>

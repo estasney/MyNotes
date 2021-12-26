@@ -1,9 +1,11 @@
+{% from "macros.html" import make_header with context %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% include "note_head.html" %}
 </head>
 <body>
+{{ make_header() }}
 {{ content|safe }}
 {% include "note_tail.html" %}
 </body>

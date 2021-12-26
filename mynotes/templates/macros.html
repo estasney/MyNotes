@@ -52,6 +52,13 @@
     </div>
 {% endmacro %}
 
+{% macro make_header() %}
+  <div class="jumbotron-fluid text-center text-white header-radial">
+  <h1>My Notes</h1>
+  <p>Programming strategies, examples, tips and tricks</p>
+</div>
+{% endmacro %}
+
 {% macro make_masonry(categories) %}
   <div class="container card-columns">
   {% for category in categories %}
