@@ -1,7 +1,7 @@
 import pytest
-
-from mynotes.utils.codescan import scan_line_modules
-
+from collections import namedtuple
+from mynotes.export.preprocess.codescan import ExtractModuleUsage
+FakeNbCell = namedtuple("FakeNbCell", "cell_type, source")
 
 @pytest.mark.parametrize(
     "line, expected",
@@ -17,5 +17,7 @@ from mynotes.utils.codescan import scan_line_modules
     ],  # commented out import)
 )
 def test_line_scans(line, expected):
-    result = scan_line_modules(line)
-    assert result == expected
+    proc = ExtractModuleUsage()
+    cell_line = FakeNbCell("code", line)
+    result = proc.preprocess_cell(cell_line, {"mynotes": {"modules": []}}, 0)[1]
+    assert result == {"mynotes": {"modules": expected}}

@@ -3,11 +3,6 @@ import unicodedata
 
 
 @curry
-def normalize(s):
-    return unicodedata.normalize("NFKD", s)
-
-
-@curry
 def str_replace(s, old, new):
     return s.replace(old, new)
 

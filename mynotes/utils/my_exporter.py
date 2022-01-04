@@ -5,30 +5,34 @@ import logging
 
 import nbformat
 from mynotes.export import NotesExporter
-from nbconvert import HTMLExporter
+
 from functools import partial
 
-from jinja2 import Environment, FileSystemLoader, PackageLoader, select_autoescape
-from bs4 import BeautifulSoup
-from pathlib import Path, PurePath
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from nbconvert.preprocessors import Preprocessor
+from pathlib import Path, PurePath
 from traitlets.config import Config
 
+from mynotes.export.preprocess.codescan import ExtractModuleUsage
 from mynotes.export.preprocess.keyword import KeywordPreprocessor
+from mynotes.export.preprocess.mynotes_data import MyNotesData
 from mynotes.export.preprocess.remove_execution_count import RemoveExecutionCount
 from mynotes.export.preprocess.title import NBTitleMarkdown
 from mynotes.export.utils import ignored_category
-from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywords
 from mynotes.utils.preprocess import nb_display_name, category_name
 from mynotes.utils.static_handler import copy_static_folder
 from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
 from mynotes.utils.storage.models.meta import get_session, Session
-from mynotes.utils.hasher import hash_folder, hashed_filename
+from mynotes.utils.hasher import hashed_filename
 from config import Config as MyNotesConfig
 
 env = Environment(
-    loader=FileSystemLoader([Path(__file__).parent.parent / "templates", Path(__file__).parent.parent / "export" / "templates"]),
+    loader=FileSystemLoader(
+        [
+            Path(__file__).parent.parent / "templates",
+            Path(__file__).parent.parent / "export" / "templates",
+        ]
+    ),
     autoescape=select_autoescape(["html"]),
     extensions=["jinja2.ext.debug"],
 )
@@ -37,35 +41,36 @@ logger = logging.getLogger(__name__)
 
 
 def store_notebook(
-    nb: nbformat.notebooknode.NotebookNode,
+    nb_obj: nbformat.notebooknode.NotebookNode,
     nb_name: str,
-    category: str,
+    nb_category: str,
     category_parents: list,
-    session: Session,
+    nb_resources: dict,
+    db_session: Session,
 ):
-    nb_modules = scan_nb_code(nb)
-    nb_keywords = scan_nb_keywords(nb)
-    nb_title, nb_description = scan_nb_markdown(nb)
+    nb_modules = nb_resources['mynotes']['modules']
+    nb_keywords = nb_resources['mynotes']['keywords']
+    nb_title = nb_resources['mynotes']['title']
+    nb_description = nb_resources['mynotes']['description']
     if not nb_title:
         logger.warning("{} missing title".format(nb_name))
     if not nb_description:
         logger.info("{} missing description".format(nb_name))
 
     def get_module(f):
-        m = session.query(Module).filter(Module.name == f).first()
-        if not m:
-            m = Module(name=f)
-            session.add(m)
-            session.commit()
-        return m
+        obj = Module(name=f)
+        db_obj = db_session.merge(obj)
+        return db_obj
 
     def get_keyword(f):
-        kw = session.query(Keyword).filter(Keyword.name == f).first()
-        if not kw:
-            kw = Keyword(name=f)
-            session.add(kw)
-            session.commit()
-        return kw
+        obj = Keyword(name=f)
+        db_obj = db_session.merge(obj)
+        return db_obj
+
+    def get_category(f):
+        obj = Category(name=f)
+        db_obj = db_session.merge(obj)
+        return db_obj
 
     module_objs = [get_module(m) for m in nb_modules]
     kw_objs = [get_keyword(kw) for kw in nb_keywords]
@@ -75,28 +80,20 @@ def store_notebook(
         display_name=nb_display_name(nb_name),
         title=nb_title,
     )
-    session.add(nb_obj)
+    db_session.add(nb_obj)
     nb_obj.modules = module_objs
     nb_obj.keywords = kw_objs
+    db_nb_category = get_category(nb_category)
 
-    nb_category_query = session.query(Category).filter(Category.name == category)
-    if category_parents:
-        nb_category_query = nb_category_query.filter(
-            Category.parent.has(Category.name == category_parents[-1])
-        )
-    category_obj = nb_category_query.first()
-    if not category_obj:
-        raise Exception("Category not found")
-
-    category_obj.notebooks.append(nb_obj)
+    db_nb_category.notebooks.append(nb_obj)
     for module in module_objs:
-        if module not in category_obj.modules:
-            category_obj.modules.append(module)
+        if module not in db_nb_category.modules:
+            db_nb_category.modules.append(module)
     for kw in kw_objs:
-        if kw not in category_obj.keywords:
-            category_obj.keywords.append(kw)
+        if kw not in db_nb_category.keywords:
+            db_nb_category.keywords.append(kw)
 
-    session.commit()
+    db_session.commit()
 
 
 def store_categories(session: Session):
@@ -147,6 +144,7 @@ def create_index(session: Session):
     with open(fp, "w+", encoding="utf-8") as html_file:
         html_file.write(base_render)
 
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Generate My Notes")
@@ -155,7 +153,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(
         format="%(asctime)s - %(name)s : %(levelname)s : %(message)s",
-        level=logging.DEBUG,
+        level=logging.INFO,
     )
     logger.addHandler(logging.StreamHandler())
     my_config = MyNotesConfig()
@@ -181,7 +179,13 @@ if __name__ == "__main__":
     custom_config = Config()
     custom_config.extra_loaders = env.loader
     custom_config.ClearMetadataPreprocessor.enabled = True
-    custom_config.NotesExporter.preprocessors = [RemoveExecutionCount, KeywordPreprocessor, NBTitleMarkdown]
+    custom_config.NotesExporter.preprocessors = [
+        MyNotesData,
+        RemoveExecutionCount,
+        KeywordPreprocessor,
+        NBTitleMarkdown,
+        ExtractModuleUsage,
+    ]
     custom_config.TemplateExporter.exclude_input_prompt = True
     custom_config.TemplateExporter.exclude_output_prompt = True
     custom_config.NotesExporter.exclude_anchor_links = True
@@ -212,16 +216,11 @@ if __name__ == "__main__":
             nb_output_path = Path(output_folder) / nb_file.with_suffix(".html").name
             abs_path = os.path.join(dir, nb_file)
             nb = nbformat.read(abs_path, as_version=4)
-            store_notebook(
-                nb=nb,
-                nb_name=nb_output_path.name,
-                category=category,
-                category_parents=parents,
-                session=session,
-            )
-
             html_exporter = NotesExporter(config=custom_config, env=env)
             (body, resources) = html_exporter.from_notebook_node(nb)
+            store_notebook(nb_obj=nb, nb_name=nb_output_path.name, nb_category=category, category_parents=parents,
+                           nb_resources=resources, db_session=session)
+
             html_exporter.body_to_template_base(body, str(nb_output_path))
 
     create_index(session)

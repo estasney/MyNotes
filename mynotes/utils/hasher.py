@@ -59,39 +59,3 @@ def hashed_filename(file_name, url_prefix):
 
     # find the corresponding hashed file
     return url_prefix + matched_src.name
-
-
-def hash_folder(src_folder, dist_folder):
-    """
-
-    Parameters
-    ----------
-    src_folder
-        Location of src files
-    dist_folder
-        Location of dist files with hashed
-
-    Returns
-    -------
-    None
-    """
-    logger.debug("Hashing folder {} to {}".format(src_folder, dist_folder))
-
-    src_folder = Path(src_folder)
-    dist_folder = Path(dist_folder)
-
-    if not dist_folder.exists():
-        dist_folder.mkdir()
-
-    # Erase contents of dist_folder
-    for f in dist_folder.iterdir():
-        logger.debug("Removing {}".format(str(f)))
-        f.unlink()
-
-    for f in src_folder.iterdir():
-        f_hash = _hash_file(str(f))
-        f_stem = f.stem  # bootstrap
-        f_suffix = f.suffix
-        new_suffix = "." + f_hash + f_suffix
-        f_out = dist_folder.joinpath(f_stem).with_suffix(new_suffix)
-        shutil.copyfile(str(f), str(f_out))

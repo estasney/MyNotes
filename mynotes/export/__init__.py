@@ -33,7 +33,6 @@ class NotesExporter(HTMLExporter):
         body.attrs = None
         title = soup.select_one("h1").text
         base = self.env.get_template("note_base.html")
-        # //span[@class='nn'][not(preceding-sibling::span[contains(text(), 'as')])]
         base_str = base.render(title=title, content=str(body).replace("\r", ""))
         with open(fp, "w+", encoding="utf-8") as html_file:
             html_file.write(base_str)
