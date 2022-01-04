@@ -156,21 +156,22 @@ if __name__ == "__main__":
     )
 
     my_config = MyNotesConfig()
-    my_config.clean()
+    # my_config.clean()
     my_config.clean_db()
 
     session = get_session()
     store_categories(session)
 
     if args.develop:
-        deploy_domain = "http://localhost:8000/"
-        deploy_style = "{}static/dist/".format(deploy_domain)
+        deploy_domain = "http://localhost:8000"
+        public_path = "/static/dist/"
+
     else:
-        deploy_domain = "//{}/".format(my_config.DEPLOYMENT_DOMAIN)
-        deploy_style = "{}static/dist/".format(deploy_domain)
+        deploy_domain = f"https://{my_config.DEPLOYMENT_DOMAIN}"
+        public_path = f"/MyNotes/static/dist/"
 
     env.globals.update({"domain": deploy_domain, "develop": args.develop})
-    env.filters["resolve"] = partial(hashed_filename, url_prefix=deploy_style)
+    env.filters["resolve"] = partial(hashed_filename, url_prefix=public_path)
     env.trim_blocks = True
     env.lstrip_blocks = True
     custom_config = Config()
