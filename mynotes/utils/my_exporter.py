@@ -140,7 +140,7 @@ def create_index(session: Session):
     base = env.get_template("base.html")
     base_render = base.render({"data": categories})
     config = MyNotesConfig()
-    fp = config.smart_path(config.PAGES_DIR, "index.html")
+    fp = config.smart_path(config.INDEX_DIR, "index_built.html")
     with open(fp, "w+", encoding="utf-8") as html_file:
         html_file.write(base_render)
 
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     my_config.clean()
     my_config.clean_db()
 
-    copy_static_folder(my_config.STATIC_SRC, my_config.STATIC_DIST)
+    # copy_static_folder(my_config.STATIC_SRC, my_config.STATIC_DIST)
 
     session = get_session()
     store_categories(session)

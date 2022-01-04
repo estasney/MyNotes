@@ -9,6 +9,7 @@ class Config(object):
         self.BASE_DIR = basedir
         self.NOTES_DIR = self.smart_path("mynotes", "notes")
         self.PAGES_DIR = self.smart_path("docs")
+        self.INDEX_DIR = self.smart_path("mynotes", "src")
         self.IGNORED_PAGES_DIR = ["static"]
         self.IGNORED_PAGES_FILES = [".nojekyll"]
         self.DB_PATH = self.smart_path("mynotes.db")

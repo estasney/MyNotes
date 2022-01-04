@@ -6,3 +6,4 @@
 **/node_modules/
 **/scratch/
 **/*.out
+**/index_built.html

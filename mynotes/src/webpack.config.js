@@ -1,5 +1,6 @@
 const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
 const baseConfig = {
@@ -7,7 +8,7 @@ const baseConfig = {
     entry: './index.js',
     output: {
         filename: '[name].[chunkhash].bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, "..", "..", "docs", "static", "dist"),
         clean: true
     },
     module: {
@@ -38,24 +39,26 @@ const baseConfig = {
 
         ]
     },
-    plugins: [
-            new CleanWebpackPlugin()
-        ]
+    plugins: []
 };
 
 
 
 module.exports = (env, argv) => {
+
     baseConfig.mode = argv.mode ? argv.mode : 'development';
-    if (argv.mode === 'development') {
-        baseConfig.plugins.push(new webpack.DefinePlugin({
-            "process.env.MAIN_PAGE": JSON.stringify("http://localhost:8000")
-        }))
-    } else {
-        baseConfig.plugins.push(new webpack.DefinePlugin({
-            "process.env.MAIN_PAGE": JSON.stringify("https://estasney.github.io/MyNotes/")
-        }))
+    const htmlPluginOptions = {
+        filename: path.resolve(__dirname, "..", "..", "docs", "index.html"),
+        template: path.resolve(__dirname, "index_built.html"),
+        publicPath: baseConfig.mode === "development" ? "/static/dist/" : "/MyNotes"
     }
+    const mainPageUrl = baseConfig.mode === "development"
+        ? "http://localhost:8000"
+        : "https://estasney.github.io/MyNotes/"
+    baseConfig.plugins.push(new HtmlWebpackPlugin(htmlPluginOptions));
+    baseConfig.plugins.push(new CleanWebpackPlugin());
+    baseConfig.plugins.push(new webpack.DefinePlugin({"process.env.MAIN_PAGE": JSON.stringify(mainPageUrl)}))
+
     return baseConfig;
 };
 
