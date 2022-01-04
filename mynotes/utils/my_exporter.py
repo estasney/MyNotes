@@ -20,7 +20,6 @@ from mynotes.export.preprocess.remove_execution_count import RemoveExecutionCoun
 from mynotes.export.preprocess.title import NBTitleMarkdown
 from mynotes.export.utils import ignored_category
 from mynotes.utils.preprocess import nb_display_name, category_name
-from mynotes.utils.static_handler import copy_static_folder
 from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
 from mynotes.utils.storage.models.meta import get_session, Session
 from mynotes.utils.hasher import hashed_filename
@@ -48,10 +47,10 @@ def store_notebook(
     nb_resources: dict,
     db_session: Session,
 ):
-    nb_modules = nb_resources['mynotes']['modules']
-    nb_keywords = nb_resources['mynotes']['keywords']
-    nb_title = nb_resources['mynotes']['title']
-    nb_description = nb_resources['mynotes']['description']
+    nb_modules = nb_resources["mynotes"]["modules"]
+    nb_keywords = nb_resources["mynotes"]["keywords"]
+    nb_title = nb_resources["mynotes"]["title"]
+    nb_description = nb_resources["mynotes"]["description"]
     if not nb_title:
         logger.warning("{} missing title".format(nb_name))
     if not nb_description:
@@ -152,15 +151,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     logging.basicConfig(
-        format="%(asctime)s - %(name)s : %(levelname)s : %(message)s",
+        format="%(name)s : %(message)s",
         level=logging.INFO,
     )
-    logger.addHandler(logging.StreamHandler())
+
     my_config = MyNotesConfig()
     my_config.clean()
     my_config.clean_db()
-
-    # copy_static_folder(my_config.STATIC_SRC, my_config.STATIC_DIST)
 
     session = get_session()
     store_categories(session)
@@ -218,9 +215,16 @@ if __name__ == "__main__":
             nb = nbformat.read(abs_path, as_version=4)
             html_exporter = NotesExporter(config=custom_config, env=env)
             (body, resources) = html_exporter.from_notebook_node(nb)
-            store_notebook(nb_obj=nb, nb_name=nb_output_path.name, nb_category=category, category_parents=parents,
-                           nb_resources=resources, db_session=session)
+            store_notebook(
+                nb_obj=nb,
+                nb_name=nb_output_path.name,
+                nb_category=category,
+                category_parents=parents,
+                nb_resources=resources,
+                db_session=session,
+            )
 
             html_exporter.body_to_template_base(body, str(nb_output_path))
+            logging.info(f"Saved {nb_output_path}")
 
     create_index(session)

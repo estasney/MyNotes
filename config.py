@@ -55,7 +55,7 @@ class Config(object):
         """
         Wipe the db
         """
-        from mynotes.utils import get_engine, Base
+        from mynotes.utils.storage.models.meta import Base, get_engine
 
         if os.path.exists(self.DB_PATH):
             os.remove(self.DB_PATH)

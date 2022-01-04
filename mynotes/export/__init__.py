@@ -6,9 +6,6 @@ from bs4 import BeautifulSoup
 from nbconvert import HTMLExporter
 from typing import TYPE_CHECKING
 
-from nbconvert.filters import Highlight2HTML
-from nbconvert.filters.widgetsdatatypefilter import WidgetsDataTypeFilter
-
 if TYPE_CHECKING:
     from jinja2.environment import Environment
 
@@ -25,7 +22,7 @@ class NotesExporter(HTMLExporter):
     def body_to_template_base(self, body: str | Path, fp: str):
         """
         We want the rendered body to be included in a MyNotes template.
-        Pass the HTML text returned after calling self.from_notebook_node
+        This is an escape hatch from nbconvert.
         """
 
         soup = BeautifulSoup(body, features="lxml")

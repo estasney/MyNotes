@@ -17,13 +17,13 @@ class ExtractModuleUsage(Preprocessor):
     def preprocess(self, nb, resources):
         for index, cell in enumerate(nb.cells):
             nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
-        modules = resources['mynotes']['modules']
+        modules = resources["mynotes"]["modules"]
         if not modules:
             return nb, resources
         module_items = [item for item in modules]
         module_counts = Counter(module_items)
         module_items.sort(key=lambda x: module_counts.get(x), reverse=True)
-        resources['mynotes']['modules'] = module_items
+        resources["mynotes"]["modules"] = module_items
         return nb, resources
 
     def preprocess_cell(self, cell, resources, index):
