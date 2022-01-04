@@ -1,4 +1,3 @@
-import 'bootstrap';
 import "./style/style.scss"
 
 function addHeaderListener() {

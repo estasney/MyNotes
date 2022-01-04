@@ -4,9 +4,11 @@
 <head>
     {% include "note_head.html" %}
 </head>
+
 <body>
 {{ make_header() }}
+<div class="container paper">
 {{ content|safe }}
-{% include "note_tail.html" %}
+</div>
 </body>
 </html>

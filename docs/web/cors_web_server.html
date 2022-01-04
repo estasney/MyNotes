@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-132355416-7');
-</script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-132355416-7');
+  </script>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simple Web Server with CORS</title>
-<script src="//estasney.github.io/MyNotes/static/dist/main.f6960b319f63ca61793f.bundle.js"></script>
+<script src="//estasney.github.io/MyNotes/static/dist/main.c26301b499c0a5fc3c00.bundle.js"></script>
 </head>
+
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
   <h1>My Notes</h1>
   <p>Programming strategies, examples, tips and tricks</p>
 </div>
 
+<div class="container paper">
 <body>
-<div class="border-box-sizing" id="notebook" tabindex="-1">
-<div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Simple-Web-Server-with-CORS">Simple Web Server with CORS<a class="anchor-link" href="#Simple-Web-Server-with-CORS"></a></h1><p><em>When your browser refuses to load local files</em></p>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1>Simple Web Server with CORS</h1>
+<p><em>When your browser refuses to load local files</em></p>
 <p>Sometimes we want our browser to be able to load a local file</p>
 <ol>
 <li>.json</li>
@@ -36,12 +36,11 @@
 <p>You can read the spec on <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#simple_requests">MDN</a> which goes a great amount of detail on the protocol. But for local development,
 when we just want it to run we can fix these errors by adding one header to our response.</p>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">socketserver</span>
@@ -77,8 +76,8 @@ when we just want it to run we can fix these errors by adding one header to our 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>I keep a .bat file handy to quickly launch this for specific projects</p>
 <div class="highlight"><pre><span></span><span class="k">CALL</span> C:\path\to_your_venv\activate.bat
 <span class="k">ECHO</span> <span class="s2">"Starting CORS Server"</span>
@@ -88,9 +87,7 @@ python server.py -d <span class="s2">"C:\path\to_server_root\directory"</span>
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-</div>
 </body>
+</div>
 </body>
 </html>

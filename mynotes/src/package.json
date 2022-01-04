@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build-prod": "webpack --mode production --config webpack.config.js",
-    "build-dev": "webpack --mode development --config webpack.config.js"
+    "build-dev": "webpack --mode development --config webpack.config.js",
+    "watch-dev": "webpack watch --mode development --config webpack.config.js"
   },
   "repository": "https://github.com/estasney/MyNotes.git",
   "author": "estasney <estasney@users.noreply.github.com>",

@@ -4,15 +4,21 @@ import os.path
 import logging
 
 import nbformat
+from mynotes.export import NotesExporter
 from nbconvert import HTMLExporter
 from functools import partial
 
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, PackageLoader, select_autoescape
 from bs4 import BeautifulSoup
-from pathlib import PurePath
+from pathlib import Path, PurePath
 
 from nbconvert.preprocessors import Preprocessor
 from traitlets.config import Config
+
+from mynotes.export.preprocess.keyword import KeywordPreprocessor
+from mynotes.export.preprocess.remove_execution_count import RemoveExecutionCount
+from mynotes.export.preprocess.title import NBTitleMarkdown
+from mynotes.export.utils import ignored_category
 from mynotes.utils.codescan import scan_nb_code, scan_nb_markdown, scan_nb_keywords
 from mynotes.utils.preprocess import nb_display_name, category_name
 from mynotes.utils.static_handler import copy_static_folder
@@ -22,7 +28,7 @@ from mynotes.utils.hasher import hash_folder, hashed_filename
 from config import Config as MyNotesConfig
 
 env = Environment(
-    loader=PackageLoader("mynotes", "templates"),
+    loader=FileSystemLoader([Path(__file__).parent.parent / "templates", Path(__file__).parent.parent / "export" / "templates"]),
     autoescape=select_autoescape(["html"]),
     extensions=["jinja2.ext.debug"],
 )
@@ -141,54 +147,6 @@ def create_index(session: Session):
     with open(fp, "w+", encoding="utf-8") as html_file:
         html_file.write(base_render)
 
-
-class RemoveExecutionCount(Preprocessor):
-    """Remove Execution Count"""
-
-    def preprocess_cell(self, cell, resources, cell_index):
-        """
-        All the code cells are returned with an empty metadata field.
-        """
-        if cell.cell_type == "code":
-            # Remove metadata
-            if "execution_count" in cell:
-                cell.execution_count = None
-        return cell, resources
-
-
-class NotesExporter(HTMLExporter):
-    """
-    Export Notes to HTML
-    """
-
-    # If this custom exporter should add an entry to the
-    # "File -> Download as" menu in the notebook, give it a name here in the
-    # `export_from_notebook` class member
-    export_from_notebook = "Notes Format"
-
-    def body_to_template_base(self, body: str, fp: str):
-        """
-        We want the rendered body to be included in a MyNotes template.
-
-        Pass the HTML text returned after calling self.from_notebook_node
-
-        """
-
-        soup = BeautifulSoup(body, features="lxml")
-        body = soup.find("body")
-        try:
-            title = soup.find("h1").text.encode("ascii", errors="ignore").decode()
-        except AttributeError:
-            title = ""
-        base = env.get_template("note_base.html")
-        # //span[@class='nn'][not(preceding-sibling::span[contains(text(), 'as')])]
-        base_str = base.render(
-            title=title, content=str(body).replace("¶", "").replace("\r", "")
-        )
-        with open(fp, "w+", encoding="utf-8") as html_file:
-            html_file.write(base_str)
-
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Generate My Notes")
@@ -223,21 +181,22 @@ if __name__ == "__main__":
     custom_config = Config()
     custom_config.extra_loaders = env.loader
     custom_config.ClearMetadataPreprocessor.enabled = True
-    custom_config.NotesExporter.preprocessors = [RemoveExecutionCount]
+    custom_config.NotesExporter.preprocessors = [RemoveExecutionCount, KeywordPreprocessor, NBTitleMarkdown]
     custom_config.TemplateExporter.exclude_input_prompt = True
     custom_config.TemplateExporter.exclude_output_prompt = True
+    custom_config.NotesExporter.exclude_anchor_links = True
 
     for dir, folders, files in os.walk(my_config.NOTES_DIR):
-        p = PurePath(dir)
+        p = Path(dir)
         category = p.name
-        if category in ["notes", ".ipynb_checkpoints"]:
+        if ignored_category(category):
             continue
 
         # Determine if this category has any parents
         # Work up the tree until we reach 'notes'
         parents = []
         for parent in [x.name for x in p.parents]:
-            if parent in ["notes", ".ipynb_checkpoints"]:
+            if ignored_category(parent):
                 break
             parents.append(parent)
 
@@ -245,29 +204,24 @@ if __name__ == "__main__":
         parents = list(reversed(parents))
 
         output_folder = my_config.smart_path(my_config.PAGES_DIR, *parents, category)
-        if not os.path.isdir(output_folder):
-            os.mkdir(output_folder)
+        os.makedirs(output_folder, exist_ok=True)
 
         notebooks = [f for f in files if f.endswith("ipynb")]
         for nb_file in notebooks:
-            nb_name = os.path.splitext(nb_file)[0]
-            nb_output_name = nb_name + ".html"
+            nb_file = Path(dir) / nb_file
+            nb_output_path = Path(output_folder) / nb_file.with_suffix(".html").name
             abs_path = os.path.join(dir, nb_file)
-
-            output_path = my_config.smart_path(output_folder, nb_output_name)
-            V = 4
-            nb = nbformat.read(abs_path, as_version=V)
+            nb = nbformat.read(abs_path, as_version=4)
             store_notebook(
                 nb=nb,
-                nb_name=nb_output_name,
+                nb_name=nb_output_path.name,
                 category=category,
                 category_parents=parents,
                 session=session,
             )
 
-            # noinspection PyTypeChecker
-            html_exporter = NotesExporter(config=custom_config)
-            (body, r) = html_exporter.from_notebook_node(nb)
-            html_exporter.body_to_template_base(body, output_path)
+            html_exporter = NotesExporter(config=custom_config, env=env)
+            (body, resources) = html_exporter.from_notebook_node(nb)
+            html_exporter.body_to_template_base(body, str(nb_output_path))
 
     create_index(session)

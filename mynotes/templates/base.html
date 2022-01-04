@@ -1,4 +1,4 @@
-{% from "macros.html" import make_header, make_masonry with context %}
+{% from "macros.html" import make_header, make_masonry, make_ga with context %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +7,5 @@
 <body>
 {{ make_header() }}
 {{ make_masonry(data) }}
-{% include "tail.html" %}
 </body>
 </html>
