@@ -51,7 +51,7 @@ module.exports = (env, argv) => {
         filename: path.resolve(__dirname, "..", "..", "docs", "index.html"),
         template: path.resolve(__dirname, "index_built.html"),
         publicPath: baseConfig.mode === "development" ? "/static/dist/" : "/MyNotes/static/dist/"
-    }
+    };
     const mainPageUrl = baseConfig.mode === "development"
         ? "http://localhost:8000"
         : "https://estasney.github.io/MyNotes/"
