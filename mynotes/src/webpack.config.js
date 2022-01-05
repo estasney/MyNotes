@@ -50,7 +50,8 @@ module.exports = (env, argv) => {
     const htmlPluginOptions = {
         filename: path.resolve(__dirname, "..", "..", "docs", "index.html"),
         template: path.resolve(__dirname, "index_built.html"),
-        publicPath: baseConfig.mode === "development" ? "/static/dist/" : "/MyNotes/static/dist/"
+        publicPath: baseConfig.mode === "development" ? "/static/dist/" : "/MyNotes/static/dist/",
+        scriptLoading: 'blocking'
     };
     const mainPageUrl = baseConfig.mode === "development"
         ? "http://localhost:8000"
