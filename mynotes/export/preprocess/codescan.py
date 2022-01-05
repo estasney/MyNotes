@@ -22,6 +22,7 @@ class ExtractModuleUsage(Preprocessor):
             return nb, resources
         module_items = [item for item in modules]
         module_counts = Counter(module_items)
+        module_items = list(set(module_items))
         module_items.sort(key=lambda x: module_counts.get(x), reverse=True)
         resources["mynotes"]["modules"] = module_items
         return nb, resources
