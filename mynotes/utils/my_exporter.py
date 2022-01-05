@@ -4,6 +4,8 @@ import os.path
 import logging
 
 import nbformat
+from sqlalchemy import desc
+
 from mynotes.export import NotesExporter
 
 from functools import partial
@@ -14,6 +16,7 @@ from pathlib import Path, PurePath
 from traitlets.config import Config
 
 from mynotes.export.preprocess.codescan import ExtractModuleUsage
+from mynotes.export.preprocess.dates import NBDateProcessor
 from mynotes.export.preprocess.keyword import KeywordPreprocessor
 from mynotes.export.preprocess.mynotes_data import MyNotesData
 from mynotes.export.preprocess.remove_execution_count import RemoveExecutionCount
@@ -51,6 +54,8 @@ def store_notebook(
     nb_keywords = nb_resources["mynotes"]["keywords"]
     nb_title = nb_resources["mynotes"]["title"]
     nb_description = nb_resources["mynotes"]["description"]
+    nb_created = nb_resources["mynotes"]["created"]
+    nb_updated = nb_resources["mynotes"]["updated"]
     if not nb_title:
         logger.warning("{} missing title".format(nb_name))
     if not nb_description:
@@ -78,6 +83,8 @@ def store_notebook(
         description=nb_description,
         display_name=nb_display_name(nb_name),
         title=nb_title,
+        created=nb_created,
+        updated=nb_updated,
     )
     db_session.add(nb_obj)
     nb_obj.modules = module_objs
@@ -134,10 +141,10 @@ def store_categories(session: Session):
 
 
 def create_index(session: Session):
-    categories = session.query(Category).filter(Category.parent_id == None).all()
-    categories = [c.to_dict() for c in categories]
+    notebooks = session.query(Notebook).order_by(desc(Notebook.created)).all()
+    notebooks = [nb.to_dict() for nb in notebooks]
     base = env.get_template("base.html")
-    base_render = base.render({"data": categories})
+    base_render = base.render({"data": notebooks})
     config = MyNotesConfig()
     fp = config.smart_path(config.INDEX_DIR, "index_built.html")
     with open(fp, "w+", encoding="utf-8") as html_file:
@@ -183,6 +190,7 @@ if __name__ == "__main__":
         KeywordPreprocessor,
         NBTitleMarkdown,
         ExtractModuleUsage,
+        NBDateProcessor,
     ]
     custom_config.TemplateExporter.exclude_input_prompt = True
     custom_config.TemplateExporter.exclude_output_prompt = True

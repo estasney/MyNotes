@@ -1,7 +1,7 @@
 {% macro make_notebook_item(note) %}
     <div class="card">
     <div class="card-body">
-        <h5 class="card-title"><a href={{ note.url }}>{{ note.display_name }}</a></h5>
+        <h5 class="card-title"><a href="{{ note.url }}">{{ note.display_name }}</a></h5>
         <p>{{ note.description }}</p>
     </div>
     <div class="card-footer">
@@ -11,6 +11,13 @@
         {% for keyword in note.keywords %}
             <span class="badge badge-pill badge-light keyword">{{ keyword.name }}</span>
         {% endfor %}
+    </div>
+    <div class="card-footer text-muted text" style="font-size: 0.7rem">
+        {% if note.updated is not none %}
+        <span>Updated: {{ note.updated.strftime('%Y-%m-%d') }}</span>
+        {% elif note.created is not none %}
+        <span>Created: {{ note.created.strftime('%Y-%m-%d') }}</span>
+        {% endif %}
     </div>
     </div>
 {% endmacro %}
@@ -59,12 +66,10 @@
 </div>
 {% endmacro %}
 
-{% macro make_masonry(categories) %}
+{% macro make_masonry(notebooks) %}
   <div class="container card-columns">
-  {% for category in categories %}
-  {% for nb in category.notebooks %}
+  {% for nb in notebooks %}
     {{ make_notebook_item(nb) }}
-  {% endfor %}
   {% endfor %}
   </div>
 {% endmacro %}

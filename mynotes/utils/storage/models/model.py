@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Text, Table, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, Text, Table, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from .meta import Base
 
@@ -74,12 +74,23 @@ class Module(Base):
 class Notebook(Base):
     __tablename__ = "notebooks"
 
-    JSON_KEYS = ["id", "name", "display_name", "title", "category_id", "description"]
+    JSON_KEYS = [
+        "id",
+        "name",
+        "display_name",
+        "title",
+        "category_id",
+        "description",
+        "created",
+        "updated",
+    ]
 
     id = Column(Integer, primary_key=True)
     name = Column(Text)
     display_name = Column(Text)
     description = Column(Text, default="")
+    created = Column(DateTime)
+    updated = Column(DateTime)
     title = Column(Text)
     modules = relationship(
         "Module", secondary=module_notebook, back_populates="notebooks"
@@ -90,14 +101,10 @@ class Notebook(Base):
     category_id = Column(Integer, ForeignKey("categories.id"))
     category = relationship("Category", back_populates="notebooks")
 
-    def to_dict(self, url_base) -> dict:
+    def to_dict(self) -> dict:
         d = {k: getattr(self, k, None) for k in self.JSON_KEYS}
         d["table"] = self.__tablename__
-        if url_base:
-            url = url_base + "/" + self.name
-        else:
-            url = "/" + self.name
-        d["url"] = url
+        d["url"] = f"{self.category.url}/{self.name}"
         d["modules"] = [m.to_dict() for m in self.modules]
         d["keywords"] = [kw.to_dict() for kw in self.keywords]
         return d
