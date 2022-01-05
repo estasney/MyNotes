@@ -23,7 +23,7 @@
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1>Synthesizing Realistic Data</h1>
-<p><em>Useful for testing</em></p>
+<p><em>Useful for testing and toy datasets</em></p>
 <p>In the process of writing about a pandas function, I realized I needed a realistic dataset to effectively demonstrate its use.</p>
 <p>Here's how you can use <a href="https://faker.readthedocs.io/en/master/index.html">Faker</a> to do this</p>
 <p>Start with installing Faker with pip:</p>
@@ -60,8 +60,8 @@
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Hello, my name is Darlene Parker.
-I'm a Phytotherapist at Martin-Austin.
+<pre>Hello, my name is Kevin Lane.
+I'm a Call centre manager at Odonnell-Harrell.
 </pre>
 </div>
 </div>
@@ -70,9 +70,12 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Extending Faker</h3>
-<p>The full list of "providers" is available in the <a href="https://faker.readthedocs.io/en/master/providers.html">docs</a>.</p>
-<p>I've found that wrapping including Faker in a class to mimic a particular data model efficient and easy to implement</p>
+<h3>Using Faker in a Fixture Factory</h3>
+<p>Another obvious use case of generating synthetic data is for unit testing.</p>
+<p>While it's simple to generate random, independent variables, the same cannot be said for complex, multidimensional models that incorporate business logic.</p>
+<p>I've found useful pattern is to construct a model using a data structure that mimics one that we would use in production. This concept is known as the <keyword>Factory</keyword> Pattern.</p>
+<p>By leveraging <keyword>faker</keyword>, we can generate realistic data in a variety of forms.</p>
+<p>Let's create a <code>ShopperFactory</code> class that we can use to generate our <code>Shopper</code> class</p>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
@@ -82,73 +85,51 @@ I'm a Phytotherapist at Martin-Austin.
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="k">class</span> <span class="nc">FakeShopper</span><span class="p">:</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Shopper</span><span class="p">:</span>
+    <span class="sd">"""The object we want to generate"""</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">timestamp</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">action</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="k">class</span> <span class="nc">ShopperFactory</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    Convenience class</span>
 
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
+<span class="sd">    Factory that produces Fake Shoppers</span>
 
-<span class="sd">    We define a set, `USERNAMES`</span>
-<span class="sd">    A username should be unique, so we track those generated thus far</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    active_begin: str</span>
+<span class="sd">        Leftmost window of time to include for timestamp</span>
+<span class="sd">    active_end: str</span>
+<span class="sd">        Rightmost window of time to include for timestamp</span>
+<span class="sd">    recurring: float</span>
+<span class="sd">        How often to generate unique shoppers</span>
 
-<span class="sd">    For user_ids, let's assume they are auto-incremented.</span>
 <span class="sd">    """</span>
-
-    <span class="n">FAKER</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
-    <span class="n">USERNAMES</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([])</span>
-    <span class="n">LAST_ID</span> <span class="o">=</span> <span class="mi">1</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_begin</span><span class="o">=</span><span class="s1">'-30d'</span><span class="p">,</span> <span class="n">active_end</span><span class="o">=</span><span class="s1">'now'</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_begin</span><span class="o">=</span><span class="s1">'-30d'</span><span class="p">,</span> <span class="n">active_end</span><span class="o">=</span><span class="s1">'now'</span><span class="p">,</span> <span class="n">recurring</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+                 <span class="n">actions</span><span class="o">=</span><span class="p">(</span><span class="s1">'view'</span><span class="p">,</span> <span class="s1">'add_to_cart'</span><span class="p">,</span> <span class="s1">'save'</span><span class="p">,</span> <span class="s1">'share'</span><span class="p">,</span> <span class="s1">'purchase'</span><span class="p">)):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_begin</span> <span class="o">=</span> <span class="n">active_begin</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_end</span> <span class="o">=</span> <span class="n">active_end</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_username</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_user_id</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recurring</span> <span class="o">=</span> <span class="n">recurring</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="n">actions</span>
 
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_make_unique</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">unique_set</span><span class="p">):</span>
-        <span class="n">unique_set_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">unique_set</span><span class="p">)</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">FAKER</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">result</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unique_set_attr</span><span class="p">:</span>
-                <span class="n">unique_set_attr</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="k">def</span> <span class="nf">make_username</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">email</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"@"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_unique</span><span class="p">(</span><span class="n">make_username</span><span class="p">,</span> <span class="s2">"USERNAMES"</span><span class="p">)</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_user_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-
-        <span class="n">value</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">LAST_ID</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">LAST_ID</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">value</span>
-
-    <span class="k">def</span> <span class="nf">timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FAKER</span><span class="o">.</span><span class="n">date_time_between</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">active_begin</span><span class="p">,</span>
-                                            <span class="bp">self</span><span class="o">.</span><span class="n">active_end</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">product_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FAKER</span><span class="o">.</span><span class="n">ean</span><span class="p">())</span>
-
-    <span class="k">def</span> <span class="nf">product_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FAKER</span><span class="o">.</span><span class="n">random_element</span><span class="p">([</span><span class="s1">'view'</span><span class="p">,</span> <span class="s1">'add_to_cart'</span><span class="p">,</span> <span class="s1">'save'</span><span class="p">,</span> <span class="s1">'share'</span><span class="p">,</span> <span class="s1">'purchase'</span><span class="p">])</span>
-
-    <span class="k">def</span> <span class="nf">activity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="c1"># Simulate activity on an e-commerce site</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">"id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
-            <span class="s2">"username"</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
-            <span class="s2">"timestamp"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span><span class="p">(),</span>
-            <span class="s2">"product_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">product_id</span><span class="p">(),</span>
-            <span class="s2">"action"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">product_action</span><span class="p">()</span>
-            <span class="p">}</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Shopper</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Shopper</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">pyint</span><span class="p">(),</span>
+                <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">user_name</span><span class="p">(),</span>
+                <span class="n">timestamp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">date_time_between</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">active_begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_end</span><span class="p">),</span>
+                <span class="n">product_id</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">ean</span><span class="p">()),</span>
+                <span class="n">action</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">)</span>
+                <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -169,26 +150,8 @@ I'm a Phytotherapist at Martin-Austin.
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Create 100 unique shoppers</span>
-
-<span class="n">shoppers</span> <span class="o">=</span> <span class="p">[</span><span class="n">FakeShopper</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># We'd like some variation in the level of activity generated by each shopper.</span>
-<span class="c1"># We will use an exponential distribution to simulate the number of interactions</span>
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">n_activities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Add 1 so a shopper has at least 1 activity</span>
+<span class="n">factory</span> <span class="o">=</span> <span class="n">ShopperFactory</span><span class="p">()</span>
+<span class="n">shoppers</span> <span class="o">=</span> <span class="p">[</span><span class="n">factory</span><span class="o">.</span><span class="n">create</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
@@ -202,17 +165,10 @@ I'm a Phytotherapist at Martin-Austin.
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-
-<span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">shoppers</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">shopper</span><span class="p">,</span> <span class="n">n_actions</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">shoppers</span><span class="p">,</span> <span class="n">activities</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_actions</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">shopper</span><span class="o">.</span><span class="n">activity</span><span class="p">()</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">generate_data</span><span class="p">(</span><span class="n">shoppers</span><span class="p">,</span> <span class="n">n_activities</span><span class="p">))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">shoppers</span><span class="p">)</span>
 
 <span class="c1"># Order by timestamp</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -252,163 +208,163 @@ I'm a Phytotherapist at Martin-Austin.
 </thead>
 <tbody>
 <tr>
-<td>0</td>
-<td>51</td>
-<td>smithselena</td>
-<td>2020-06-12 00:15:15</td>
-<td>8167065674545</td>
-<td>view</td>
-</tr>
-<tr>
-<td>1</td>
-<td>70</td>
-<td>newtonmichael</td>
-<td>2020-06-12 00:15:45</td>
-<td>8209493702992</td>
-<td>purchase</td>
-</tr>
-<tr>
-<td>2</td>
-<td>4</td>
-<td>debra96</td>
-<td>2020-06-12 00:17:48</td>
-<td>905645568581</td>
+<th>0</th>
+<td>9334</td>
+<td>starksheryl</td>
+<td>2021-12-07 00:20:27</td>
+<td>2481094721503</td>
 <td>add_to_cart</td>
 </tr>
 <tr>
-<td>3</td>
-<td>97</td>
-<td>butlerlisa</td>
-<td>2020-06-12 00:18:32</td>
-<td>7494221770225</td>
-<td>purchase</td>
+<th>1</th>
+<td>8961</td>
+<td>emilylewis</td>
+<td>2021-12-07 19:49:39</td>
+<td>7680724944021</td>
+<td>share</td>
 </tr>
 <tr>
-<td>4</td>
-<td>60</td>
-<td>dstephens</td>
-<td>2020-06-12 00:21:38</td>
-<td>1022934969283</td>
+<th>2</th>
+<td>2890</td>
+<td>torresdenise</td>
+<td>2021-12-07 23:46:27</td>
+<td>5757279973652</td>
 <td>save</td>
 </tr>
 <tr>
-<td>5</td>
-<td>95</td>
-<td>tlowe</td>
-<td>2020-06-12 00:23:42</td>
-<td>6034683060093</td>
-<td>purchase</td>
-</tr>
-<tr>
-<td>6</td>
-<td>42</td>
-<td>brookschad</td>
-<td>2020-06-12 00:24:35</td>
-<td>1461324381166</td>
-<td>share</td>
-</tr>
-<tr>
-<td>7</td>
-<td>48</td>
-<td>hadams</td>
-<td>2020-06-12 00:29:27</td>
-<td>892806748053</td>
+<th>3</th>
+<td>204</td>
+<td>teresasmith</td>
+<td>2021-12-08 02:41:39</td>
+<td>300613065442</td>
 <td>add_to_cart</td>
 </tr>
 <tr>
-<td>8</td>
-<td>97</td>
-<td>butlerlisa</td>
-<td>2020-06-12 00:32:52</td>
-<td>5201939637205</td>
+<th>4</th>
+<td>4039</td>
+<td>hectorking</td>
+<td>2021-12-08 11:01:59</td>
+<td>7504905191595</td>
+<td>purchase</td>
+</tr>
+<tr>
+<th>5</th>
+<td>1572</td>
+<td>lauramorgan</td>
+<td>2021-12-09 02:02:36</td>
+<td>6301670090402</td>
+<td>save</td>
+</tr>
+<tr>
+<th>6</th>
+<td>486</td>
+<td>ralph65</td>
+<td>2021-12-09 04:27:31</td>
+<td>3343561140738</td>
 <td>share</td>
 </tr>
 <tr>
-<td>9</td>
-<td>55</td>
-<td>grantpeggy</td>
-<td>2020-06-12 00:34:08</td>
-<td>9064054062729</td>
-<td>view</td>
+<th>7</th>
+<td>5512</td>
+<td>pamela43</td>
+<td>2021-12-09 10:05:23</td>
+<td>9653097856077</td>
+<td>save</td>
 </tr>
 <tr>
-<td>10</td>
-<td>32</td>
-<td>brittney02</td>
-<td>2020-06-12 00:40:08</td>
-<td>7634715095452</td>
-<td>view</td>
-</tr>
-<tr>
-<td>11</td>
-<td>88</td>
-<td>brady02</td>
-<td>2020-06-12 00:44:20</td>
-<td>7884169394926</td>
+<th>8</th>
+<td>2946</td>
+<td>ryan45</td>
+<td>2021-12-09 11:45:00</td>
+<td>3632738352129</td>
 <td>purchase</td>
 </tr>
 <tr>
-<td>12</td>
-<td>40</td>
-<td>ujohnson</td>
-<td>2020-06-12 00:48:25</td>
-<td>7469749015356</td>
+<th>9</th>
+<td>2136</td>
+<td>xnixon</td>
+<td>2021-12-09 12:42:39</td>
+<td>5948317234532</td>
+<td>purchase</td>
+</tr>
+<tr>
+<th>10</th>
+<td>4081</td>
+<td>hughesandre</td>
+<td>2021-12-09 17:45:03</td>
+<td>5393312494731</td>
+<td>save</td>
+</tr>
+<tr>
+<th>11</th>
+<td>5846</td>
+<td>spencerblanchard</td>
+<td>2021-12-10 06:20:17</td>
+<td>9459623162946</td>
 <td>view</td>
 </tr>
 <tr>
-<td>13</td>
-<td>47</td>
-<td>vanessahayes</td>
-<td>2020-06-12 00:51:59</td>
-<td>9981509109054</td>
+<th>12</th>
+<td>7888</td>
+<td>kathleen43</td>
+<td>2021-12-10 10:31:56</td>
+<td>9871057415724</td>
+<td>purchase</td>
+</tr>
+<tr>
+<th>13</th>
+<td>5070</td>
+<td>gfrench</td>
+<td>2021-12-10 11:06:15</td>
+<td>4802957773084</td>
+<td>view</td>
+</tr>
+<tr>
+<th>14</th>
+<td>7805</td>
+<td>opacheco</td>
+<td>2021-12-10 13:43:48</td>
+<td>2497493920874</td>
 <td>share</td>
 </tr>
 <tr>
-<td>14</td>
-<td>89</td>
-<td>michaelzhang</td>
-<td>2020-06-12 00:54:59</td>
-<td>8609285893912</td>
-<td>purchase</td>
-</tr>
-<tr>
-<td>15</td>
-<td>12</td>
-<td>timothyporter</td>
-<td>2020-06-12 00:56:35</td>
-<td>2505913896729</td>
+<th>15</th>
+<td>1458</td>
+<td>ilucas</td>
+<td>2021-12-11 08:31:41</td>
+<td>1194856071259</td>
 <td>view</td>
 </tr>
 <tr>
-<td>16</td>
-<td>97</td>
-<td>butlerlisa</td>
-<td>2020-06-12 00:57:39</td>
-<td>5418005746338</td>
+<th>16</th>
+<td>9574</td>
+<td>charlesvasquez</td>
+<td>2021-12-13 15:02:27</td>
+<td>6950640703752</td>
+<td>share</td>
+</tr>
+<tr>
+<th>17</th>
+<td>6810</td>
+<td>allenbrenda</td>
+<td>2021-12-13 19:28:32</td>
+<td>9628842019694</td>
 <td>view</td>
 </tr>
 <tr>
-<td>17</td>
-<td>53</td>
-<td>summersjuan</td>
-<td>2020-06-12 00:58:02</td>
-<td>8422869800898</td>
-<td>purchase</td>
+<th>18</th>
+<td>9191</td>
+<td>savannah52</td>
+<td>2021-12-13 20:44:41</td>
+<td>9861781795148</td>
+<td>save</td>
 </tr>
 <tr>
-<td>18</td>
-<td>21</td>
-<td>xjones</td>
-<td>2020-06-12 01:03:33</td>
-<td>3455485873699</td>
-<td>add_to_cart</td>
-</tr>
-<tr>
-<td>19</td>
-<td>48</td>
-<td>hadams</td>
-<td>2020-06-12 01:03:56</td>
-<td>4892075603134</td>
+<th>19</th>
+<td>3041</td>
+<td>david41</td>
+<td>2021-12-13 23:52:03</td>
+<td>440843721630</td>
 <td>share</td>
 </tr>
 </tbody>
@@ -421,70 +377,25 @@ I'm a Phytotherapist at Martin-Austin.
 </div>
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Finally</h3>
-<p>We've seen how we can synthesize datasets and embed them in a pandas DataFrame.</p>
-<p>This idea can also be extended to <keyword>SQLAlchemy</keyword> Models using introspection</p>
+<p>This simple example generates valid <code>Shopper</code> objects on-demand.</p>
+<p>However, the dataset, as a whole may not accurately reflect one in production.</p>
+<ul>
+<li>We have no logic in place that assures <code>id</code> and <code>username</code> are always associated.</li>
+<li>There should be repeat users</li>
+<li>A purchase should necessarily include a "view", "add_to_cart" for the product id. These events should be in order (with regards to "timestamp")</li>
+<li>...etc</li>
+</ul>
+<p>Having the dataset make sense will require some additional work!</p>
 </div>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FakeModel</span><span class="p">:</span>
-    <span class="sd">"""</span>
-<span class="sd">    Base Class for Generating Fake Data from a Flask-SQLAlchemy Model.</span>
-<span class="sd">    """</span>
-    <span class="n">FAKER</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-
-    <span class="k">def</span> <span class="nf">map_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Column</span><span class="p">):</span>
-        <span class="sd">"""</span>
-<span class="sd">        Use introspection to return a callable that returns an appropriate value</span>
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="p">:</span>
-            <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">arg</span>  <span class="c1"># Return the default value</span>
-
-        <span class="c1"># Below we have to equate `Boolean` to native `bool`, `String` to native `str`, etc</span>
-        <span class="n">sqltype</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">type</span>
-        <span class="n">clstype</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">sqltype</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">clstype</span> <span class="o">==</span> <span class="n">Boolean</span><span class="p">:</span>   <span class="c1"># Simple choice</span>
-            <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">choice</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
-
-        <span class="k">elif</span> <span class="n">clstype</span> <span class="o">==</span> <span class="n">DateTime</span><span class="p">:</span>  <span class="c1"># Customize date range as needed</span>
-            <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">faker</span><span class="o">.</span><span class="n">date_time_between</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="s1">'-3d'</span><span class="p">)</span>
-
-
-        <span class="c1"># Strings and Text will require greater care to return realistic values</span>
-        <span class="c1"># Here we look at the column name to guess what to return</span>
-
-        <span class="k">elif</span> <span class="n">clstype</span> <span class="o">==</span> <span class="n">String</span> <span class="ow">or</span> <span class="n">clstype</span> <span class="o">==</span> <span class="n">Text</span><span class="p">:</span>
-            <span class="n">max_len</span> <span class="o">=</span> <span class="n">sqltype</span><span class="o">.</span><span class="n">length</span> <span class="ow">or</span> <span class="mi">512</span>  <span class="c1"># MySQL</span>
-            <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">s</span> <span class="ow">in</span> <span class="n">k</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'user'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">]]):</span>  <span class="c1"># User name</span>
-                <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">faker</span><span class="o">.</span><span class="n">user_name</span><span class="p">()[:</span><span class="n">max_len</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="s1">'email'</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>  <span class="c1"># Email address</span>
-                <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">faker</span><span class="o">.</span><span class="n">ascii_email</span><span class="p">()[:</span><span class="n">max_len</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">'full_name'</span><span class="p">:</span>
-                <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">faker</span><span class="o">.</span><span class="n">name</span><span class="p">()[:</span><span class="n">max_len</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">faker</span><span class="o">.</span><span class="n">words</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Column</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span>
-
-    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">primary_key</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_type</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)()</span>
-        <span class="k">return</span> <span class="n">data</span>
-</pre></div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 </div>
 </div>
 </div>
