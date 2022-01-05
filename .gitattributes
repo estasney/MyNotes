@@ -1,0 +1,20 @@
+* text=auto
+
+# Webpack output
+# ================
+*.bundle.js binary
+*.woff binary
+*.woff2 binary
+
+# Notebooks
+# =============
+*.ipynb text
+
+# Python
+# =============
+*.py text
+
+# HTML / CSS
+# =============
+*.html text diff=html
+*.scss text diff=css

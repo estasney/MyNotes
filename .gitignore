@@ -1,5 +1,5 @@
 **/.ipynb_checkpoints/
-**./idea/
+**/.idea/
 **/__pycache__/
 **/*.db
 **/venv/
@@ -7,3 +7,4 @@
 **/scratch/
 **/*.out
 **/index_built.html
+**/src/dist
