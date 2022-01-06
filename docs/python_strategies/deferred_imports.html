@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-132355416-7');
+  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazy, Cached, Singleton Imports</title>
+<script src="/MyNotes/static/dist/main.ff556ea36f62528c6b51.bundle.js"></script>
+</head>
+<body>
+  <div class="jumbotron-fluid text-center text-white header-radial">
+  <h1>My Notes</h1>
+  <p>Programming strategies, examples, tips and tricks</p>
+</div>
+
+<div class="container paper">
+<body>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1>Lazy, Cached, Singleton Imports</h1>
+<p><em>Using Dunder Methods</em></p>
+<p><em>Created: 2022-01-06</em></p>
+<updated></updated>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Problem</strong>: You need to make a resource available for import, but it requires some additional processing before being ready.</p>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>ORM Sessions/Engines<ul>
+<li>Different modules should use the same ORM connection</li>
+</ul>
+</li>
+<li>Loggers<ul>
+<li>You want to use a logger, but with each import the logging handlers are duplicated</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2>How We Approach with Cached Properties</h2>
+<p>This is a common pattern to cache <keyword>properties</keyword></p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyResource</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span> <span class="o">=</span> <span class="n">one_time_load</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span>
+</pre></div>
+<p>Notice we could have used a Class Attribute which would be shared across all instances of <code>MyResource</code></p>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2>Imports</h2>
+<p>Here's how to do something similar with a module (typing is helpful but optional)</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="n">_MY_RESOURCE</span><span class="o">=</span><span class="kc">None</span>
+<span class="n">MY_RESOURCE</span><span class="p">:</span> <span class="n">Any</span>
+
+<span class="k">def</span> <span class="nf">_load_resource</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">_MY_RESOURCE</span>
+    <span class="c1"># one time operation</span>
+    <span class="n">_MY_RESOURCE</span> <span class="o">=</span> <span class="n">some_value</span>
+    <span class="k">return</span> <span class="n">_MY_RESOURCE</span>
+
+<span class="c1"># This is the good part</span>
+
+<span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"MY_RESOURCE"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_load_resource</span><span class="p">()</span>
+    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"module </span><span class="si">{</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2"> has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+<p>And now we can simply import <code>MY_RESOURCE</code> knowing we're getting <code>_MY_RESOURCE</code>!</p>
+<p>We're defining a <keyword>dunder</keyword> method for a module?!</p>
+<p>If you found this use of <keyword>descriptors</keyword> interesting, check out the official <a href="https://docs.python.org/3/howto/descriptor.html">Descriptor HowTo Guide</a></p>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+</div>
+</body>
+</div>
+</body>
+</html>
