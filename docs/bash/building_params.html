@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Building Parameters Programmatically</title>
-<script src="/MyNotes/static/dist/main.e4158336059ea57aec9f.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.ff556ea36f62528c6b51.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -20,17 +20,14 @@
 
 <div class="container paper">
 <body>
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1>Building Parameters Programmatically</h1>
 <p><em>With Arrays</em></p>
 <p><em>Created: 2021-02-13</em></p>
 <p><em>Updated: 2021-04-29</em></p>
 </div>
 </div>
-</div>
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Some programs, like ffmpeg, can take <em>a lot</em> of command line parameters.</p>
 <p>I had written a <keyword>bash</keyword> <a href="https://estasney.github.io/MyNotes/multimedia/ffmpeg_mosaic.html">script</a> that I wanted to be able to call with different parameters.</p>
 <p>As I found out, when we use a variable in bash like this:</p>
@@ -43,9 +40,7 @@
 </pre></div>
 </div>
 </div>
-</div>
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Thanks to this <a href="https://unix.stackexchange.com/a/152554/390145">post</a> for explaining to use arrays.</p>
 <p>So to get the correct behavior</p>
 <div class="highlight"><pre><span></span><span class="nv">PARAMS</span><span class="o">=(</span>-qscale:v<span class="o">)</span>
@@ -63,7 +58,6 @@
 <div class="highlight"><pre><span></span><span class="n">PARAMS</span><span class="o">=</span><span class="p">[</span><span class="s1">'-qscale:v'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'-f'</span><span class="p">,</span> <span class="s1">'rtsp'</span><span class="p">]</span>
 <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="o">*</span><span class="n">PARAMS</span><span class="p">])</span>
 </pre></div>
-</div>
 </div>
 </div>
 </body>
