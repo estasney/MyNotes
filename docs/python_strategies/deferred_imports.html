@@ -69,6 +69,9 @@
 
 <span class="k">def</span> <span class="nf">_load_resource</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">_MY_RESOURCE</span>
+    <span class="k">if</span> <span class="n">_MY_RESOURCE</span><span class="p">:</span>
+        <span class="c1"># We've already loaded our resource</span>
+        <span class="k">return</span> <span class="n">_MY_RESOURCE</span>
     <span class="c1"># one time operation</span>
     <span class="n">_MY_RESOURCE</span> <span class="o">=</span> <span class="n">some_value</span>
     <span class="k">return</span> <span class="n">_MY_RESOURCE</span>
