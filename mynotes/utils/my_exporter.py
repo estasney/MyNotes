@@ -187,9 +187,11 @@ if __name__ == "__main__":
     custom_config.NotesExporter.preprocessors = [
         MyNotesData,
         RemoveExecutionCount,
+        ExtractModuleUsage(
+            ignored=["os", "subprocess", "glob", "base64", "pathlib", "io"]
+        ),
         KeywordPreprocessor,
         NBTitleMarkdown,
-        ExtractModuleUsage,
         NBDateProcessor,
     ]
     custom_config.TemplateExporter.exclude_input_prompt = True

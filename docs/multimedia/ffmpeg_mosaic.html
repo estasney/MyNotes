@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stacking RTSP Streams with ffmpeg</title>
-<script src="/MyNotes/static/dist/main.ff556ea36f62528c6b51.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.e4158336059ea57aec9f.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -20,20 +20,25 @@
 
 <div class="container paper">
 <body>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1>Stacking <keyword>RTSP</keyword> Streams with <keyword>ffmpeg</keyword></h1>
 <p><em>Because ffmpeg is awesome!</em></p>
 <p><em>Created: 2021-01-20</em></p>
 <p><em>Updated: 2022-01-04</em></p>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3>Background</h3>
 <p>I have 4 RTSP Streams available from my local NVR. I wanted to combine them into a single video.</p>
 <p>Since I'm also using these as part of a CV Project with a <keyword>Jetson Nano</keyword>, I wanted to be able to grab frames every <code>n</code> seconds</p>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
 <li>Recommended Flags as Streams start Synchronously</li>
 </ul>
@@ -60,7 +65,9 @@
 </pre></div>
 </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3>Mosaic to Images</h3>
 <p>Since we're using a complex filtergraph we can't add <code>-vf fps=x</code> after <code>-map</code></p>
 <p>Make the following modification to the filtergraph:</p>
@@ -86,6 +93,7 @@
   <span class="s2">"[0:v][1:v][2:v][3:v]xstack=inputs=4:layout=0_0|w0_0|0_h0|w0_h0[v];[v]fps=1[img]"</span> -map <span class="s2">"[img]"</span> <span class="se">\</span>
   /somepath/Image_%08d.jpg
 </pre></div>
+</div>
 </div>
 </div>
 </body>

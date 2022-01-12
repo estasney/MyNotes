@@ -5,14 +5,16 @@ from collections import Counter
 
 if TYPE_CHECKING:
     from pygments.token import Token
+    from typing import Iterable
 
 
 class ExtractModuleUsage(Preprocessor):
     """Find imported modules and add them to resources"""
 
-    def __init__(self, **kwargs):
+    def __init__(self, ignored: "Optional[Iterable]", **kwargs):
         super().__init__(**kwargs)
         self.lexer = get_lexer_by_name("python")
+        self.ignored = ignored
 
     def preprocess(self, nb, resources):
         for index, cell in enumerate(nb.cells):
@@ -36,11 +38,12 @@ class ExtractModuleUsage(Preprocessor):
         resources["mynotes"]["modules"].extend(modules)
         return cell, resources
 
-    @staticmethod
-    def _filter_token(token_chunk: tuple["Token", str]):
+    def _filter_token(self, token_chunk: tuple["Token", str]):
         """Filter individual tokens"""
         token, token_txt = token_chunk
         if token_txt.isspace():
+            return False
+        if self.ignored and token_txt in self.ignored:
             return False
         return True
 

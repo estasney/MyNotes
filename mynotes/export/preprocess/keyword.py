@@ -10,13 +10,17 @@ class KeywordPreprocessor(Preprocessor):
     def preprocess(self, nb, resources):
         for index, cell in enumerate(nb.cells):
             nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
-        keywords = resources['mynotes']['keywords']
+        keywords = resources["mynotes"]["keywords"]
         if not keywords:
             return nb, resources
         keyword_items = [item for item in keywords]
-        module_counts = Counter(keyword_items)
-        keyword_items.sort(key=lambda x: module_counts.get(x), reverse=True)
-        resources['mynotes']['keywords'] = keyword_items
+        keyword_counts = Counter(keyword_items)
+        unique_keywords = set(keyword_items)
+        modules = set(resources["mynotes"]["modules"])
+        unique_keywords -= modules
+        unique_keywords = list(unique_keywords)
+        unique_keywords.sort(key=lambda x: keyword_counts.get(x), reverse=True)
+        resources["mynotes"]["keywords"] = unique_keywords
         return nb, resources
 
     def preprocess_cell(self, cell, resources, index):
@@ -24,6 +28,5 @@ class KeywordPreprocessor(Preprocessor):
         if cell.cell_type == "markdown":
             keywords = self.KEYWORD_SEARCH.findall(cell.source)
             if keywords:
-                resources['mynotes']['keywords'].extend(keywords)
+                resources["mynotes"]["keywords"].extend(keywords)
         return cell, resources
-
