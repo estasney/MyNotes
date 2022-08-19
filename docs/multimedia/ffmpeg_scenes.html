@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Remove Commercials with ffmpeg and PySceneDetect</title>
-<script src="/MyNotes/static/dist/main.e4158336059ea57aec9f.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.615d61105214c41b1b0f.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -20,16 +20,23 @@
 
 <div class="container paper">
 <body>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1>Remove <keyword>Commercials</keyword> with <keyword>ffmpeg</keyword> and <keyword>PySceneDetect</keyword></h1>
 <p><em>Managing non-contiguous sections</em></p>
 <p><em>Created: 2022-01-11</em></p>
-<updated></updated>
+<p><em>Updated: 2022-08-19</em></p>
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1>Background</h1>
 <p>I wanted to remove commercials from several hundred TV episodes present in a handful of recordings. Additionally, I wanted to split them per episode to be added to a media library.</p>
@@ -40,6 +47,7 @@
 <p>PySceneDetect is easily called from the command line. However, as I was doing this in batches and wanted a way to incorporate reviewing the scenes and episode annotation with the conversion, I decided to use a Jupyter Notebook</p>
 </div>
 </div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -47,7 +55,7 @@
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span>
 
 <span class="k">def</span> <span class="nf">get_scenes</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">video</span><span class="p">):</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"scenedetect"</span><span class="p">,</span> <span class="s2">"-i"</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="s2">"detect-threshold"</span><span class="p">,</span> <span class="s2">"list-scenes"</span><span class="p">,</span> <span class="s2">"save-images"</span><span class="p">,</span> <span class="s2">"export-html"</span><span class="p">,</span> <span class="s2">"-w"</span><span class="p">,</span>
@@ -60,10 +68,45 @@
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>As you see from the above function, PySceneDetect will generate a report of scenes detected, along with thumbnails to confirm their accuracy.</p>
-<p>With the report finished - I used some helper functions to work with the report and integrate it into Jupyter.</p>
+<p>With the report finished - I use some helper functions to work with the report and integrate it into Jupyter.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2>Annotating Scenes</h2>
+<p>To assign scenes to a video output, I came up with a simple syntax:</p>
+<pre><code>scene_stmt: number
+scene_range: number-number (inclusive)
+scene_break: number,number
+output_name: ...string</code></pre>
+<p>Example:</p>
+<ol>
+<li>Select scenes 1-4 (inclusive), scene 7, and scenes 8-11 (inclusive) and save to a video named 'output'</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="n">annotation</span> <span class="o">=</span> <span class="s2">"1-4,7,8-11...output"</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3>Annotation Parser</h3>
+</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
@@ -73,129 +116,126 @@
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_scene_annotation</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Transform annotation to structured form</span>
+<span class="sd">    """</span>
+    <span class="n">scenes_str</span><span class="p">,</span> <span class="n">output_name</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
+    <span class="n">scenes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sc_range</span> <span class="ow">in</span> <span class="n">scenes_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">):</span>
+        <span class="c1"># Split on disjointed scenes</span>
+        <span class="n">sc_range</span> <span class="o">=</span> <span class="n">sc_range</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">"-"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sc_range</span><span class="p">:</span>
+            <span class="c1"># Single scene</span>
+            <span class="n">scenes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">sc_range</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">sc_range</span><span class="p">)))</span>
+            <span class="k">continue</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">sc_range</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)</span>
+        <span class="n">scenes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">strip</span><span class="p">()),</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="o">.</span><span class="n">strip</span><span class="p">())))</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">scenes</span><span class="p">,</span> <span class="n">output_name</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3>Translate Scene Numbers to Timestamps</h3>
+<p>We will use the report from <code>PySceneDetect</code> to get translate scene numbers to timestamps</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="n">b64encode</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 
-<span class="n">video</span> <span class="o">=</span> <span class="s2">"~/Videos/movie.mkv"</span>
-<span class="n">scenes</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s2">"~/Videos/*.jpg"</span><span class="p">)</span>  <span class="c1"># Thumbnails from PySceneDetect</span>
-<span class="n">scene_list</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s2">"~/Videos/Scenes.csv"</span><span class="p">)</span>  <span class="c1"># Scene Report</span>
+<span class="n">scene_report_fp</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"~/Videos/Captures/Scenes.csv"</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>  <span class="c1"># Scene Report</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">scene_report_fp</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s1">'Scene Number'</span><span class="p">])</span>
 
-<span class="k">def</span> <span class="nf">sort_scene</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">"""Sort scenes by timecode"""</span>
-    <span class="n">fp</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
-    <span class="n">scene_num</span><span class="p">,</span> <span class="n">scene_idx</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]]</span>
-    <span class="k">return</span> <span class="n">scene_num</span><span class="p">,</span> <span class="n">scene_idx</span>
+<span class="k">def</span> <span class="nf">get_scene_timestamp</span><span class="p">(</span><span class="n">scene_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">is_end</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">"""Depending on if this scene_number starts a range or scene_ranges it return the appropriate timestamp"""</span>
+    <span class="k">return</span> <span class="n">df_scenes</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">scene_number</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'End'</span> <span class="k">if</span> <span class="n">is_end</span> <span class="k">else</span> <span class="s1">'Start'</span><span class="si">}</span><span class="s2"> Time (seconds)"</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">get_scene_image</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">imgs</span><span class="p">):</span>
-    <span class="sd">"""Given a scene, return it's thumbnail"""</span>
-    <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span> <span class="k">if</span> <span class="n">sort_scene</span><span class="p">(</span><span class="n">img</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">scene</span><span class="p">]</span>
-    <span class="n">matches</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">sort_scene</span><span class="p">)</span>
-    <span class="n">img_objs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">]</span>
-    <span class="n">img_width</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">width</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">img_objs</span><span class="p">)</span>
-    <span class="n">img_height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">height</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">img_objs</span><span class="p">)</span>
-    <span class="n">scene_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'RGB'</span><span class="p">,</span> <span class="p">(</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">))</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">img_objs</span><span class="p">:</span>
-        <span class="n">scene_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="n">i</span><span class="o">.</span><span class="n">width</span>
-    <span class="k">return</span> <span class="n">scene_img</span>
-
-<span class="k">def</span> <span class="nf">encode_b64_img</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
-    <span class="sd">"""Base64 encode thumbnail for display in Jupyter"""</span>
-    <span class="n">fp</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
-    <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'png'</span><span class="p">)</span>
-    <span class="n">b64_img</span> <span class="o">=</span> <span class="n">b64encode</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'ascii'</span><span class="p">)</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"data:image/png;base64,</span><span class="si">{</span><span class="n">b64_img</span><span class="si">}</span><span class="s2">"</span>
-
-<span class="k">def</span> <span class="nf">embed_scene_image</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">imgs</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-    <span class="sd">"""Given a scene, retrieve its thumbnail and display it's timestamps"""</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">get_scene_image</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">imgs</span><span class="o">=</span><span class="n">imgs</span><span class="p">)</span>
-    <span class="n">img_b64</span> <span class="o">=</span> <span class="n">encode_b64_img</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-    <span class="n">scene_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Scene Number'</span><span class="p">]</span> <span class="o">==</span> <span class="n">scene</span><span class="p">]</span>
-    <span class="n">scene_start</span> <span class="o">=</span> <span class="n">scene_data</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-    <span class="n">scene_end</span> <span class="o">=</span> <span class="n">scene_data</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-    <span class="n">scene_length</span> <span class="o">=</span> <span class="n">scene_data</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
-    <span class="n">element</span> <span class="o">=</span> <span class="n">HTML</span><span class="p">(</span><span class="sa">f</span><span class="s1">'''&lt;div&gt;</span>
-<span class="s1">    &lt;h2&gt;Scene: </span><span class="si">{</span><span class="n">scene</span><span class="si">}</span><span class="s1">&lt;/h2&gt;</span>
-<span class="s1">    &lt;h3&gt;</span><span class="si">{</span><span class="n">scene_start</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">scene_end</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">scene_length</span><span class="si">}</span><span class="s1">)&lt;/h3&gt;</span>
-<span class="s1">    &lt;img src="</span><span class="si">{</span><span class="n">img_b64</span><span class="si">}</span><span class="s1">"/&gt;&lt;/div&gt;'''</span><span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">parse_scene</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">is_end</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-    <span class="n">scene_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Scene Number'</span><span class="p">]</span> <span class="o">==</span> <span class="n">scene</span><span class="p">]</span>
-    <span class="n">scene_start</span> <span class="o">=</span> <span class="n">scene_data</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-    <span class="n">scene_end</span> <span class="o">=</span> <span class="n">scene_data</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-    <span class="n">scene_length</span> <span class="o">=</span> <span class="n">scene_data</span><span class="o">.</span><span class="n">iat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">is_end</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">scene_end</span>
-    <span class="k">return</span> <span class="n">scene_start</span>
-
-<span class="k">def</span> <span class="nf">parse_scenes</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_scene_timestamps</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
     <span class="n">scene_times</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="n">ends</span><span class="p">:</span>
-        <span class="n">start_secs</span> <span class="o">=</span> <span class="n">parse_scene</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
-        <span class="n">end_secs</span> <span class="o">=</span> <span class="n">parse_scene</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+        <span class="n">start_secs</span> <span class="o">=</span> <span class="n">get_scene_timestamp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">is_end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">df_scenes</span><span class="o">=</span><span class="n">df_scenes</span><span class="p">)</span>
+        <span class="n">end_secs</span> <span class="o">=</span> <span class="n">get_scene_timestamp</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">is_end</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">df_scenes</span><span class="o">=</span><span class="n">df_scenes</span><span class="p">)</span>
         <span class="n">scene_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start_secs</span><span class="p">,</span> <span class="n">end_secs</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">scene_times</span>
+    <span class="k">return</span> <span class="n">scene_times</span>    
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3>Build Filtergraph</h3>
+<p>We convert scene numbers to timestamps and prepare them for ingestion with some ffmpeg specific logic</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 
-<span class="k">def</span> <span class="nf">parse_ss</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">as_scenes</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">as_scenes</span><span class="p">:</span>
-        <span class="n">ends</span> <span class="o">=</span> <span class="n">parse_scenes</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
-    <span class="n">ss_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">ends</span><span class="p">))</span> <span class="o">-</span> <span class="mi">100</span>
+<span class="k">def</span> <span class="nf">parse_scenes</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">fast_seek_buffer</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
+    <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Fast seeking is not exact, so we want to start transcoding before the exact timestamp.</span>
+<span class="sd">    This requires recalculating our timestamps to adjust for the buffer.</span>
+
+<span class="sd">    Note that ffmpeg will discard the buffered portion, and will *not* be included in the output</span>
+
+<span class="sd">    We also want to convert our timestamps to strings, with .4f precision</span>
+<span class="sd">    """</span>
+
+    <span class="n">ends</span> <span class="o">=</span> <span class="n">get_scene_timestamps</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">,</span> <span class="n">df_scenes</span><span class="o">=</span><span class="n">df_scenes</span><span class="p">)</span>
+    
+    <span class="n">ss_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">ends</span><span class="p">))</span> <span class="o">-</span> <span class="n">fast_seek_buffer</span>
     <span class="n">ss_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">ss_start</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="n">new_pieces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">new_pieces</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ends</span><span class="p">:</span>
         <span class="n">new_start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="n">ss_start</span>
         <span class="n">new_end</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">ss_start</span>
-        <span class="n">new_pieces</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">new_start</span><span class="si">:</span><span class="s2">.04f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">new_end</span><span class="si">:</span><span class="s2">.04f</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">new_pieces</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ss_start</span><span class="si">:</span><span class="s2">.04f</span><span class="si">}</span><span class="s2">"</span>
-
-<span class="k">def</span> <span class="nf">parse_scene_annotation</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">scenes_str</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">output</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".mp4"</span><span class="p">):</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">.mp4"</span>
-        <span class="n">scenes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">sc</span> <span class="ow">in</span> <span class="n">scenes_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">):</span>
-            <span class="n">sc</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="k">if</span> <span class="s2">"-"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sc</span><span class="p">:</span>
-                <span class="n">scenes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">sc</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">sc</span><span class="p">)))</span>
-                <span class="k">continue</span>
-            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)]</span>
-            <span class="n">scenes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="p">)))</span>
-
-        <span class="k">return</span> <span class="p">[</span><span class="n">scenes</span><span class="p">,</span> <span class="n">output</span><span class="p">]</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">start_code</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%.4f</span><span class="s2">"</span> <span class="o">%</span> <span class="n">new_start</span>
+        <span class="n">end_code</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%.4f</span><span class="s2">"</span> <span class="o">%</span> <span class="n">new_end</span>
+        <span class="n">new_pieces</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start_code</span><span class="p">,</span> <span class="n">end_code</span><span class="p">))</span>
+    <span class="n">ss_start_code</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%.4f</span><span class="s2">"</span> <span class="o">%</span> <span class="n">ss_start</span>
+    <span class="k">return</span> <span class="n">new_pieces</span><span class="p">,</span> <span class="n">ss_start_code</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>There's a lot of "plumbing code" going on above. But it serves to allow me to write the instructions like:</p>
-<div class="highlight"><pre><span></span><span class="n">episodes</span> <span class="o">=</span> <span class="p">[</span>
-     <span class="s2">"2-3,10-11...S06E36"</span><span class="p">,</span>
-    <span class="p">]</span>
-</pre></div>
-<p>Which is interpreted as:
-"2-3,10-11"  -&gt; Select Scenes 2, 3, 10, 11 and Output as S06E36.mp4</p>
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-</div>
-</div>
-<div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2>Hooking in ffmpeg</h2>
-<p><keyword>ffmpeg</keyword> can do this, but the filtergraph is... very verbose!</p>
-<p>Below is some additional plumbing code that writes this out based on the scene and episode command</p>
+<p><keyword>ffmpeg</keyword> can do this, but the <keyword>filtergraph</keyword> is very verbose!</p>
+<p>Fortunately, we can build this programmatically</p>
+</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
@@ -205,26 +245,29 @@
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">make_filtergraph_pieces</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="sd">"""Trimming video and audio and setting the timestamp"""</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"[0:v]trim=start=</span><span class="si">{</span><span class="n">ends</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:end=</span><span class="si">{</span><span class="n">ends</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,setpts=PTS-STARTPTS[</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">v];"</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"[0:a]atrim=start=</span><span class="si">{</span><span class="n">ends</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:end=</span><span class="si">{</span><span class="n">ends</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,asetpts=PTS-STARTPTS[</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">a];"</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">make_filtergraph_pieces</span><span class="p">(</span><span class="n">scene_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">chunk</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Trimming video and audio and setting the correcting the timestamp</span>
+<span class="sd">    """</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"[0:v]trim=start=</span><span class="si">{</span><span class="n">scene_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:end=</span><span class="si">{</span><span class="n">scene_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,setpts=PTS-STARTPTS[</span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s2">v];"</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"[0:a]atrim=start=</span><span class="si">{</span><span class="n">scene_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:end=</span><span class="si">{</span><span class="n">scene_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,asetpts=PTS-STARTPTS[</span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s2">a];"</span>
     <span class="k">return</span> <span class="n">v</span><span class="o">+</span><span class="n">a</span>
 
-<span class="k">def</span> <span class="nf">make_concat_filtergraph</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="sd">"""Rejoining the trim and atrim from above with concat"""</span>
+<span class="k">def</span> <span class="nf">make_concat_filtergraph</span><span class="p">(</span><span class="n">n_chunks</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Rejoining the trim and atrim from above with concat</span>
+<span class="sd">    """</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="s2">""</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_chunks</span><span class="p">):</span>
         <span class="n">pre</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">v][</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">a]"</span>
-    <span class="n">pre_concat</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">concat=n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">:v=1:a=1[outv][outa]"</span>
+    <span class="n">pre_concat</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pre</span><span class="si">}</span><span class="s2">concat=n=</span><span class="si">{</span><span class="n">n_chunks</span><span class="si">}</span><span class="s2">:v=1:a=1[outv][outa]"</span>
     <span class="k">return</span> <span class="n">pre_concat</span>
 
-<span class="k">def</span> <span class="nf">make_filtergraph</span><span class="p">(</span><span class="n">ends</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">make_filtergraph</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
     <span class="sd">"""Generate the several lines of text for filtergraph"""</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ends</span><span class="p">)</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_filtergraph_pieces</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ends</span><span class="p">)]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_filtergraph_pieces</span><span class="p">(</span><span class="n">scene_range</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">)]</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-    <span class="n">output_graph</span> <span class="o">=</span> <span class="n">make_concat_filtergraph</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">output_graph</span> <span class="o">=</span> <span class="n">make_concat_filtergraph</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">))</span>
     <span class="n">s</span> <span class="o">=</span>  <span class="n">inputs</span> <span class="o">+</span> <span class="n">output_graph</span>
     <span class="k">return</span> <span class="n">s</span>
 </pre></div>
@@ -233,36 +276,101 @@
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3>Example Outputs</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4>Parsing Annotation</h4>
+<div class="highlight"><pre><span></span><span class="n">command</span> <span class="o">=</span> <span class="s2">"1-3,7-23,25...myvid"</span>
+<span class="n">parsed</span> <span class="o">=</span> <span class="n">parse_scene_annotation</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+<span class="n">parsed</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)],</span> <span class="s1">'myvid'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4>Getting Timestamps</h4>
+<div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">parsed_scenes</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="p">)</span>
+<span class="n">ts</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">([(</span><span class="s1">'0.0000'</span><span class="p">,</span> <span class="s1">'8.9170'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'391.7830'</span><span class="p">,</span> <span class="s1">'406.8830'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'1001.5670'</span><span class="p">,</span> <span class="s1">'1005.7000'</span><span class="p">)],</span> <span class="s1">'0.0000'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4>Getting Filtergraph</h4>
+<div class="highlight"><pre><span></span><span class="n">fg</span> <span class="o">=</span> <span class="n">make_filtergraph</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<span class="n">fg</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">'[0:v]trim=start=0.0000:end=8.9170,setpts=PTS-STARTPTS[0v];[0:a]atrim=start=0.0000:end=8.9170,asetpts=PTS-STARTPTS[0a];[0:v]trim=start=391.7830:end=406.8830,setpts=PTS-STARTPTS[1v];[0:a]atrim=start=391.7830:end=406.8830,asetpts=PTS-STARTPTS[1a];[0:v]trim=start=1001.5670:end=1005.7000,setpts=PTS-STARTPTS[2v];[0:a]atrim=start=1001.5670:end=1005.7000,asetpts=PTS-STARTPTS[2a];[0v][0a][1v][1a][2v][2a]concat=n=3:v=1:a=1[outv][outa]'</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3>Chaining It Together</h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_command</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">src_video</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">video_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="n">scene_ranges</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">parse_scene_annotation</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="n">scene_ts</span><span class="p">,</span> <span class="n">ss</span> <span class="o">=</span> <span class="n">parse_scenes</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">)</span>
+    <span class="n">fg</span> <span class="o">=</span> <span class="n">make_filtergraph</span><span class="p">(</span><span class="n">scene_ts</span><span class="p">)</span>
+    <span class="n">output_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">((</span><span class="n">Path</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span> <span class="o">/</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="n">video_format</span><span class="p">))</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="n">src_video</span><span class="p">,</span> <span class="s1">'-filter_complex'</span><span class="p">,</span>
+           <span class="n">fg</span><span class="p">,</span> <span class="s2">"-map"</span><span class="p">,</span> <span class="s2">"[outv]"</span><span class="p">,</span> <span class="s2">"-map"</span><span class="p">,</span> <span class="s2">"[outa]"</span><span class="p">,</span> <span class="s2">"-c:v"</span><span class="p">,</span> <span class="s2">"h264"</span><span class="p">,</span>
+            <span class="s2">"-preset"</span><span class="p">,</span> <span class="s2">"slow"</span><span class="p">,</span> <span class="s2">"-movflags"</span><span class="p">,</span> <span class="s2">"+faststart"</span><span class="p">,</span> <span class="s2">"-fps_mode"</span><span class="p">,</span> <span class="s2">"passthrough"</span><span class="p">,</span>
+           <span class="n">output_file</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">args</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2>Ready</h2>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">STDOUT</span><span class="p">,</span> <span class="n">PIPE</span>
-
-<span class="n">episode_commands</span> <span class="o">=</span> <span class="n">parse_scene_annotation</span><span class="p">(</span><span class="n">episodes</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">extract_pieces</span><span class="p">(</span><span class="n">pieces</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
-    <span class="sd">"""Uses cuda h264. This can be swapped out as needed"""</span>
-    <span class="n">pieces</span> <span class="o">=</span> <span class="n">parse_scenes</span><span class="p">(</span><span class="n">pieces</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
-
-    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-vsync'</span><span class="p">,</span> <span class="s1">'0'</span><span class="p">,</span> <span class="s1">'-hwaccel'</span><span class="p">,</span> <span class="s1">'cuda'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="s1">'-filter_complex'</span><span class="p">,</span>
-           <span class="n">make_filtergraph</span><span class="p">(</span><span class="n">pieces</span><span class="p">),</span> <span class="s2">"-map"</span><span class="p">,</span> <span class="s2">"[outv]"</span><span class="p">,</span> <span class="s2">"-map"</span><span class="p">,</span> <span class="s2">"[outa]"</span><span class="p">,</span> <span class="s2">"-c:v"</span><span class="p">,</span> <span class="s2">"h264_nvenc"</span><span class="p">,</span> <span class="s2">"-preset"</span><span class="p">,</span> <span class="s2">"slow"</span><span class="p">,</span> <span class="s2">"-movflags"</span><span class="p">,</span> <span class="s2">"+faststart"</span><span class="p">,</span>
-           <span class="n">output_file</span><span class="p">]</span>
-
-    <span class="k">with</span> <span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -271,25 +379,25 @@
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">STDOUT</span><span class="p">,</span> <span class="n">PIPE</span>
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">scene_list</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'Start Timecode'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'Start Timecode'</span><span class="p">])</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">'End Timecode'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'End Timecode'</span><span class="p">])</span>
+<span class="n">commands</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"1-3,7...myvid"</span><span class="p">,</span>
+    <span class="s2">"13,16-22...my_over_vid"</span>
+<span class="p">]</span>
 
-
-<span class="k">for</span> <span class="n">scenes</span><span class="p">,</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">episode_commands</span><span class="p">):</span>
-    <span class="n">mv_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">"~/Videos/Episodes"</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-    <span class="n">extract_pieces</span><span class="p">(</span><span class="n">scenes</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">mv_out</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">commands</span><span class="p">):</span>
+    <span class="n">parsed_command</span> <span class="o">=</span> <span class="n">parse_command</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">src_video</span><span class="o">=</span><span class="s2">"/path/to/src.mp4"</span><span class="p">,</span>
+                                   <span class="n">video_format</span><span class="o">=</span><span class="s2">".mp4"</span><span class="p">,</span>
+                                   <span class="n">output_folder</span><span class="o">=</span><span class="s2">"/path/to/converted"</span><span class="p">,</span>
+                                   <span class="n">df_scenes</span><span class="o">=</span><span class="n">df</span>
+                                  <span class="p">)</span>
+    <span class="k">with</span> <span class="n">Popen</span><span class="p">(</span><span class="n">parsed_command</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">pcommunicate</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 </div>
 </div>
 </div>

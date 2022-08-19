@@ -8,6 +8,7 @@ lxml
 nbconvert
 nbformat
 notebook
+pandas
 pandocfilters
 parso
 pickleshare
@@ -19,4 +20,5 @@ python-dateutil
 regex
 SQLAlchemy
 toolz
+tqdm
 pre-commit

@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Filter by offset</title>
-<script src="/MyNotes/static/dist/main.e4158336059ea57aec9f.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.615d61105214c41b1b0f.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -20,7 +20,10 @@
 
 <div class="container paper">
 <body>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1>Filter by offset</h1>
 <p><em>Filter by relative offset</em></p>
@@ -29,6 +32,7 @@
 </blockquote>
 <p><em>Created: 2021-04-30</em></p>
 <updated></updated>
+</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
@@ -108,7 +112,10 @@
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3>Shift Operator</h3>
 <p><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.shift.html?highlight=series%20shift#pandas.Series.shift">Shift Docs</a></p>
@@ -120,6 +127,7 @@
 </pre></div>
 <p>Does the <code>-1</code> surprise you? In reality, we aren't 'jumping' to another row with shift. We're shifting some row into the index of the row currently being evaluated.</p>
 <p>In this case it means we take the following row and shift it back by -1 to place it into our scope.</p>
+</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
@@ -218,11 +226,15 @@
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3>Shifted Index</h3>
 <p>While this correctly selects the rows that met our condition we'd also like to see the 'inactive' row as well.</p>
 <p>Here's how</p>
+</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
