@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Building Parameters Programmatically</title>
-<script src="/MyNotes/static/dist/main.615d61105214c41b1b0f.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.c4ca4c3fdf5050ede53f.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -41,12 +41,15 @@
 <p>Some programs, like ffmpeg, can take <em>a lot</em> of command line parameters.</p>
 <p>I had written a <keyword>bash</keyword> <a href="https://estasney.github.io/MyNotes/multimedia/ffmpeg_mosaic.html">script</a> that I wanted to be able to call with different parameters.</p>
 <p>As I found out, when we use a variable in bash like this:</p>
-<div class="highlight"><pre><span></span><span class="nv">FORMAT</span><span class="o">=</span><span class="s1">'-qscale:v 2 -f rtsp'</span>
-</pre></div>
-<p>When we call it, it is interpreted like this:</p>
-<div class="highlight"><pre><span></span>-qscale:v <span class="o">(</span><span class="m">2</span>, -f, rtsp<span class="o">)</span>
-</pre></div>
-<div class="highlight"><pre><span></span>-qscale:v is passed <span class="m">2</span>, -f, and rtsp
+<div class="highlight"><pre><span></span><span class="nv">FORMAT</span><span class="o">=</span><span class="s1">'-qscale:v 2 -f rtsp'</span><span class="sb">```</span>
+
+When we call it, it is interpreted like this:
+
+<span class="sb">```</span>bash
+-qscale:v <span class="o">(</span><span class="m">2</span>, -f, rtsp<span class="o">)</span><span class="sb">```</span>
+
+<span class="sb">```</span>bash
+-qscale:v is passed <span class="m">2</span>, -f, and rtsp<span class="sb">```</span>
 </pre></div>
 </div>
 </div>

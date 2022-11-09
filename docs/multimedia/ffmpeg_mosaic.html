@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stacking RTSP Streams with ffmpeg</title>
-<script src="/MyNotes/static/dist/main.615d61105214c41b1b0f.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.c4ca4c3fdf5050ede53f.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -65,7 +65,7 @@
 <ul>
 <li>Map to output</li>
 </ul>
-<p><code>-map "[v]"  output.mp4</code></p>
+<p><code>-map "[v]" output.mp4</code></p>
 <ul>
 <li>All Together</li>
 </ul>
@@ -99,9 +99,9 @@
 <p>Which is a template that names images sequentially:</p>
 <ul>
 <li>Image_00000001.jpg</li>
-<li>Image_00000002.jpg
-...</li>
+<li>Image_00000002.jpg</li>
 </ul>
+<p>...</p>
 <h4>All Together</h4>
 <p><em>Using variables for input</em></p>
 <div class="highlight"><pre><span></span>ffmpeg -fflags nobuffer -flags low_delay -strict experimental -i <span class="s2">"</span><span class="nv">$I0</span><span class="s2">"</span> -i <span class="s2">"</span><span class="nv">$I1</span><span class="s2">"</span> -i <span class="s2">"</span><span class="nv">$I2</span><span class="s2">"</span> -i <span class="s2">"</span><span class="nv">$I3</span><span class="s2">"</span> -filter_complex <span class="se">\</span>
