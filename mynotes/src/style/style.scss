@@ -43,7 +43,7 @@
 
 .card-title {
   text-align: center;
-  border-width: 2px 0 0 0;
+  border-width: 0 0 2px 0;
   border-image-slice: 1;
   border-image-source: radial-gradient(circle farthest-side at center center, #a8a8a8 0%, #ffffff00 95%);
   border-style: solid;
@@ -53,7 +53,3 @@
 body {
   background: #e8eaed;
 }
-
-
-
-
