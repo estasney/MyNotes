@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bit Fields</title>
-<script src="/MyNotes/static/dist/main.046c61339bdd9b06b96f.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.8176170384319cacf426.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -27,26 +27,40 @@
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1>Bit Fields</h1>
 <p><em>ELI5 and Why They're Useful</em></p>
-<p>After several years of programming in Python, I'd occasionally come across code like this snippet for Arduino:</p>
+<p><em>Created: 2021-04-30</em></p>
+<p><em>Updated: 2022-12-03</em></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>After several years of programming in <keyword>Python</keyword>, I'd occasionally come across code like this snippet for <kbd>Arduino</kbd>, which is written in <keyword>C</keyword>:</p>
 <div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">DATA_WIDTH</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">bitVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">dataPin</span><span class="p">);</span><span class="w"></span>
 
-<span class="w">        </span><span class="cm">/* Set the corresponding bit in bytesVal.</span>
-<span class="cm">        */</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// Set the corresponding bit in bytesVal.</span>
 <span class="w">        </span><span class="n">bytesVal</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">bitVal</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">((</span><span class="n">DATA_WIDTH</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">));</span><span class="w"></span>
 
-<span class="w">        </span><span class="cm">/* Pulse the Clock (rising edge shifts the next bit).</span>
-<span class="cm">        */</span><span class="w"></span>
+<span class="w">        </span><span class="c1">//Pulse the Clock (rising edge shifts the next bit).</span>
 <span class="w">        </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">clockPin</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
 <span class="w">        </span><span class="n">delayMicroseconds</span><span class="p">(</span><span class="n">PULSE_WIDTH_USEC</span><span class="p">);</span><span class="w"></span>
 <span class="w">        </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">clockPin</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 </pre></div>
 <p>I knew this was <em>bit-shifting</em> but didn't grasp the "how" or "why". I recently came across some OpenCV code that deals with managing window flags - and it finally clicked.</p>
-<p>Bit Fields are powerful structures for managing several inputs that can interact!</p>
-<p><em>Created: 2021-04-30</em>
-<updated></updated></p>
+<p>When we work with integers in Python, we think of them as a single value. In reality, this value is represented by multiple bytes:</p>
+<pre><code>ipython
+import sys
+&gt;&gt;&gt; (sys.maxsize).bit_count()
+63
+</code></pre>
+<p>For cases where we all we care about is <code>True/False</code> flags, a single integer can be made to represent <em>many</em> flags. And <em>more importantly</em>, for any combination of these <code>True/False</code> flags, we get a unique integer value.</p>
+<p>Bit Fields are powerful structures for managing several <code>True/False</code> flags that interact to create unique values!</p>
 </div>
 </div>
 </div>
@@ -75,7 +89,7 @@
             <span class="o">...</span>
 </pre></div>
 <p>That makes me anxious. It's fine for simple conditions but can quickly spiral out of control</p>
-<p>Lets break this problem down by looking at an example using a simple game controller. We have:</p>
+<p>Let's break this problem down by looking at an example using a simple game controller. We have:</p>
 <ul>
 <li>Movement Pad (Forward, Back, Left, Right)</li>
 <li>A Button</li>
@@ -87,7 +101,7 @@
 <li>A Button - 2 Possible States</li>
 <li>B Button - 2 Possible States</li>
 </ul>
-<p>Which would look like</p>
+<p>Which would look like:</p>
 </div>
 </div>
 </div>
@@ -601,8 +615,8 @@
 <p><code>{'A': 1, 'B': 1, 'Left': 0, 'Right': 0, 'Up': 0, 'Down': 0}</code> is easier to read</p>
 <p>We could also represent this as tuple:
 <code>(1, 1, 0, 0, 0, 0)</code></p>
-<p>But if we're taking that step, we might as well go for a Bit Field</p>
-<p><code>0b110000</code></p>
+<p>But if we're taking that step, we might as well go for a Bit Field
+<code>0b110000</code></p>
 <p>Where <code>0b</code> is the binary prefix in Python.</p>
 <p>So the input is ... <code>48</code> ??</p>
 </div>
@@ -804,6 +818,45 @@ Up Released: False
 Down Released: False
 </pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3>Builtin Extensibility</h3>
+<p>For my <a href="https://github.com/estasney/MindRef">MindRef Project</a> I've needed to interact with <keyword>Java</keyword> classes from Python to support <keyword>Android</keyword>.</p>
+<p>The premise is that we register a Java callback with the Java class we are invoking. So when we call one of its methods, we can receive the result in our Python application. This would require:</p>
+<ul>
+<li>Java<ul>
+<li>Public interface with a <code>onComplete</code> method and compatible signature</li>
+<li><code>Getter</code> and <code>Setter</code> functions to add the callback coming from Python side</li>
+<li>Additional boilerplate to call the associated method</li>
+</ul>
+</li>
+<li>Python<ul>
+<li><code>PythonJavaClass</code> from <kbd>pyjnius</kbd> with a <code>onComplete</code> method</li>
+<li>A manager class for creates and associates the callback.</li>
+</ul>
+</li>
+</ul>
+<p>After 3-4 methods, I realized this would not be sustainable.</p>
+<p>My solution was to consolidate everything into one interface on the Java side and one <code>PythonJavaClass</code> on the Python side. And add the convention that a single integer was to be the first parameter to every method.</p>
+<p>In the Python code, I have a function that expects the key, and <code>*args</code>. I can determine context from the key:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MindRefCallCodes</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">MIRROR</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>  <span class="c1"># Mirroring a filesystem</span>
+    <span class="n">READ</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>  <span class="c1"># Read without writing</span>
+    <span class="n">WRITE</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>  <span class="c1"># Creating a resource</span>
+    <span class="n">REMOVE</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span>  <span class="c1"># Removing a resource</span>
+    <span class="n">CATEGORIES</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>  <span class="c1"># Operating on categories</span>
+    <span class="n">NOTES</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>  <span class="c1"># Operating on notes</span>
+    <span class="n">EXTERNAL_STORAGE</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span>  <span class="c1"># Target of operation is external storage</span>
+    <span class="n">APP_STORAGE</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span>  <span class="c1"># Target of operation is app storage</span>
+</pre></div>
+<p>So if the key is 36, I know that I need to handle the result of 'WRITE' and 'CATEGORIES', which I interpret as 'Write a Category'</p>
 </div>
 </div>
 </div>
