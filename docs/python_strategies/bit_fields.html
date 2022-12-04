@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bit Fields</title>
-<script src="/MyNotes/static/dist/main.adc910bc1dee1f92b48d.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -54,11 +54,10 @@
 </pre></div>
 <p>I knew this was <em>bit-shifting</em> but didn't grasp the "how" or "why". I recently came across some OpenCV code that deals with managing window flags - and it finally clicked.</p>
 <p>When we work with integers in Python, we think of them as a single value. In reality, this value is represented by multiple bytes:</p>
-<pre><code>ipython
-import sys
-&gt;&gt;&gt; (sys.maxsize).bit_count()
-63
-</code></pre>
+<div class="highlight"><pre><span></span><span class="go">import sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span><span class="p">)</span><span class="o">.</span><span class="n">bit_count</span><span class="p">()</span>
+<span class="go">63</span>
+</pre></div>
 <p>For cases where we all we care about is <code>True/False</code> flags, a single integer can be made to represent <em>many</em> flags. And <em>more importantly</em>, for any combination of these <code>True/False</code> flags, we get a unique integer value.</p>
 <p>Bit Fields are powerful structures for managing several <code>True/False</code> flags that interact to create unique values!</p>
 </div>

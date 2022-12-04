@@ -31,3 +31,9 @@
 .jp-OutputArea-child > .jp-RenderedText {
   background: color.scale(#f5f5f5, $lightness: -5%, $saturation: 5%);
 }
+
+.jp-RenderedMarkdown {
+  highlight {
+    border-radius: 3px;
+  }
+}
