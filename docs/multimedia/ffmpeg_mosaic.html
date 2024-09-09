@@ -2,7 +2,7 @@
 <html lang="en">
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stacking RTSP Streams with ffmpeg¶</title>
+<title>Stacking RTSP Streams with ffmpeg</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -19,7 +19,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Stacking-RTSP-Streams-with-ffmpeg">Stacking <keyword>RTSP</keyword> Streams with <keyword>ffmpeg</keyword><a class="anchor-link" href="#Stacking-RTSP-Streams-with-ffmpeg">¶</a></h1><p><em>Because ffmpeg is awesome!</em></p>
+<h1>Stacking <keyword>RTSP</keyword> Streams with <keyword>ffmpeg</keyword></h1>
+<p><em>Because ffmpeg is awesome!</em></p>
 <p><em>Created: 2021-01-20</em></p>
 <p><em>Updated: 2022-01-04</em></p>
 </div>
@@ -31,7 +32,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Background">Background<a class="anchor-link" href="#Background">¶</a></h3><p>I have 4 RTSP Streams available from my local NVR. I wanted to combine them into a single video.</p>
+<h3>Background</h3>
+<p>I have 4 RTSP Streams available from my local NVR. I wanted to combine them into a single video.</p>
 <p>Since I'm also using these as part of a CV Project with a <keyword>Jetson Nano</keyword>, I wanted to be able to grab frames every <code>n</code> seconds</p>
 </div>
 </div>
@@ -75,7 +77,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Mosaic-to-Images">Mosaic to Images<a class="anchor-link" href="#Mosaic-to-Images">¶</a></h3><p>Since we're using a complex filtergraph we can't add <code>-vf fps=x</code> after <code>-map</code></p>
+<h3>Mosaic to Images</h3>
+<p>Since we're using a complex filtergraph we can't add <code>-vf fps=x</code> after <code>-map</code></p>
 <p>Make the following modification to the filtergraph:</p>
 <p><code>"[0:v][1:v][2:v][3:v]xstack=inputs=4:layout=0_0|w0_0|0_h0|w0_h0[v];[v]fps=1[img]"</code></p>
 <p>Basically, we're saying:</p>
@@ -93,7 +96,8 @@
 <li>Image_00000002.jpg
 ...</li>
 </ul>
-<h4 id="All-Together">All Together<a class="anchor-link" href="#All-Together">¶</a></h4><p><em>Using variables for input</em></p>
+<h4>All Together</h4>
+<p><em>Using variables for input</em></p>
 <div class="highlight"><pre><span></span>ffmpeg<span class="w"> </span>-fflags<span class="w"> </span>nobuffer<span class="w"> </span>-flags<span class="w"> </span>low_delay<span class="w"> </span>-strict<span class="w"> </span>experimental<span class="w"> </span>-i<span class="w"> </span><span class="s2">"</span><span class="nv">$I0</span><span class="s2">"</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">"</span><span class="nv">$I1</span><span class="s2">"</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">"</span><span class="nv">$I2</span><span class="s2">"</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">"</span><span class="nv">$I3</span><span class="s2">"</span><span class="w"> </span>-filter_complex<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="s2">"[0:v][1:v][2:v][3:v]xstack=inputs=4:layout=0_0|w0_0|0_h0|w0_h0[v];[v]fps=1[img]"</span><span class="w"> </span>-map<span class="w"> </span><span class="s2">"[img]"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>/somepath/Image_%08d.jpg

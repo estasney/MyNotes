@@ -2,7 +2,7 @@
 <html lang="en">
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bit Fields¶</title>
+<title>Bit Fields</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -19,7 +19,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Bit-Fields">Bit Fields<a class="anchor-link" href="#Bit-Fields">¶</a></h1><p><em>ELI5 and Why They're Useful</em></p>
+<h1>Bit Fields</h1>
+<p><em>ELI5 and Why They're Useful</em></p>
 <p><em>Created: 2021-04-30</em></p>
 <p><em>Updated: 2022-12-03</em></p>
 </div>
@@ -62,7 +63,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="'Bit'-of-Structure-First">'Bit' of Structure First<a class="anchor-link" href="#'Bit'-of-Structure-First">¶</a></h2><p>We're working in binary - so a bit can be 1 or it can be 0. Think of these as:</p>
+<h2>'Bit' of Structure First</h2>
+<p>We're working in binary - so a bit can be 1 or it can be 0. Think of these as:</p>
 <ul>
 <li>1 = True</li>
 <li>0 = False</li>
@@ -602,7 +604,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Way-of-the-Bitshifter">Way of the Bitshifter<a class="anchor-link" href="#Way-of-the-Bitshifter">¶</a></h2><p><code> {'A': 1, 'B': 1, 'Left': 0, 'Right': 0, 'Up': 0, 'Down': 0}</code> is easier to read</p>
+<h2>Way of the Bitshifter</h2>
+<p><code> {'A': 1, 'B': 1, 'Left': 0, 'Right': 0, 'Up': 0, 'Down': 0}</code> is easier to read</p>
 <p>We could also represent this as tuple:
 <code>(1, 1, 0, 0, 0, 0)</code></p>
 <p>But if we're taking that step, we might as well go for a Bit Field
@@ -817,7 +820,8 @@ Down Released: False
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Builtin-Extensibility">Builtin Extensibility<a class="anchor-link" href="#Builtin-Extensibility">¶</a></h3><p>For my <a href="https://github.com/estasney/MindRef">MindRef Project</a> I've needed to interact with <keyword>Java</keyword> classes from Python to support <keyword>Android</keyword>.</p>
+<h3>Builtin Extensibility</h3>
+<p>For my <a href="https://github.com/estasney/MindRef">MindRef Project</a> I've needed to interact with <keyword>Java</keyword> classes from Python to support <keyword>Android</keyword>.</p>
 <p>The premise is that we register a Java callback with the Java class we are invoking. So when we call one of its methods, we can receive the result in our Python application. This would require:</p>
 <ul>
 <li>Java<ul>

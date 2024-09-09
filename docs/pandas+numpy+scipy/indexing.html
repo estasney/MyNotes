@@ -2,7 +2,7 @@
 <html lang="en">
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indexing in NumPy¶</title>
+<title>Indexing in NumPy</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -19,7 +19,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Indexing-in-NumPy">Indexing in NumPy<a class="anchor-link" href="#Indexing-in-NumPy">¶</a></h1><p><em>Some use cases</em></p>
+<h1>Indexing in NumPy</h1>
+<p><em>Some use cases</em></p>
 <p><em>Created: 2021-04-30</em>
 <updated></updated></p>
 </div>
@@ -31,7 +32,9 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Compress-overlapping-indices">Compress overlapping indices<a class="anchor-link" href="#Compress-overlapping-indices">¶</a></h2><h3 id="Background">Background<a class="anchor-link" href="#Background">¶</a></h3><p><code>matches</code> below is the (truncated) result of calling <code>spacy.Matcher</code> on a Doc.</p>
+<h2>Compress overlapping indices</h2>
+<h3>Background</h3>
+<p><code>matches</code> below is the (truncated) result of calling <code>spacy.Matcher</code> on a Doc.</p>
 <p>Each tuple corresponds to a single match. So to return the result of the first match we run:</p>
 <div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">29</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span>
 </pre></div>
@@ -40,7 +43,8 @@
 <p><code>[(29, 30), (29, 31)]</code></p>
 <p>Should become:</p>
 <p><code>[(29, 31)]</code></p>
-<h3 id="Method">Method<a class="anchor-link" href="#Method">¶</a></h3><p>There several methods to solve this - here's one that's efficient and relatively clean. I take advantage of <code>numpy</code> indexing.</p>
+<h3>Method</h3>
+<p>There several methods to solve this - here's one that's efficient and relatively clean. I take advantage of <code>numpy</code> indexing.</p>
 </div>
 </div>
 </div>
@@ -211,7 +215,7 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Speed-Test">Speed Test<a class="anchor-link" href="#Speed-Test">¶</a></h3>
+<h3>Speed Test</h3>
 </div>
 </div>
 </div>

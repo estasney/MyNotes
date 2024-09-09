@@ -2,7 +2,7 @@
 <html lang="en">
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Remove Commercials with ffmpeg and PySceneDetect¶</title>
+<title>Remove Commercials with ffmpeg and PySceneDetect</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -19,7 +19,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Remove-Commercials-with-ffmpeg-and-PySceneDetect">Remove <keyword>Commercials</keyword> with <keyword>ffmpeg</keyword> and <keyword>PySceneDetect</keyword><a class="anchor-link" href="#Remove-Commercials-with-ffmpeg-and-PySceneDetect">¶</a></h1><p><em>Managing non-contiguous sections</em></p>
+<h1>Remove <keyword>Commercials</keyword> with <keyword>ffmpeg</keyword> and <keyword>PySceneDetect</keyword></h1>
+<p><em>Managing non-contiguous sections</em></p>
 <p><em>Created: 2022-01-11</em></p>
 <p><em>Updated: 2022-08-19</em></p>
 </div>
@@ -31,10 +32,13 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Background">Background<a class="anchor-link" href="#Background">¶</a></h1><p>I wanted to remove commercials from several hundred TV episodes present in a handful of recordings. Additionally, I wanted to split them per episode to be added to a media library.</p>
-<h2 id="Scene-Detection">Scene Detection<a class="anchor-link" href="#Scene-Detection">¶</a></h2><p>Detecting the transition from content to commercial is made easy using <a href="https://pyscenedetect.readthedocs.io/en/latest/">PySceneDetect</a>.</p>
+<h1>Background</h1>
+<p>I wanted to remove commercials from several hundred TV episodes present in a handful of recordings. Additionally, I wanted to split them per episode to be added to a media library.</p>
+<h2>Scene Detection</h2>
+<p>Detecting the transition from content to commercial is made easy using <a href="https://pyscenedetect.readthedocs.io/en/latest/">PySceneDetect</a>.</p>
 <p>The default settings were nearly perfect at detecting the scene transition.</p>
-<h3 id="Usage">Usage<a class="anchor-link" href="#Usage">¶</a></h3><p>PySceneDetect is easily called from the command line. However, as I was doing this in batches and wanted a way to incorporate reviewing the scenes and episode annotation with the conversion, I decided to use a Jupyter Notebook</p>
+<h3>Usage</h3>
+<p>PySceneDetect is easily called from the command line. However, as I was doing this in batches and wanted a way to incorporate reviewing the scenes and episode annotation with the conversion, I decided to use a Jupyter Notebook</p>
 </div>
 </div>
 </div>
@@ -74,7 +78,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Annotating-Scenes">Annotating Scenes<a class="anchor-link" href="#Annotating-Scenes">¶</a></h2><p>To assign scenes to a video output, I came up with a simple syntax:</p>
+<h2>Annotating Scenes</h2>
+<p>To assign scenes to a video output, I came up with a simple syntax:</p>
 <pre><code>scene_stmt: number
 scene_range: number-number (inclusive)
 scene_break: number,number
@@ -95,7 +100,7 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Annotation-Parser">Annotation Parser<a class="anchor-link" href="#Annotation-Parser">¶</a></h3>
+<h3>Annotation Parser</h3>
 </div>
 </div>
 </div>
@@ -133,7 +138,8 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Translate-Scene-Numbers-to-Timestamps">Translate Scene Numbers to Timestamps<a class="anchor-link" href="#Translate-Scene-Numbers-to-Timestamps">¶</a></h3><p>We will use the report from <code>PySceneDetect</code> to get translate scene numbers to timestamps</p>
+<h3>Translate Scene Numbers to Timestamps</h3>
+<p>We will use the report from <code>PySceneDetect</code> to get translate scene numbers to timestamps</p>
 </div>
 </div>
 </div>
@@ -172,7 +178,8 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Build-Filtergraph">Build Filtergraph<a class="anchor-link" href="#Build-Filtergraph">¶</a></h3><p>We convert scene numbers to timestamps and prepare them for ingestion with some ffmpeg specific logic</p>
+<h3>Build Filtergraph</h3>
+<p>We convert scene numbers to timestamps and prepare them for ingestion with some ffmpeg specific logic</p>
 </div>
 </div>
 </div>
@@ -220,7 +227,8 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Hooking-in-ffmpeg">Hooking in ffmpeg<a class="anchor-link" href="#Hooking-in-ffmpeg">¶</a></h2><p><keyword>ffmpeg</keyword> can do this, but the <keyword>filtergraph</keyword> is very verbose!</p>
+<h2>Hooking in ffmpeg</h2>
+<p><keyword>ffmpeg</keyword> can do this, but the <keyword>filtergraph</keyword> is very verbose!</p>
 <p>Fortunately, we can build this programmatically</p>
 </div>
 </div>
@@ -268,7 +276,7 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Example-Outputs">Example Outputs<a class="anchor-link" href="#Example-Outputs">¶</a></h3>
+<h3>Example Outputs</h3>
 </div>
 </div>
 </div>
@@ -278,7 +286,8 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Parsing-Annotation">Parsing Annotation<a class="anchor-link" href="#Parsing-Annotation">¶</a></h4><div class="highlight"><pre><span></span><span class="n">command</span> <span class="o">=</span> <span class="s2">"1-3,7-23,25...myvid"</span>
+<h4>Parsing Annotation</h4>
+<div class="highlight"><pre><span></span><span class="n">command</span> <span class="o">=</span> <span class="s2">"1-3,7-23,25...myvid"</span>
 <span class="n">parsed</span> <span class="o">=</span> <span class="n">parse_scene_annotation</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 <span class="n">parsed</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)],</span> <span class="s1">'myvid'</span><span class="p">]</span>
@@ -292,7 +301,8 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Getting-Timestamps">Getting Timestamps<a class="anchor-link" href="#Getting-Timestamps">¶</a></h4><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">parsed_scenes</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="p">)</span>
+<h4>Getting Timestamps</h4>
+<div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">parsed_scenes</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="p">)</span>
 <span class="n">ts</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">([(</span><span class="s1">'0.0000'</span><span class="p">,</span> <span class="s1">'8.9170'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'391.7830'</span><span class="p">,</span> <span class="s1">'406.8830'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'1001.5670'</span><span class="p">,</span> <span class="s1">'1005.7000'</span><span class="p">)],</span> <span class="s1">'0.0000'</span><span class="p">)</span>
 </pre></div>
@@ -305,7 +315,8 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Getting-Filtergraph">Getting Filtergraph<a class="anchor-link" href="#Getting-Filtergraph">¶</a></h4><div class="highlight"><pre><span></span><span class="n">fg</span> <span class="o">=</span> <span class="n">make_filtergraph</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<h4>Getting Filtergraph</h4>
+<div class="highlight"><pre><span></span><span class="n">fg</span> <span class="o">=</span> <span class="n">make_filtergraph</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
 <span class="n">fg</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="s1">'[0:v]trim=start=0.0000:end=8.9170,setpts=PTS-STARTPTS[0v];[0:a]atrim=start=0.0000:end=8.9170,asetpts=PTS-STARTPTS[0a];[0:v]trim=start=391.7830:end=406.8830,setpts=PTS-STARTPTS[1v];[0:a]atrim=start=391.7830:end=406.8830,asetpts=PTS-STARTPTS[1a];[0:v]trim=start=1001.5670:end=1005.7000,setpts=PTS-STARTPTS[2v];[0:a]atrim=start=1001.5670:end=1005.7000,asetpts=PTS-STARTPTS[2a];[0v][0a][1v][1a][2v][2a]concat=n=3:v=1:a=1[outv][outa]'</span>
 </pre></div>
@@ -318,7 +329,7 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Chaining-It-Together">Chaining It Together<a class="anchor-link" href="#Chaining-It-Together">¶</a></h3>
+<h3>Chaining It Together</h3>
 </div>
 </div>
 </div>
@@ -352,7 +363,7 @@ output_name: ...string
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Ready">Ready<a class="anchor-link" href="#Ready">¶</a></h2>
+<h2>Ready</h2>
 </div>
 </div>
 </div>

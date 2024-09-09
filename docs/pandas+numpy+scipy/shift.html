@@ -2,7 +2,7 @@
 <html lang="en">
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Filter by offset¶</title>
+<title>Filter by offset</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -19,7 +19,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Filter-by-offset">Filter by offset<a class="anchor-link" href="#Filter-by-offset">¶</a></h1><p><em>Filter by relative offset</em></p>
+<h1>Filter by offset</h1>
+<p><em>Filter by relative offset</em></p>
 <p>What this means is best demonstrated by an example problem:</p>
 <blockquote>
 <p>Suppose you have a DataFrame of user statuses. You'd like to find instances where a user changes from 'active' to 'inactive' (as opposed to 'inactive' to 'active')</p>
@@ -111,7 +112,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Shift-Operator">Shift Operator<a class="anchor-link" href="#Shift-Operator">¶</a></h3><p><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.shift.html?highlight=series%20shift#pandas.Series.shift">Shift Docs</a></p>
+<h3>Shift Operator</h3>
+<p><a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.shift.html?highlight=series%20shift#pandas.Series.shift">Shift Docs</a></p>
 <p>We know we can find where a row is active with:</p>
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">'active'</span><span class="p">]</span>
 </pre></div>
@@ -224,7 +226,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Shifted-Index">Shifted Index<a class="anchor-link" href="#Shifted-Index">¶</a></h3><p>While this correctly selects the rows that met our condition we'd also like to see the 'inactive' row as well.</p>
+<h3>Shifted Index</h3>
+<p>While this correctly selects the rows that met our condition we'd also like to see the 'inactive' row as well.</p>
 <p>Here's how</p>
 </div>
 </div>

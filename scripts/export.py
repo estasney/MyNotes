@@ -113,7 +113,7 @@ def process_notebook(
     db_nb = Notebook(
         name=nb_output_path.name,
         description=description,
-        display_name=nb_output_path.name,
+        display_name=nb_output_path.stem.replace("_", " ").title(),
         title=title,
         created=created,
         updated=updated,
@@ -170,7 +170,7 @@ if __name__ == "__main__":
     ]
     custom_config.TemplateExporter.exclude_input_prompt = True
     custom_config.TemplateExporter.exclude_output_prompt = True
-    custom_config.NotesExporter.exclude_anchor_links = True
+    custom_config.MyNotesHTMLExporter.exclude_anchor_links = True
 
     exporter = MyNotesHTMLExporter(config=custom_config, env=jinja_env)
 

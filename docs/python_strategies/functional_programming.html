@@ -2,7 +2,7 @@
 <html lang="en">
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Functional Programming¶</title>
+<title>Functional Programming</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -19,7 +19,8 @@
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Functional-Programming">Functional Programming<a class="anchor-link" href="#Functional-Programming">¶</a></h1><p><em>With toolz</em></p>
+<h1>Functional Programming</h1>
+<p><em>With toolz</em></p>
 <p>I'm assuming you are well aware of the builtin <code>functools</code> module. You may have come across <a href="https://github.com/pytoolz/toolz">toolz</a>.</p>
 <p>Until recently, I used it almost exclusively for <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.dicttoolz.get_in">get-in</a>
 and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.groupby">groupby</a></p>
@@ -35,10 +36,13 @@ and <a href="https://toolz.readthedocs.io/en/latest/api.html#toolz.itertoolz.gro
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Toolz">Toolz<a class="anchor-link" href="#Toolz">¶</a></h2><h3 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h3><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>toolz
+<h2>Toolz</h2>
+<h3>Installation</h3>
+<div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>toolz
 </pre></div>
 <p>There is also <code>cytoolz</code> which is <code>toolz</code> written in Cython. When I first picked up <code>toolz</code> around Python 3.4 it provided significant performance improvements. Recently (Python 3.8) I've gotten nearly even performance.</p>
-<h3 id="Data-Pipeline">Data Pipeline<a class="anchor-link" href="#Data-Pipeline">¶</a></h3><p>For this example, I'll use the task of extracting data from HTML, a.k.a. <keyword>Web Scraping</keyword></p>
+<h3>Data Pipeline</h3>
+<p>For this example, I'll use the task of extracting data from HTML, a.k.a. <keyword>Web Scraping</keyword></p>
 <p>I'm using <a href="https://scrapethissite.com/pages/simple/">Scrape This Site</a> as an example</p>
 <p>As you can see, we have 250 countries that we'd like to extract. If we think about our general steps it should look something like:</p>
 <ul>
