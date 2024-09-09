@@ -1,9 +1,10 @@
 import re
+
 from dateutil.parser import parse
 from nbconvert.preprocessors import Preprocessor
 
 
-class NBDateProcessor(Preprocessor):
+class NBDateProcessorPP(Preprocessor):
     CREATED_SEARCH = re.compile(r"(?<=<created>)(.+?)(?=</created>)")
     UPDATED_SEARCH = re.compile(r"(?<=<updated>).+?(?=</updated>)")
 

@@ -1,0 +1,33 @@
+[project]
+name = "mynotes"
+version = "0.1.0"
+description = "MyNotes"
+requires-python = ">=3.12"
+dependencies = [
+    "bs4>=0.0.2",
+    "jinja2>=3.1.4",
+    "lxml>=5.3.0",
+    "nbconvert>=7.16.4",
+    "notebook>=7.2.2",
+    "pre-commit>=3.8.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.4.0",
+    "regex>=2024.7.24",
+    "ruff>=0.6.4",
+    "sqlalchemy<2",
+    "toolz>=0.12.1",
+    "tqdm>=4.66.5",
+    "pytest>=8.3.2",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["F", "E", "I", "ANN", "C4", "FA", "LOG", "SIM", "TCH"]
+ignore = ["ANN101"]
+[tool.ruff.lint.flake8-type-checking]
+quote-annotations = true
+

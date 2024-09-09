@@ -1,32 +1,30 @@
 import argparse
+import logging
 import os
 import os.path
-import logging
+from functools import partial
+from pathlib import Path, PurePath
 
 import nbformat
-from sqlalchemy import desc
-
-from mynotes.export import NotesExporter
-
-from functools import partial
-
+from config import Config as MyNotesConfig
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-
-from pathlib import Path, PurePath
+from sqlalchemy import desc
 from traitlets.config import Config
 
-from mynotes.export.preprocess.codescan import ExtractModuleUsage
-from mynotes.export.preprocess.dates import NBDateProcessor
-from mynotes.export.preprocess.keyword import KeywordPreprocessor
-from mynotes.export.preprocess.mynotes_data import MyNotesData
-from mynotes.export.preprocess.remove_execution_count import RemoveExecutionCount
-from mynotes.export.preprocess.title import NBTitleMarkdown
-from mynotes.export.utils import ignored_category
-from mynotes.utils.preprocess import nb_display_name, category_name
-from mynotes.utils.storage.models.model import Notebook, Category, Module, Keyword
-from mynotes.utils.storage.models.meta import get_session, Session
+from mynotes.notes_exporter.html import MyNotesHTMLExporter
+from mynotes.notes_exporter.preprocess.codescan import ExtractModuleUsagePP
+from mynotes.notes_exporter.preprocess.dates import NBDateProcessorPP
+from mynotes.notes_exporter.preprocess.keyword import KeywordPreprocessorPP
+from mynotes.notes_exporter.preprocess.metadata import MyNotesMetadataPP
+from mynotes.notes_exporter.preprocess.remove_execution_count import (
+    RemoveExecutionCountPP,
+)
+from mynotes.notes_exporter.preprocess.title import NBTitleMarkdownPP
+from mynotes.notes_exporter.utils import ignored_category
 from mynotes.utils.hasher import hashed_filename
-from config import Config as MyNotesConfig
+from mynotes.utils.preprocess import category_name, nb_display_name
+from mynotes.utils.storage.models.meta import Session, get_session
+from mynotes.utils.storage.models.model import Category, Keyword, Module, Notebook
 
 env = Environment(
     loader=FileSystemLoader(
@@ -146,7 +144,8 @@ def create_index(session: Session):
     base = env.get_template("base.html")
     base_render = base.render({"data": notebooks})
     config = MyNotesConfig()
-    fp = config.smart_path(config.INDEX_DIR, "index_built.html")
+    # fp = config.smart_path(config.INDEX_DIR, "index_built.html")
+    fp = config.INDEX_DIR / "index_built.html"
     with open(fp, "w+", encoding="utf-8") as html_file:
         html_file.write(base_render)
 
@@ -175,7 +174,7 @@ if __name__ == "__main__":
 
     else:
         deploy_domain = f"https://{my_config.DEPLOYMENT_DOMAIN}"
-        public_path = f"/MyNotes/static/dist/"
+        public_path = "/MyNotes/static/dist/"
 
     env.globals.update({"domain": deploy_domain, "develop": args.develop})
     env.filters["resolve"] = partial(hashed_filename, url_prefix=public_path)
@@ -185,21 +184,21 @@ if __name__ == "__main__":
     custom_config.extra_loaders = env.loader
     custom_config.ClearMetadataPreprocessor.enabled = True
     custom_config.NotesExporter.preprocessors = [
-        MyNotesData,
-        RemoveExecutionCount,
-        ExtractModuleUsage(
+        MyNotesMetadataPP,
+        RemoveExecutionCountPP,
+        ExtractModuleUsagePP(
             ignored=["os", "subprocess", "glob", "base64", "pathlib", "io"]
         ),
-        KeywordPreprocessor,
-        NBTitleMarkdown,
-        NBDateProcessor,
+        KeywordPreprocessorPP,
+        NBTitleMarkdownPP,
+        NBDateProcessorPP,
     ]
     custom_config.TemplateExporter.exclude_input_prompt = True
     custom_config.TemplateExporter.exclude_output_prompt = True
     custom_config.NotesExporter.exclude_anchor_links = True
 
-    for dir, folders, files in os.walk(my_config.NOTES_DIR):
-        p = Path(dir)
+    for root, folders, files in os.walk(my_config.NOTES_DIR):
+        p = Path(root)
         category = p.name
         if ignored_category(category):
             continue
@@ -214,17 +213,17 @@ if __name__ == "__main__":
 
         # Reverse the order so list is parent -> child
         parents = list(reversed(parents))
-
-        output_folder = my_config.smart_path(my_config.PAGES_DIR, *parents, category)
+        
+        output_folder = my_config.PAGES_DIR.joinpath(*parents, category)
         os.makedirs(output_folder, exist_ok=True)
 
         notebooks = [f for f in files if f.endswith("ipynb")]
         for nb_file in notebooks:
-            nb_file = Path(dir) / nb_file
+            nb_file = Path(root) / nb_file
             nb_output_path = Path(output_folder) / nb_file.with_suffix(".html").name
-            abs_path = os.path.join(dir, nb_file)
+            abs_path = os.path.join(root, nb_file)
             nb = nbformat.read(abs_path, as_version=4)
-            html_exporter = NotesExporter(config=custom_config, env=env)
+            html_exporter = MyNotesHTMLExporter(config=custom_config, env=env)
             (body, resources) = html_exporter.from_notebook_node(nb)
             store_notebook(
                 nb_obj=nb,

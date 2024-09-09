@@ -8,3 +8,4 @@
 **/*.out
 **/index_built.html
 **/src/dist
+uv.lock

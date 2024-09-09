@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-132355416-7');
-  </script>
-<meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bit Fields</title>
+<title>Bit Fields¶</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -20,13 +13,13 @@
 
 <div class="container paper">
 <body>
+<main>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1>Bit Fields</h1>
-<p><em>ELI5 and Why They're Useful</em></p>
+<h1 id="Bit-Fields">Bit Fields<a class="anchor-link" href="#Bit-Fields">¶</a></h1><p><em>ELI5 and Why They're Useful</em></p>
 <p><em>Created: 2021-04-30</em></p>
 <p><em>Updated: 2022-12-03</em></p>
 </div>
@@ -34,23 +27,23 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>After several years of programming in <keyword>Python</keyword>, I'd occasionally come across code like this snippet for <keyword>Arduino</keyword>, which is written in <keyword>C</keyword>:</p>
-<div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">DATA_WIDTH</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">bitVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">dataPin</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">DATA_WIDTH</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bitVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digitalRead</span><span class="p">(</span><span class="n">dataPin</span><span class="p">);</span>
 
 <span class="w">        </span><span class="c1">// Set the corresponding bit in bytesVal.</span>
-<span class="w">        </span><span class="n">bytesVal</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">bitVal</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">((</span><span class="n">DATA_WIDTH</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">bytesVal</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="p">(</span><span class="n">bitVal</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">((</span><span class="n">DATA_WIDTH</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
 
 <span class="w">        </span><span class="c1">//Pulse the Clock (rising edge shifts the next bit).</span>
-<span class="w">        </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">clockPin</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="n">delayMicroseconds</span><span class="p">(</span><span class="n">PULSE_WIDTH_USEC</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">clockPin</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">clockPin</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span>
+<span class="w">        </span><span class="n">delayMicroseconds</span><span class="p">(</span><span class="n">PULSE_WIDTH_USEC</span><span class="p">);</span>
+<span class="w">        </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">clockPin</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 </pre></div>
 <p>I knew this was <em>bit-shifting</em> but didn't grasp the "how" or "why". I recently came across some OpenCV code that deals with managing window flags - and it finally clicked.</p>
 <p>When we work with integers in Python, we think of them as a single value. In reality, this value is represented by multiple bytes:</p>
@@ -65,12 +58,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>'Bit' of Structure First</h2>
-<p>We're working in binary - so a bit can be 1 or it can be 0. Think of these as:</p>
+<h2 id="'Bit'-of-Structure-First">'Bit' of Structure First<a class="anchor-link" href="#'Bit'-of-Structure-First">¶</a></h2><p>We're working in binary - so a bit can be 1 or it can be 0. Think of these as:</p>
 <ul>
 <li>1 = True</li>
 <li>0 = False</li>
@@ -105,12 +97,12 @@
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Movement'</span><span class="p">,</span> <span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">])</span>
@@ -127,7 +119,7 @@
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -364,12 +356,12 @@
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Note that Movement_0 is redundant. If Movement_1 - Movement_4 are all 0, then we aren't moving</span>
 <span class="k">def</span> <span class="nf">rename_movement</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Move"</span><span class="p">):</span>
@@ -389,7 +381,7 @@
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -606,12 +598,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Way of the Bitshifter</h2>
-<p><code>{'A': 1, 'B': 1, 'Left': 0, 'Right': 0, 'Up': 0, 'Down': 0}</code> is easier to read</p>
+<h2 id="Way-of-the-Bitshifter">Way of the Bitshifter<a class="anchor-link" href="#Way-of-the-Bitshifter">¶</a></h2><p><code> {'A': 1, 'B': 1, 'Left': 0, 'Right': 0, 'Up': 0, 'Down': 0}</code> is easier to read</p>
 <p>We could also represent this as tuple:
 <code>(1, 1, 0, 0, 0, 0)</code></p>
 <p>But if we're taking that step, we might as well go for a Bit Field
@@ -622,12 +613,12 @@
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Yes, as a base 10 integer</span>
 <span class="c1"># We can make an integer from binary by specifying base = 2. I.e. 2 possible values</span>
 <span class="nb">int</span><span class="p">(</span><span class="s1">'0b110000'</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -641,7 +632,7 @@
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>48</pre>
 </div>
 </div>
@@ -649,7 +640,7 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -660,21 +651,21 @@
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">check_field</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">position</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">!=</span> <span class="mi">0</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"B Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Left Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Right Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Up Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Down Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"B Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Left Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Right Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Up Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Down Pressed: </span><span class="si">{</span><span class="n">check_field</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -685,7 +676,7 @@
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>A Pressed: True
 B Pressed: True
 Left Pressed: False
@@ -698,12 +689,12 @@ Down Pressed: False
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">check_bit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">button</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">button</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
 
@@ -716,12 +707,12 @@ Down Pressed: False
 <span class="n">B</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>
 <span class="n">A</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"B Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Left Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Right Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Up Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">UP</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Down Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">DOWN</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"B Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Left Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="n">LEFT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Right Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="n">RIGHT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Up Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="n">UP</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Down Pressed: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="n">DOWN</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -732,7 +723,7 @@ Down Pressed: False
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>A Pressed: True
 B Pressed: True
 Left Pressed: False
@@ -745,12 +736,12 @@ Down Pressed: False
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Was there any input?</span>
 
 <span class="n">key_state</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c1"># Nothing Pressed</span>
@@ -768,7 +759,7 @@ Down Pressed: False
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Key Pressed!
 </pre>
 </div>
@@ -776,12 +767,12 @@ Down Pressed: False
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">key_state</span> <span class="o">=</span> <span class="mi">48</span>  <span class="c1"># From above</span>
 <span class="c1"># '0b110000'</span>
 
@@ -792,12 +783,12 @@ Down Pressed: False
 <span class="n">diff</span> <span class="o">=</span> <span class="n">key_state</span> <span class="o">^</span> <span class="n">new_input</span>
 <span class="n">released</span> <span class="o">=</span> <span class="n">key_state</span> <span class="o">&amp;</span> <span class="n">diff</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"B Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Left Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Right Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Up Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">UP</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Down Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span> <span class="n">DOWN</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"A Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"B Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Left Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="n">LEFT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Right Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="n">RIGHT</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Up Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="n">UP</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Down Released: </span><span class="si">{</span><span class="n">check_bit</span><span class="p">(</span><span class="n">released</span><span class="p">,</span><span class="w"> </span><span class="n">DOWN</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -808,7 +799,7 @@ Down Pressed: False
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>A Released: False
 B Released: True
 Left Released: False
@@ -822,12 +813,11 @@ Down Released: False
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Builtin Extensibility</h3>
-<p>For my <a href="https://github.com/estasney/MindRef">MindRef Project</a> I've needed to interact with <keyword>Java</keyword> classes from Python to support <keyword>Android</keyword>.</p>
+<h3 id="Builtin-Extensibility">Builtin Extensibility<a class="anchor-link" href="#Builtin-Extensibility">¶</a></h3><p>For my <a href="https://github.com/estasney/MindRef">MindRef Project</a> I've needed to interact with <keyword>Java</keyword> classes from Python to support <keyword>Android</keyword>.</p>
 <p>The premise is that we register a Java callback with the Java class we are invoking. So when we call one of its methods, we can receive the result in our Python application. This would require:</p>
 <ul>
 <li>Java<ul>
@@ -860,6 +850,7 @@ Down Released: False
 </div>
 </div>
 </div>
+</main>
 </body>
 </div>
 </body>

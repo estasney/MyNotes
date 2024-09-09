@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-132355416-7');
-  </script>
-<meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lazy, Cached, Singleton Imports</title>
+<title>Lazy, Cached, Singleton Imports¶</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -20,13 +13,13 @@
 
 <div class="container paper">
 <body>
+<main>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1>Lazy, Cached, Singleton Imports</h1>
-<p><em>Using Dunder Methods</em></p>
+<h1 id="Lazy,-Cached,-Singleton-Imports">Lazy, Cached, Singleton Imports<a class="anchor-link" href="#Lazy,-Cached,-Singleton-Imports">¶</a></h1><p><em>Using Dunder Methods</em></p>
 <p><em>Created: 2022-01-06</em>
 <updated></updated></p>
 </div>
@@ -34,7 +27,7 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -55,12 +48,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>How We Approach with Cached Properties</h2>
-<p>This is a common pattern to cache <keyword>properties</keyword></p>
+<h2 id="How-We-Approach-with-Cached-Properties">How We Approach with Cached Properties<a class="anchor-link" href="#How-We-Approach-with-Cached-Properties">¶</a></h2><p>This is a common pattern to cache <keyword>properties</keyword></p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyResource</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span> <span class="o">=</span> <span class="kc">None</span>
@@ -78,12 +70,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Imports</h2>
-<p>Here's how to do something similar with a module (typing is helpful but optional)</p>
+<h2 id="Imports">Imports<a class="anchor-link" href="#Imports">¶</a></h2><p>Here's how to do something similar with a module (typing is helpful but optional)</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
 <span class="n">_MY_RESOURCE</span><span class="o">=</span><span class="kc">None</span>
@@ -112,7 +103,7 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -120,6 +111,7 @@
 </div>
 </div>
 </div>
+</main>
 </body>
 </div>
 </body>

@@ -98,15 +98,3 @@
         </ul>
     </nav>
 {% endmacro %}
-
-{%- macro make_ga() -%}
-  {%- if develop is false -%}
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-132355416-7');
-  </script>
-{%- endif -%}
-{%- endmacro -%}

@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-132355416-7');
-  </script>
-<meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Building Parameters Programmatically</title>
+<title>Building Parameters Programmatically¶</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -20,13 +13,13 @@
 
 <div class="container paper">
 <body>
+<main>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1>Building Parameters Programmatically</h1>
-<p><em>With Arrays</em></p>
+<h1 id="Building-Parameters-Programmatically">Building Parameters Programmatically<a class="anchor-link" href="#Building-Parameters-Programmatically">¶</a></h1><p><em>With Arrays</em></p>
 <p><em>Created: 2021-02-13</em></p>
 <p><em>Updated: 2021-04-29</em></p>
 </div>
@@ -34,7 +27,7 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -43,20 +36,20 @@
 <p>As I found out, when we use a variable in bash like this:</p>
 <div class="highlight"><pre><span></span><span class="nv">FORMAT</span><span class="o">=</span><span class="s1">'-qscale:v 2 -f rtsp'</span><span class="sb">```</span>
 
-When we call it, it is interpreted like this:
+When<span class="w"> </span>we<span class="w"> </span>call<span class="w"> </span>it,<span class="w"> </span>it<span class="w"> </span>is<span class="w"> </span>interpreted<span class="w"> </span>like<span class="w"> </span>this:
 
 <span class="sb">```</span>bash
--qscale:v <span class="o">(</span><span class="m">2</span>, -f, rtsp<span class="o">)</span><span class="sb">```</span>
+-qscale:v<span class="w"> </span><span class="o">(</span><span class="m">2</span>,<span class="w"> </span>-f,<span class="w"> </span>rtsp<span class="o">)</span><span class="sb">```</span>
 
 <span class="sb">```</span>bash
--qscale:v is passed <span class="m">2</span>, -f, and rtsp<span class="sb">```</span>
+-qscale:v<span class="w"> </span>is<span class="w"> </span>passed<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>-f,<span class="w"> </span>and<span class="w"> </span>rtsp<span class="sb">```</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -68,7 +61,7 @@ When we call it, it is interpreted like this:
 <span class="nv">PARAMS</span><span class="o">+=(</span>rtsp<span class="o">)</span>
 </pre></div>
 <p>Or Simply</p>
-<div class="highlight"><pre><span></span><span class="nv">PARAMS</span><span class="o">=(</span>-qscale:v <span class="m">2</span> -f rtsp<span class="o">)</span>
+<div class="highlight"><pre><span></span><span class="nv">PARAMS</span><span class="o">=(</span>-qscale:v<span class="w"> </span><span class="m">2</span><span class="w"> </span>-f<span class="w"> </span>rtsp<span class="o">)</span>
 </pre></div>
 <p>And to 'unpack':</p>
 <div class="highlight"><pre><span></span><span class="s2">"</span><span class="si">${</span><span class="nv">PARAMS</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
@@ -81,6 +74,7 @@ When we call it, it is interpreted like this:
 </div>
 </div>
 </div>
+</main>
 </body>
 </div>
 </body>

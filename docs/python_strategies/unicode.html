@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-132355416-7');
-  </script>
-<meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exploring Unicode</title>
+<title>Exploring Unicode¶</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -20,13 +13,13 @@
 
 <div class="container paper">
 <body>
+<main>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1>Exploring Unicode</h1>
-<p><em>Possibly pointless</em></p>
+<h1 id="Exploring-Unicode">Exploring Unicode<a class="anchor-link" href="#Exploring-Unicode">¶</a></h1><p><em>Possibly pointless</em></p>
 <p><em>Created: 2021-04-30</em>
 <updated></updated></p>
 </div>
@@ -34,7 +27,7 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -53,12 +46,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Unicodedata</h2>
-<p>If you're lucky enough to know the <em>exact</em> name of your desired symbol, getting the character is straight forward.</p>
+<h2 id="Unicodedata">Unicodedata<a class="anchor-link" href="#Unicodedata">¶</a></h2><p>If you're lucky enough to know the <em>exact</em> name of your desired symbol, getting the character is straight forward.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">"RIGHTWARDS ARROW"</span><span class="p">)</span>
@@ -70,17 +62,15 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Building a Mapping</h2>
-<p>What we'd like to do is build a mapping of:</p>
+<h2 id="Building-a-Mapping">Building a Mapping<a class="anchor-link" href="#Building-a-Mapping">¶</a></h2><p>What we'd like to do is build a mapping of:</p>
 <p><code>CHARACTER NAME: CHARACTER</code></p>
 <p>So we can run a query along the lines of:</p>
 <p><code>{k: v for k, v in mapping.items() if 'ARROW' in k}</code></p>
-<h3>Getting Ready</h3>
-<p>Roughly speaking we want to do something where:</p>
+<h3 id="Getting-Ready">Getting Ready<a class="anchor-link" href="#Getting-Ready">¶</a></h3><p>Roughly speaking we want to do something where:</p>
 <ul>
 <li><code>unicodedata.name</code> provides a canonical name</li>
 <li>We generate the character itself</li>
@@ -104,21 +94,21 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Building</h3>
+<h3 id="Building">Building<a class="anchor-link" href="#Building">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
 
 <span class="n">char_mapping</span> <span class="o">=</span> <span class="p">{}</span>
@@ -138,21 +128,21 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Querying</h3>
+<h3 id="Querying">Querying<a class="anchor-link" href="#Querying">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">having_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ARROW"</span><span class="p">,</span> <span class="s2">"RIGHT"</span><span class="p">]</span>
 <span class="n">not_having_token</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"LEFT"</span><span class="p">]</span>
 
@@ -177,7 +167,7 @@
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>MODIFIER LETTER RIGHT ARROWHEAD : ˃
 MODIFIER LETTER LOW RIGHT ARROWHEAD : ˲
 COMBINING RIGHT ARROWHEAD ABOVE : ͐
@@ -367,6 +357,7 @@ RIGHTWARDS FRONT-TILTED SHADOWED WHITE ARROW : 🢫
 </div>
 </div>
 </div>
+</main>
 </body>
 </div>
 </body>

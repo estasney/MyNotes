@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-132355416-7');
-  </script>
-<meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Remove Commercials with ffmpeg and PySceneDetect</title>
+<title>Remove Commercials with ffmpeg and PySceneDetect¶</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -20,13 +13,13 @@
 
 <div class="container paper">
 <body>
+<main>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1>Remove <keyword>Commercials</keyword> with <keyword>ffmpeg</keyword> and <keyword>PySceneDetect</keyword></h1>
-<p><em>Managing non-contiguous sections</em></p>
+<h1 id="Remove-Commercials-with-ffmpeg-and-PySceneDetect">Remove <keyword>Commercials</keyword> with <keyword>ffmpeg</keyword> and <keyword>PySceneDetect</keyword><a class="anchor-link" href="#Remove-Commercials-with-ffmpeg-and-PySceneDetect">¶</a></h1><p><em>Managing non-contiguous sections</em></p>
 <p><em>Created: 2022-01-11</em></p>
 <p><em>Updated: 2022-08-19</em></p>
 </div>
@@ -34,27 +27,24 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1>Background</h1>
-<p>I wanted to remove commercials from several hundred TV episodes present in a handful of recordings. Additionally, I wanted to split them per episode to be added to a media library.</p>
-<h2>Scene Detection</h2>
-<p>Detecting the transition from content to commercial is made easy using <a href="https://pyscenedetect.readthedocs.io/en/latest/">PySceneDetect</a>.</p>
+<h1 id="Background">Background<a class="anchor-link" href="#Background">¶</a></h1><p>I wanted to remove commercials from several hundred TV episodes present in a handful of recordings. Additionally, I wanted to split them per episode to be added to a media library.</p>
+<h2 id="Scene-Detection">Scene Detection<a class="anchor-link" href="#Scene-Detection">¶</a></h2><p>Detecting the transition from content to commercial is made easy using <a href="https://pyscenedetect.readthedocs.io/en/latest/">PySceneDetect</a>.</p>
 <p>The default settings were nearly perfect at detecting the scene transition.</p>
-<h3>Usage</h3>
-<p>PySceneDetect is easily called from the command line. However, as I was doing this in batches and wanted a way to incorporate reviewing the scenes and episode annotation with the conversion, I decided to use a Jupyter Notebook</p>
+<h3 id="Usage">Usage<a class="anchor-link" href="#Usage">¶</a></h3><p>PySceneDetect is easily called from the command line. However, as I was doing this in batches and wanted a way to incorporate reviewing the scenes and episode annotation with the conversion, I decided to use a Jupyter Notebook</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span>
 
 <span class="k">def</span> <span class="nf">get_scenes</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">video</span><span class="p">):</span>
@@ -69,7 +59,7 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -80,12 +70,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Annotating Scenes</h2>
-<p>To assign scenes to a video output, I came up with a simple syntax:</p>
+<h2 id="Annotating-Scenes">Annotating Scenes<a class="anchor-link" href="#Annotating-Scenes">¶</a></h2><p>To assign scenes to a video output, I came up with a simple syntax:</p>
 <pre><code>scene_stmt: number
 scene_range: number-number (inclusive)
 scene_break: number,number
@@ -102,23 +91,23 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Annotation Parser</h3>
+<h3 id="Annotation-Parser">Annotation Parser<a class="anchor-link" href="#Annotation-Parser">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_scene_annotation</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">"""</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Transform annotation to structured form</span>
 <span class="sd">    """</span>
     <span class="n">scenes_str</span><span class="p">,</span> <span class="n">output_name</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
@@ -140,22 +129,21 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Translate Scene Numbers to Timestamps</h3>
-<p>We will use the report from <code>PySceneDetect</code> to get translate scene numbers to timestamps</p>
+<h3 id="Translate-Scene-Numbers-to-Timestamps">Translate Scene Numbers to Timestamps<a class="anchor-link" href="#Translate-Scene-Numbers-to-Timestamps">¶</a></h3><p>We will use the report from <code>PySceneDetect</code> to get translate scene numbers to timestamps</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
@@ -163,8 +151,8 @@ output_name: ...string
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">scene_report_fp</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s1">'Scene Number'</span><span class="p">])</span>
 
 <span class="k">def</span> <span class="nf">get_scene_timestamp</span><span class="p">(</span><span class="n">scene_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">is_end</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">"""Depending on if this scene_number starts a range or scene_ranges it return the appropriate timestamp"""</span>
-    <span class="k">return</span> <span class="n">df_scenes</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">scene_number</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'End'</span> <span class="k">if</span> <span class="n">is_end</span> <span class="k">else</span> <span class="s1">'Start'</span><span class="si">}</span><span class="s2"> Time (seconds)"</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Depending on if this scene_number starts a range or scene_ranges it return the appropriate timestamp"""</span>
+    <span class="k">return</span> <span class="n">df_scenes</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">scene_number</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'End'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">is_end</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Start'</span><span class="si">}</span><span class="s2"> Time (seconds)"</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">get_scene_timestamps</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
     <span class="n">scene_times</span> <span class="o">=</span> <span class="p">[]</span>
@@ -180,27 +168,26 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Build Filtergraph</h3>
-<p>We convert scene numbers to timestamps and prepare them for ingestion with some ffmpeg specific logic</p>
+<h3 id="Build-Filtergraph">Build Filtergraph<a class="anchor-link" href="#Build-Filtergraph">¶</a></h3><p>We convert scene numbers to timestamps and prepare them for ingestion with some ffmpeg specific logic</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 
 <span class="k">def</span> <span class="nf">parse_scenes</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">fast_seek_buffer</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
     <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">"""</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Fast seeking is not exact, so we want to start transcoding before the exact timestamp.</span>
 <span class="sd">    This requires recalculating our timestamps to adjust for the buffer.</span>
 
@@ -229,25 +216,24 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Hooking in ffmpeg</h2>
-<p><keyword>ffmpeg</keyword> can do this, but the <keyword>filtergraph</keyword> is very verbose!</p>
+<h2 id="Hooking-in-ffmpeg">Hooking in ffmpeg<a class="anchor-link" href="#Hooking-in-ffmpeg">¶</a></h2><p><keyword>ffmpeg</keyword> can do this, but the <keyword>filtergraph</keyword> is very verbose!</p>
 <p>Fortunately, we can build this programmatically</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">make_filtergraph_pieces</span><span class="p">(</span><span class="n">scene_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">chunk</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="sd">"""</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Trimming video and audio and setting the correcting the timestamp</span>
 <span class="sd">    """</span>
     <span class="n">v</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"[0:v]trim=start=</span><span class="si">{</span><span class="n">scene_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:end=</span><span class="si">{</span><span class="n">scene_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,setpts=PTS-STARTPTS[</span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s2">v];"</span>
@@ -255,7 +241,7 @@ output_name: ...string
     <span class="k">return</span> <span class="n">v</span><span class="o">+</span><span class="n">a</span>
 
 <span class="k">def</span> <span class="nf">make_concat_filtergraph</span><span class="p">(</span><span class="n">n_chunks</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="sd">"""</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Rejoining the trim and atrim from above with concat</span>
 <span class="sd">    """</span>
     <span class="n">pre</span> <span class="o">=</span> <span class="s2">""</span>
@@ -265,7 +251,7 @@ output_name: ...string
     <span class="k">return</span> <span class="n">pre_concat</span>
 
 <span class="k">def</span> <span class="nf">make_filtergraph</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
-    <span class="sd">"""Generate the several lines of text for filtergraph"""</span>
+<span class="w">    </span><span class="sd">"""Generate the several lines of text for filtergraph"""</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">make_filtergraph_pieces</span><span class="p">(</span><span class="n">scene_range</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">)]</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
     <span class="n">output_graph</span> <span class="o">=</span> <span class="n">make_concat_filtergraph</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">))</span>
@@ -278,22 +264,21 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Example Outputs</h3>
+<h3 id="Example-Outputs">Example Outputs<a class="anchor-link" href="#Example-Outputs">¶</a></h3>
 </div>
 </div>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4>Parsing Annotation</h4>
-<div class="highlight"><pre><span></span><span class="n">command</span> <span class="o">=</span> <span class="s2">"1-3,7-23,25...myvid"</span>
+<h4 id="Parsing-Annotation">Parsing Annotation<a class="anchor-link" href="#Parsing-Annotation">¶</a></h4><div class="highlight"><pre><span></span><span class="n">command</span> <span class="o">=</span> <span class="s2">"1-3,7-23,25...myvid"</span>
 <span class="n">parsed</span> <span class="o">=</span> <span class="n">parse_scene_annotation</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 <span class="n">parsed</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)],</span> <span class="s1">'myvid'</span><span class="p">]</span>
@@ -303,12 +288,11 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4>Getting Timestamps</h4>
-<div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">parsed_scenes</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="p">)</span>
+<h4 id="Getting-Timestamps">Getting Timestamps<a class="anchor-link" href="#Getting-Timestamps">¶</a></h4><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">parsed_scenes</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df</span><span class="p">)</span>
 <span class="n">ts</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">([(</span><span class="s1">'0.0000'</span><span class="p">,</span> <span class="s1">'8.9170'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'391.7830'</span><span class="p">,</span> <span class="s1">'406.8830'</span><span class="p">),</span> <span class="p">(</span><span class="s1">'1001.5670'</span><span class="p">,</span> <span class="s1">'1005.7000'</span><span class="p">)],</span> <span class="s1">'0.0000'</span><span class="p">)</span>
 </pre></div>
@@ -317,12 +301,11 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4>Getting Filtergraph</h4>
-<div class="highlight"><pre><span></span><span class="n">fg</span> <span class="o">=</span> <span class="n">make_filtergraph</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<h4 id="Getting-Filtergraph">Getting Filtergraph<a class="anchor-link" href="#Getting-Filtergraph">¶</a></h4><div class="highlight"><pre><span></span><span class="n">fg</span> <span class="o">=</span> <span class="n">make_filtergraph</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
 <span class="n">fg</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="s1">'[0:v]trim=start=0.0000:end=8.9170,setpts=PTS-STARTPTS[0v];[0:a]atrim=start=0.0000:end=8.9170,asetpts=PTS-STARTPTS[0a];[0:v]trim=start=391.7830:end=406.8830,setpts=PTS-STARTPTS[1v];[0:a]atrim=start=391.7830:end=406.8830,asetpts=PTS-STARTPTS[1a];[0:v]trim=start=1001.5670:end=1005.7000,setpts=PTS-STARTPTS[2v];[0:a]atrim=start=1001.5670:end=1005.7000,asetpts=PTS-STARTPTS[2a];[0v][0a][1v][1a][2v][2a]concat=n=3:v=1:a=1[outv][outa]'</span>
 </pre></div>
@@ -331,21 +314,21 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Chaining It Together</h3>
+<h3 id="Chaining-It-Together">Chaining It Together<a class="anchor-link" href="#Chaining-It-Together">¶</a></h3>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_command</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">src_video</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">video_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
     <span class="n">scene_ranges</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">parse_scene_annotation</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
     <span class="n">scene_ts</span><span class="p">,</span> <span class="n">ss</span> <span class="o">=</span> <span class="n">parse_scenes</span><span class="p">(</span><span class="n">scene_ranges</span><span class="p">,</span> <span class="n">df_scenes</span><span class="p">)</span>
@@ -365,21 +348,21 @@ output_name: ...string
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Ready</h2>
+<h2 id="Ready">Ready<a class="anchor-link" href="#Ready">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">STDOUT</span><span class="p">,</span> <span class="n">PIPE</span>
 <span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
@@ -402,6 +385,7 @@ output_name: ...string
 </div>
 </div>
 </div>
+</main>
 </body>
 </div>
 </body>

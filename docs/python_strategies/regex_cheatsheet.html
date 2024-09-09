@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-132355416-7"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-132355416-7');
-  </script>
-<meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Regex Cheatsheet</title>
+<title>Regex Cheatsheet¶</title>
 <script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
 </head>
 <body>
@@ -20,13 +13,13 @@
 
 <div class="container paper">
 <body>
+<main>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1>Regex Cheatsheet</h1>
-<p><em>Quick Reference</em></p>
+<h1 id="Regex-Cheatsheet">Regex Cheatsheet<a class="anchor-link" href="#Regex-Cheatsheet">¶</a></h1><p><em>Quick Reference</em></p>
 <p><em>Created: 2021-04-30</em>
 <updated></updated></p>
 </div>
@@ -34,12 +27,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Anchors</h2>
-<table>
+<h2 id="Anchors">Anchors<a class="anchor-link" href="#Anchors">¶</a></h2><table>
 <thead>
 <tr>
 <th>Anchors</th>
@@ -78,12 +70,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Groups</h2>
-<p><em>Note: Ellipsis (...) is for visualization purposes</em></p>
+<h2 id="Groups">Groups<a class="anchor-link" href="#Groups">¶</a></h2><p><em>Note: Ellipsis (...) is for visualization purposes</em></p>
 <table>
 <thead>
 <tr>
@@ -130,12 +121,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2>Character Classes</h2>
-<table>
+<h2 id="Character-Classes">Character Classes<a class="anchor-link" href="#Character-Classes">¶</a></h2><table>
 <thead>
 <tr>
 <th>Class</th>
@@ -190,12 +180,11 @@
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3>Import regex as re</h3>
-<p><a href="https://pypi.org/project/regex/">regex</a> is a 3rd party library that provides more advanced functionality.
+<h3 id="Import-regex-as-re">Import regex as re<a class="anchor-link" href="#Import-regex-as-re">¶</a></h3><p><a href="https://pypi.org/project/regex/">regex</a> is a 3rd party library that provides more advanced functionality.
 It's mostly a drop-in replacement, so it's common to see</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
 </pre></div>
@@ -205,12 +194,12 @@ and <a href="https://www.regular-expressions.info/unicode.html#bodytext:~:text=T
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
+<div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
+<div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">regex</span> <span class="k">as</span> <span class="nn">re</span>
 
 
@@ -230,7 +219,7 @@ and <a href="https://www.regular-expressions.info/unicode.html#bodytext:~:text=T
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[' ', '(', '0', '8', '@', 'H', 'P', 'X', '`', 'h', 'p', 'x']
 </pre>
 </div>
@@ -238,6 +227,7 @@ and <a href="https://www.regular-expressions.info/unicode.html#bodytext:~:text=T
 </div>
 </div>
 </div>
+</main>
 </body>
 </div>
 </body>

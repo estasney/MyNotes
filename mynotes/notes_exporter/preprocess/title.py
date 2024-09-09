@@ -3,7 +3,7 @@ import re
 from nbconvert.preprocessors import Preprocessor
 
 
-class NBTitleMarkdown(Preprocessor):
+class NBTitleMarkdownPP(Preprocessor):
     TITLE_MATCH = re.compile(r"(?<=#\s)(.*)")
     DESCRIPTION_MATCH = re.compile(r"(?<=\*)(.*)(?=\*)")
 

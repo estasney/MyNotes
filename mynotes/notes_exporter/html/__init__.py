@@ -1,25 +1,22 @@
-from __future__ import annotations
-
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from bs4 import BeautifulSoup
 from nbconvert import HTMLExporter
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from jinja2.environment import Environment
+    from jinja2 import Environment
 
 
-class NotesExporter(HTMLExporter):
+class MyNotesHTMLExporter(HTMLExporter):
     """
     Export Notes to HTML
     """
 
-    def __init__(self, env: "Environment", **kw):
+    def __init__(self, env: "Environment", **kw: dict | None) -> None:
         super().__init__(**kw)
         self.env = env
 
-    def body_to_template_base(self, body: str | Path, fp: str):
+    def body_to_template_base(self, body: str, fp: str) -> None:
         """
         We want the rendered body to be included in a MyNotes template.
         This is an escape hatch from nbconvert.

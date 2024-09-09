@@ -4,7 +4,7 @@ from collections import Counter
 from nbconvert.preprocessors import Preprocessor
 
 
-class KeywordPreprocessor(Preprocessor):
+class KeywordPreprocessorPP(Preprocessor):
     KEYWORD_SEARCH = re.compile(r"(?<=<keyword>).+?(?=</keyword>)")
 
     def preprocess(self, nb, resources):
