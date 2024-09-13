@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pytest Fixtures</title>
+<script src="/MyNotes/static/dist/main.26716e1dbe76d6f093bf.bundle.js"></script>
+</head>
+<body>
+  <div class="jumbotron-fluid text-center text-white header-radial">
+  <h1>My Notes</h1>
+  <p>Programming strategies, examples, tips and tricks</p>
+</div>
+
+<div class="container paper">
+<body>
+<main>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a4056c29f979a650">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1>Pytest Fixtures</h1>
+<p><em>Easily reuse them</em></p>
+<p>I've always like the idea of fixtures in <keyword>pytest</keyword>. They allow you to easily reuse code and setup/teardown for your tests.</p>
+<p>However, I've encountered friction with them in the past, primarily because I'd need to slightly modify the fixture for each test. I needed a better way to not only override the fixture itself but also any other fixtures that it depended on.</p>
+<p><em>Created: 2024-09-13</em>
+<updated></updated></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ea5da53710b7e5e9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2>Conftest.py</h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=initial_id">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">locale</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">username</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">"param"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span><span class="si">}</span><span class="s2">@email.com"</span><span class="p">)</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">default_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">username</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">admin_username</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">"admin@email.com"</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">locale</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">"param"</span><span class="p">,</span> <span class="s2">"en"</span><span class="p">)</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">default_locale</span><span class="p">(</span><span class="n">locale</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">locale</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">user</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">locale</span><span class="p">):</span>
+    
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">"param"</span><span class="p">,</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">locale</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=78aea15f4ac757c1">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2>test_users.py</h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=42d627180d563f5a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">def</span> <span class="nf">test_default_user</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="s1">'@email.com'</span> <span class="ow">in</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">locale</span> <span class="o">==</span> <span class="s1">'en'</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'test_user@email.com'</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_custom_username</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="s1">'test_user@email.com'</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">locale</span> <span class="o">==</span> <span class="s1">'en'</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'locale'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'fr'</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_custom_locale</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="s1">'@email.com'</span> <span class="ow">in</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">locale</span> <span class="o">==</span> <span class="s1">'fr'</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="p">[</span><span class="n">User</span><span class="p">(</span><span class="s1">'custom@email.com'</span><span class="p">,</span> <span class="s1">'de'</span><span class="p">)],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_fully_custom_user</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">locale</span> <span class="o">==</span> <span class="s1">'de'</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="s1">'custom@email.com'</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'username, locale'</span><span class="p">,</span> <span class="p">[(</span><span class="s1">'test@email.com'</span><span class="p">,</span> <span class="s1">'es'</span><span class="p">)],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_custom_username_and_locale</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="s1">'test@email.com'</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">locale</span> <span class="o">==</span> <span class="s1">'es'</span>
+    
+<span class="c1"># Alternatively, you allow a itertools.product like operation</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'test@email.com'</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">'locale'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'es'</span><span class="p">],</span> <span class="n">indirect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_custom_username_and_locale_alt</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="s1">'test@email.com'</span>
+    <span class="k">assert</span> <span class="n">user</span><span class="o">.</span><span class="n">locale</span> <span class="o">==</span> <span class="s1">'es'</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</div>
+</body>
+</html>

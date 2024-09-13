@@ -4,3 +4,11 @@ repos:
     hooks:
       - id: black
         language_version: python3
+  - repo: local
+    hooks:
+      - id: auto-stage-new-docs
+        name: Auto stage new docs
+        language: system
+        entry: git add docs
+        always_run: true
+
