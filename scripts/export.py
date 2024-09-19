@@ -61,7 +61,9 @@ def make_jinja_env(settings: Settings, is_dev: bool) -> Environment:
     return env
 
 
-def create_index(session: "Session", jinja_env: Environment, settings: "Settings") -> None:
+def create_index(
+    session: "Session", jinja_env: Environment, settings: "Settings"
+) -> None:
     query = select(Notebook).order_by(desc(Notebook.created))
     db_notebooks = session.execute(query).scalars().all()
     notebooks = [nb.to_dict() for nb in db_notebooks]
@@ -73,10 +75,10 @@ def create_index(session: "Session", jinja_env: Environment, settings: "Settings
 
 
 def process_notebook(
-        file_path: Path,
-        settings: "Settings",
-        exporter: "MyNotesHTMLExporter",
-        session: "Session",
+    file_path: Path,
+    settings: "Settings",
+    exporter: "MyNotesHTMLExporter",
+    session: "Session",
 ) -> None:
     base_path = settings.NOTES_DIR
     parents = file_path.parent.relative_to(base_path).parts
@@ -162,7 +164,16 @@ if __name__ == "__main__":
         MyNotesMetadataPP,
         RemoveExecutionCountPP,
         ExtractModuleUsagePP(
-            ignored=["os", "subprocess", "glob", "base64", "pathlib", "io"]
+            ignored=[
+                "os",
+                "subprocess",
+                "glob",
+                "base64",
+                "pathlib",
+                "io",
+                "someapp",
+                "getpass",
+            ]
         ),
         KeywordPreprocessorPP,
         NBTitleMarkdownPP,

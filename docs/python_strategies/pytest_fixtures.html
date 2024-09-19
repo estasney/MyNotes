@@ -139,6 +139,69 @@
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ad10ffe4a6c72da4">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2>More Advanced</h2>
+<p><code>partial</code> like behavior for fixtures. Typically this works a dependency chain. However, you can create a fixture that allows you to call another fixture with a predefined value.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=eb8c2598ad620a6e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">locale</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">username</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">someapp</span> <span class="kn">import</span> <span class="n">getuser</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">"param"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span><span class="si">}</span><span class="s2">@email.com"</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">override_user</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">username</span>
+    
+    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="n">getuser</span><span class="p">,</span> <span class="n">override_user</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">username</span>
+    
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">default_username</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">username</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">admin_username</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">getfixturevalue</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'admin@email.com'</span><span class="p">)</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">locale</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">"param"</span><span class="p">,</span> <span class="s2">"en"</span><span class="p">)</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">default_locale</span><span class="p">(</span><span class="n">locale</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">locale</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">user</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">locale</span><span class="p">):</span>
+    
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">"param"</span><span class="p">,</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">locale</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </main>
 </body>
 </div>
