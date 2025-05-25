@@ -3,7 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Masking Input on Windows</title>
-<script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.534d564dd64ea231300d.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -26,7 +26,7 @@
 <span class="n">password</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Password"</span><span class="p">,</span> <span class="n">masked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># error</span>
 </pre></div>
 <p>However, that's not supported. Python offers the <code>getpass</code> module which is like this:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">getpass</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">getpass</span>
 <span class="n">password</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getpass</span><span class="p">(</span><span class="s2">"Password"</span><span class="p">)</span>
 <span class="n">Password</span>
 </pre></div>
@@ -43,9 +43,9 @@
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">msvcrt</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">msvcrt</span>
 
-<span class="k">def</span> <span class="nf">win_getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">'Password: '</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">"*"</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">win_getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">'Password: '</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">"*"</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Prompt for password with echo off, using Windows getch()."""</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">prompt</span><span class="p">:</span>
         <span class="n">msvcrt</span><span class="o">.</span><span class="n">putwch</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>

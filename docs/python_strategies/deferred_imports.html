@@ -3,7 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lazy, Cached, Singleton Imports</title>
-<script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.534d564dd64ea231300d.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -55,12 +55,12 @@
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2>How We Approach with Cached Properties</h2>
 <p>This is a common pattern to cache <keyword>properties</keyword></p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyResource</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyResource</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">cached</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cached</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cached_</span> <span class="o">=</span> <span class="n">one_time_load</span><span class="p">()</span>
@@ -78,11 +78,11 @@
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2>Imports</h2>
 <p>Here's how to do something similar with a module (typing is helpful but optional)</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="n">_MY_RESOURCE</span><span class="o">=</span><span class="kc">None</span>
 
-<span class="k">def</span> <span class="nf">_load_resource</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_resource</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">_MY_RESOURCE</span>
     <span class="k">if</span> <span class="n">_MY_RESOURCE</span><span class="p">:</span>
         <span class="c1"># We've already loaded our resource</span>
@@ -93,7 +93,7 @@
 
 <span class="c1"># This is the good part</span>
 
-<span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"MY_RESOURCE"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_load_resource</span><span class="p">()</span>
     <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"module </span><span class="si">{</span><span class="vm">__name__</span><span class="si">!r}</span><span class="s2"> has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>

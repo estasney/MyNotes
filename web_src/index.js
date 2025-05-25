@@ -1,4 +1,4 @@
-import "./style/style.scss"
+import "./styles/style.scss"
 
 function addHeaderListener() {
     const header = document.querySelector(".header-radial");

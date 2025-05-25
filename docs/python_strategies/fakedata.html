@@ -3,7 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Synthesizing Realistic Data</title>
-<script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.534d564dd64ea231300d.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -48,7 +48,7 @@
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">faker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Faker</span>
 <span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, my name is </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">first_name</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">last_name</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
@@ -93,12 +93,12 @@ I'm a Call centre manager at Odonnell-Harrell.
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">faker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">Shopper</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Shopper</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""The object we want to generate"""</span>
     <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
@@ -106,7 +106,7 @@ I'm a Call centre manager at Odonnell-Harrell.
     <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">action</span><span class="p">:</span> <span class="nb">str</span>
 
-<span class="k">class</span> <span class="nc">ShopperFactory</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShopperFactory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 
 <span class="sd">    Factory that produces Fake Shoppers</span>
@@ -122,7 +122,7 @@ I'm a Call centre manager at Odonnell-Harrell.
 
 <span class="sd">    """</span>
     <span class="n">F</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_begin</span><span class="o">=</span><span class="s1">'-30d'</span><span class="p">,</span> <span class="n">active_end</span><span class="o">=</span><span class="s1">'now'</span><span class="p">,</span> <span class="n">recurring</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_begin</span><span class="o">=</span><span class="s1">'-30d'</span><span class="p">,</span> <span class="n">active_end</span><span class="o">=</span><span class="s1">'now'</span><span class="p">,</span> <span class="n">recurring</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
                  <span class="n">actions</span><span class="o">=</span><span class="p">(</span><span class="s1">'view'</span><span class="p">,</span> <span class="s1">'add_to_cart'</span><span class="p">,</span> <span class="s1">'save'</span><span class="p">,</span> <span class="s1">'share'</span><span class="p">,</span> <span class="s1">'purchase'</span><span class="p">)):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_begin</span> <span class="o">=</span> <span class="n">active_begin</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_end</span> <span class="o">=</span> <span class="n">active_end</span>
@@ -130,7 +130,7 @@ I'm a Call centre manager at Odonnell-Harrell.
         <span class="bp">self</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="n">actions</span>
 
 
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Shopper</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Shopper</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Shopper</span><span class="p">(</span>
                 <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">pyint</span><span class="p">(),</span>
                 <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">user_name</span><span class="p">(),</span>
@@ -176,7 +176,7 @@ I'm a Call centre manager at Odonnell-Harrell.
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">shoppers</span><span class="p">)</span>
 
 <span class="c1"># Order by timestamp</span>

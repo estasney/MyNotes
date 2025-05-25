@@ -24,21 +24,21 @@ table.dataframe {
     vertical-align: bottom;
   }
   > tbody {
-     > tr {
+    > tr {
       text-align: right;
-       vertical-align: middle;
-       padding: 0.5em 0.5em;
-       line-height: 1.5rem;
-       white-space: normal;
-       max-width: none;
-       border: none;
-       > td {
-         text-align: right;
-         padding: 0 0.5em 0 0.5em;
-       }
-       &:hover {
-         background: rgba(66,165,245,.2);
-       }
+      vertical-align: middle;
+      padding: 0.5em 0.5em;
+      line-height: 1.5rem;
+      white-space: normal;
+      max-width: none;
+      border: none;
+      > td {
+        text-align: right;
+        padding: 0 0.5em 0 0.5em;
+      }
+      &:hover {
+        background: rgba(66,165,245,.2);
+      }
     }
   }
   > tbody > tr:nth-child(odd) {

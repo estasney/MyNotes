@@ -10,3 +10,4 @@
 **/src/dist
 uv.lock
 /.python-version
+**/*.db

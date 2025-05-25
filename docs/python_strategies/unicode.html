@@ -3,7 +3,7 @@
 <head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Exploring Unicode</title>
-<script src="/MyNotes/static/dist/main.94cc6d71ffc8069de230.bundle.js"></script>
+<script src="/MyNotes/static/dist/main.534d564dd64ea231300d.bundle.js"></script>
 </head>
 <body>
   <div class="jumbotron-fluid text-center text-white header-radial">
@@ -53,7 +53,7 @@
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2>Unicodedata</h2>
 <p>If you're lucky enough to know the <em>exact</em> name of your desired symbol, getting the character is straight forward.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unicodedata</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s2">"RIGHTWARDS ARROW"</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="s1">'→'</span>
@@ -113,7 +113,7 @@
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">unicodedata</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unicodedata</span>
 
 <span class="n">char_mapping</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -150,7 +150,7 @@
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">having_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ARROW"</span><span class="p">,</span> <span class="s2">"RIGHT"</span><span class="p">]</span>
 <span class="n">not_having_token</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"LEFT"</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">token_filter</span><span class="p">(</span><span class="n">char_name</span><span class="p">,</span> <span class="n">has</span><span class="o">=</span><span class="n">having_tokens</span><span class="p">,</span> <span class="n">has_not</span><span class="o">=</span><span class="n">not_having_token</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">token_filter</span><span class="p">(</span><span class="n">char_name</span><span class="p">,</span> <span class="n">has</span><span class="o">=</span><span class="n">having_tokens</span><span class="p">,</span> <span class="n">has_not</span><span class="o">=</span><span class="n">not_having_token</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">all</span><span class="p">([</span>
             <span class="nb">all</span><span class="p">([</span><span class="n">token</span> <span class="ow">in</span> <span class="n">char_name</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">has</span><span class="p">]),</span>
             <span class="nb">all</span><span class="p">([</span><span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">char_name</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">has_not</span><span class="p">]),</span>

@@ -8,7 +8,7 @@ const baseConfig = {
     entry: './index.js',
     output: {
         filename: '[name].[chunkhash].bundle.js',
-        path: path.resolve(__dirname, "..", "..", "docs", "static", "dist"),
+        path: path.resolve(__dirname, "..", "docs", "static", "dist"),
         clean: true
     },
     module: {
@@ -48,7 +48,7 @@ module.exports = (env, argv) => {
 
     baseConfig.mode = argv.mode ? argv.mode : 'development';
     const htmlPluginOptions = {
-        filename: path.resolve(__dirname, "..", "..", "docs", "index.html"),
+        filename: path.resolve(__dirname, "..", "docs", "index.html"),
         template: path.resolve(__dirname, "index_built.html"),
         publicPath: baseConfig.mode === "development" ? "/static/dist/" : "/MyNotes/static/dist/",
         scriptLoading: 'blocking',
