@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator Coroutines</title>
+<script src="/MyNotes/static/dist/main.534d564dd64ea231300d.bundle.js"></script>
+</head>
+<body>
+  <div class="jumbotron-fluid text-center text-white header-radial">
+  <h1>My Notes</h1>
+  <p>Programming strategies, examples, tips and tricks</p>
+</div>
+
+<div class="container paper">
+<body>
+<main>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=85217407509a04ba">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1>Generator Coroutines</h1>
+<p>Stateful generators</p>
+<p><em>Created: 2025-05-25</em>
+<updated></updated></p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c42c28e3eef1c63d">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>A coroutine is a special type of generator that can receive values from the caller. This allows for more complex interactions between the generator and the caller, enabling the generator to act as a state machine or to maintain state across multiple calls.</p>
+<p>In practice this is achieved by using the <code>yield</code> statement in a function, which allows the function to pause its execution and yield control back to the caller. The caller can then send values back to the generator using the <code>send()</code> method, which resumes the generator's execution at the point where it was paused.</p>
+<p>Note that the generator must be 'primed' first. Once the function is called, call <code>next()</code> on the generator to advance it to the first <code>yield</code> statement. After that, you can use <code>send()</code> to send values back into the generator.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cd0b45cb728675c0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Here's a contrived example of a coroutine that processes characters from a string and yields them back to the caller</p>
+<p>Something to keep in mind, is that nothing is executed inside <code>stream_characters()</code> until the first <code>next()</code> is called. Once the first <code>next()</code> is called, the function will run until it hits the first <code>yield</code> statement.</p>
+<p>This is where we have to think differently about the <code>yield</code> statement. The first <code>yield</code> statement is where the function will pause and wait for a value to be sent back into it. This is the point where we can send a value back into the generator using the <code>send()</code> method.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=95f6ecd333c81894">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">stream_characters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Generator started"</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="k">yield</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Generator resumed with text:"</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">yield</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Generator acknowledged text:"</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">char</span>
+
+
+<span class="n">gen</span> <span class="o">=</span> <span class="n">stream_characters</span><span class="p">()</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+<span class="n">gen</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>  <span class="c1"># Send a string to the generator</span>
+<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">gen</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Received character:"</span><span class="p">,</span> <span class="n">char</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Generator started
+Generator resumed with text: Hello World
+Generator acknowledged text: Hello World
+Received character: H
+Received character: e
+Received character: l
+Received character: l
+Received character: o
+Received character:  
+Received character: W
+Received character: o
+Received character: r
+Received character: l
+Received character: d
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6d96f62a96a0568c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3>A More Practical Example</h3>
+<p>What's interesting about this is that we can treat these generators somewhat like a thread. We can send messages to them, and they can send messages back to us. They <em>can</em> share state, but for practicality, we should avoid that. In fact, it's best to keep the state inside the generator and not share it with the caller. This way, we can keep the generator as a pure function.</p>
+<p>For this example, let's create a coroutine that simulates an LLM conversation. What we want to do is maintain one or more conversations and not need to worry about the state of each conversation in the caller. The generator will maintain the state of the conversation and return the conversation history when requested. We're not going to use any LLMs here, but we will simulate conversation history.</p>
+<p>While we're at it, let's make a decorator that will automatically prime the coroutine for us. This will allow us to use the coroutine without having to call <code>next()</code> on it first.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7132ad7c637aa8a9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">methodcaller</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">coroutine</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">gen</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>  <span class="c1"># Prime the coroutine</span>
+        <span class="k">return</span> <span class="n">gen</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@coroutine</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">conversation</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"lower"</span><span class="p">,</span> <span class="s2">"upper"</span><span class="p">]):</span>
+    <span class="c1"># The conversation history is maintained in the generator</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">token_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+    <span class="n">user_message</span> <span class="o">=</span> <span class="k">yield</span> <span class="c1"># Received via .send()</span>
+    <span class="n">transformer</span> <span class="o">=</span> <span class="n">methodcaller</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">user_message</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># End of conversation, return the history and token counts</span>
+            <span class="k">yield</span> <span class="n">history</span><span class="p">,</span> <span class="n">token_counts</span><span class="o">.</span><span class="n">most_common</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="c1"># Echo the user message in all caps</span>
+        <span class="n">token_counts</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">user_message</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">llm_message</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">(</span><span class="n">user_message</span><span class="p">)</span>
+        <span class="n">token_counts</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">llm_message</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">extend</span><span class="p">([{</span>
+            <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
+            <span class="s2">"content"</span><span class="p">:</span> <span class="n">user_message</span><span class="p">,</span>
+        <span class="p">},</span>
+            <span class="p">{</span>
+            <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"llm"</span><span class="p">,</span>
+            <span class="s2">"content"</span><span class="p">:</span> <span class="n">llm_message</span><span class="p">,</span>
+        <span class="p">}])</span>
+
+        <span class="n">user_message</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">llm_message</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=749f84e84a43c862">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Let's maintain 2 conversations</span>
+<span class="n">convo_lower</span> <span class="o">=</span> <span class="n">conversation</span><span class="p">(</span><span class="s2">"lower"</span><span class="p">)</span>
+<span class="n">convo_upper</span> <span class="o">=</span> <span class="n">conversation</span><span class="p">(</span><span class="s2">"upper"</span><span class="p">)</span>
+
+<span class="c1"># Send a message to the lower case conversation</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">convo_lower</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>
+
+<span class="c1"># If we don't care about the response, we can just call send() again</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">convo_lower</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello World </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Send a message to the upper case conversation</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">convo_upper</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>
+<span class="c1"># If we don't care about the response, we can just call send() again</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">convo_upper</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello World </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9f32db399b9a0dfc">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Now we can end the conversations and get the history and token counts</span>
+<span class="n">history_lower</span><span class="p">,</span> <span class="n">token_counts_lower</span> <span class="o">=</span> <span class="n">convo_lower</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">history_lower</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token_counts_lower</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[{'role': 'user', 'content': 'Hello World'}, {'role': 'llm', 'content': 'hello world'}, {'role': 'user', 'content': 'Hello World 0'}, {'role': 'llm', 'content': 'hello world 0'}, {'role': 'user', 'content': 'Hello World 1'}, {'role': 'llm', 'content': 'hello world 1'}, {'role': 'user', 'content': 'Hello World 2'}, {'role': 'llm', 'content': 'hello world 2'}, {'role': 'user', 'content': 'Hello World 3'}, {'role': 'llm', 'content': 'hello world 3'}, {'role': 'user', 'content': 'Hello World 4'}, {'role': 'llm', 'content': 'hello world 4'}]
+[('Hello', 6), ('World', 6), ('hello', 6), ('world', 6), ('0', 2), ('1', 2), ('2', 2), ('3', 2), ('4', 2)]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=fd90af74864cf57c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">history_upper</span><span class="p">,</span> <span class="n">token_counts_upper</span> <span class="o">=</span> <span class="n">convo_upper</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">history_upper</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token_counts_upper</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[{'role': 'user', 'content': 'Hello World'}, {'role': 'llm', 'content': 'HELLO WORLD'}, {'role': 'user', 'content': 'Hello World 0'}, {'role': 'llm', 'content': 'HELLO WORLD 0'}, {'role': 'user', 'content': 'Hello World 1'}, {'role': 'llm', 'content': 'HELLO WORLD 1'}, {'role': 'user', 'content': 'Hello World 2'}, {'role': 'llm', 'content': 'HELLO WORLD 2'}, {'role': 'user', 'content': 'Hello World 3'}, {'role': 'llm', 'content': 'HELLO WORLD 3'}, {'role': 'user', 'content': 'Hello World 4'}, {'role': 'llm', 'content': 'HELLO WORLD 4'}]
+[('Hello', 6), ('World', 6), ('HELLO', 6), ('WORLD', 6), ('0', 2), ('1', 2), ('2', 2), ('3', 2), ('4', 2)]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</div>
+</body>
+</html>

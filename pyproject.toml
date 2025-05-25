@@ -16,6 +16,7 @@ dependencies = [
     "sqlalchemy>=2.0.41",
     "toolz>=1.0.0",
     "mynotes-exporter",
+    "jupyter>=1.1.1",
 ]
 
 [dependency-groups]
@@ -26,7 +27,7 @@ dev = [
 ]
 
 [tool.uv.sources]
-mynotes_exporter = {path = "../MyNotesExporter", editable =true}
+mynotes_exporter = {git = "https://github.com/estasney/MyNotesExporter", branch = "master"}
 
 [tool.ruff]
 target-version = "py312"
